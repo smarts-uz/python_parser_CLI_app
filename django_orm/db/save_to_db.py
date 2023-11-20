@@ -1,5 +1,6 @@
 from .models import channel_content, group_content
 from parsing.functions import correct_info, correct_info_id, correct_info_name, get_from_name_for_group, prepare_name_info
+from datetime import date
 
 
 def read_channel_db():
@@ -60,17 +61,12 @@ def update_db():
     return 'Db has been updated!'
 
 
-def read_group_content():
-    info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list[65000:66000]
-
-
-
-
-
-
-
-
-
+def read_group_content(specific_date):
+    if specific_date.lower() == 'all':
+        info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
+    else:
+        specific_date = date(2021, 10, 15)
+        info_list = group_content.objects.filter(data=specific_date)
+    return info_list[69400:69500]
 
 

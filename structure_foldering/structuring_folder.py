@@ -3,7 +3,7 @@ import shutil
 from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name
 
 
-def create_dirs_all(list_of_data, path_to_save):
+def create_dirs_all(list_of_data, path_to_save, base_dir):
     for item in list_of_data:
         if item[1] != None:
             from_name = item[0]
@@ -25,7 +25,7 @@ def create_dirs_all(list_of_data, path_to_save):
                             except:
                                 pass
                         try:
-                            file_location = correct_file_location(content, data)
+                            file_location = correct_file_location(content, data, base_dir)
                             shutil.copy2(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.txt', 'x', encoding='UTF-8') as file:
                                 file.write(f'From_name: {from_name}')
@@ -42,7 +42,7 @@ def create_dirs_all(list_of_data, path_to_save):
                             except:
                                 pass
                         try:
-                            file_location = correct_file_location(content, data)
+                            file_location = correct_file_location(content, data, base_dir)
                             shutil.copy2(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.txt', 'x', encoding='UTF-8') as file:
                                 try:
@@ -81,7 +81,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
             else:
                 if content.startswith('files') or content.startswith('photos'):
                     actual_path = path_to_save
-                    file_location = correct_file_location(content, data)
+                    file_location = correct_file_location(content, data, base_dir)
                     for i in channel_text:
                         actual_path = actual_path + i + "\\"
                         if not os.path.exists(actual_path):
@@ -98,7 +98,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                     print(actual_path + content + '___Succes_2!')
                 elif content.startswith('video'):
                     actual_path = path_to_save  # There should be path of directory where you want to save all videos
-                    file_location = correct_file_location(content, data)
+                    file_location = correct_file_location(content, data, base_dir)
                     for i in post_title:
                         actual_path = actual_path + i + "\\"
                         if not os.path.exists(actual_path):

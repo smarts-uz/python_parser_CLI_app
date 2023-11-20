@@ -40,8 +40,8 @@ def correct_data_title(data_title):
     return year
 
 
-def correct_file_location(video_path, data_title):
-    base_dir = "E:\SmartTech Learning Group\\"
+def correct_file_location(video_path, data_title, base_dir):
+    # base_dir = "E:\SmartTech Learning Group\\"
     file_directory = base_dir + data_title
     file_path_list = listdir(file_directory)
     for i in file_path_list:

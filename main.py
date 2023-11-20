@@ -31,9 +31,11 @@ def update_db_content():
 
 @parser.command()
 @click.option('--path_to_save', prompt='Path of directory to save', help='Here you should enter the path of directory to create folders and save the neccessuary files')
-def create_folders(path_to_save):
-    info_list = read_group_content()
-    create_dirs_all(info_list, path_to_save)
+@click.option('--path_of_data', prompt='Path of directory of all years', help='Here you should enter the path of directory where all folders of years are placed\nFor example:"E:\SmartTech Learning Group\\"')
+@click.option('--time_data', prompt='Time_data to parse(2021-10-15, or 2021-05, or 2021, or all(to create folders of all data))', help='Enter the day, month or year you want to save in folders')
+def create_folders(path_to_save, path_of_data, time_data):
+    info_list = read_group_content(time_data)
+    create_dirs_all(info_list, path_to_save, path_of_data)
     click.echo('Success!')
 
 
