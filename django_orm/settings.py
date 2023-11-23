@@ -39,5 +39,5 @@ DATABASES = {
 """
 
 
-#INSTALLED_APPS = ("django_orm.db",)
-INSTALLED_APPS = ("db",)
+INSTALLED_APPS = ("django_orm.db",)
+# INSTALLED_APPS = ("db",)
