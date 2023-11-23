@@ -24,17 +24,3 @@ def correct_data_title(dt):
     formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
     year = formatted_date[0:4]
     return year
-
-
-#  date(2021, 10, 15)
-#  2021-10-15, or 2021-05, or 2021
-def correct_time(dt):
-    first = dt.split('-')
-    if len(first) == 3:
-        result = datetime.date(first[0], first[1], first[2])
-    elif len(first) == 2:
-        result = datetime.date()
-
-
-a = datetime.datetime(2022, 9, 1, 14, 10, 59)
-print(a)

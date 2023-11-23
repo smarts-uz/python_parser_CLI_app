@@ -1,9 +1,13 @@
 import os
+from dotenv import load_dotenv
 import shutil
 from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name
 
 
-def create_dirs_all(list_of_data, path_to_save, base_dir):
+def create_dirs_all(list_of_data):
+    load_dotenv()
+    path_to_save = os.getenv('PATH_TO_SAVE')
+    base_dir = os.getenv('BASE_DIR')
     for item in list_of_data:
         if item[1] != None:
             from_name = item[0]

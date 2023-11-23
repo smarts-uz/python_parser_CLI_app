@@ -1,6 +1,5 @@
 import os
 from os import listdir
-import datetime
 
 
 def correct_post_title(post_title):
