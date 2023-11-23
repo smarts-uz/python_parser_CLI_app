@@ -7,7 +7,9 @@ from .functions import correct_data_title, correct_video_title, correct_post_tit
 def create_dirs_all(list_of_data):
     load_dotenv()
     path_to_save = os.getenv('PATH_TO_SAVE')
+    print(path_to_save)
     base_dir = os.getenv('BASE_DIR')
+    print(base_dir)
     for item in list_of_data:
         if item[1] != None:
             from_name = item[0]

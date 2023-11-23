@@ -62,5 +62,5 @@ def update_db():
 
 def read_group_content():
     info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list[65500:66000]
+    return info_list[6500:6600]
 
