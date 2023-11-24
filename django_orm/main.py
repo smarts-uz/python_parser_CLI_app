@@ -4,12 +4,14 @@ from parsing.functions import correct_time_data
 # Django specific settings
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
+from parsing.functions import logger_path
+import logging
 import django
 django.setup()
-
 from django_orm.db.models import *
 from django_orm.db.save_to_db import update_db
-
+module_name = os.path.splitext(os.path.basename(__file__))[0]
+logging.basicConfig(level=logging.INFO,format="%(name)s %(asctime)s %(levelname)s %(message)s", filename=f"{logger_path()}/{module_name}.log",filemode="a")
 
 def channel_content_db_add(dict_1):
     for i, k in dict_1.items():
@@ -24,6 +26,7 @@ def channel_content_db_add(dict_1):
         my_model_instance = channel_content(**data)
         my_model_instance.save()
         print(f'{text} - has added to channel_content!')
+        logging.info(f'{text} - has added to channel_content!')
 
 
 def group_content_db_add(list2):
@@ -50,6 +53,7 @@ def group_content_db_add(list2):
         my_model_instance = group_content(**data)
         my_model_instance.save()
         print(f"{content} - has added to group_content!")
+        logging.info(f"{content} - has added to group_content!")
 
 
 def save_data_to_db(info_list):
