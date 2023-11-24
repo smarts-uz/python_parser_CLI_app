@@ -1,0 +1,5 @@
+python-dotenv
+click
+django
+psycopg2-binary
+psycopg2
