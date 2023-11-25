@@ -6,6 +6,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 from parsing.functions import logger_path
 import logging
+from rich import print
 import django
 django.setup()
 from django_orm.db.models import *
