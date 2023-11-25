@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import shutil
 from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name
-
+from rich import print
 
 def create_dirs_all(list_of_data):
     load_dotenv()
@@ -32,7 +32,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.copy2(file_location, actual_path_dir)
+                            shutil.move(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.txt', 'x', encoding='UTF-8') as file:
                                 file.write(f'From_name: {from_name}')
                         except:
@@ -49,7 +49,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.copy2(file_location, actual_path_dir + video_title)
+                            shutil.move(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.txt', 'x', encoding='UTF-8') as file:
                                 try:
                                     file.write(f'''Description: {description}
@@ -96,7 +96,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        shutil.copy2(file_location, actual_path)
+                        shutil.move(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.txt', 'x', encoding='UTF-8') as file:
                             file.write(f'From_name: {from_name}')
                     except:
@@ -113,7 +113,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        shutil.copy2(file_location, actual_path + video_title)
+                        shutil.move(file_location, actual_path + video_title)
                         with open(f'{actual_path}{video_title}.txt', 'x', encoding='UTF-8') as file:
                             try:
                                 file.write(f'''Description: {description}
