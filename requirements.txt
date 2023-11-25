@@ -6,3 +6,4 @@ psycopg2
 beautifulsoup4
 pytz
 --upgrade sentry-sdk[django]
+rich
