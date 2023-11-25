@@ -3,6 +3,7 @@ from parsing.functions import correct_info, correct_info_id, correct_info_name, 
 from parsing.functions import logger_path
 import logging
 import os
+from rich import print
 module_name = os.path.splitext(os.path.basename(__file__))[0]
 logging.basicConfig(level=logging.INFO, format="%(name)s %(asctime)s %(levelname)s %(message)s", filename=f"{logger_path()}/{module_name}.log",filemode="a")
 
@@ -35,7 +36,7 @@ def update_group_text():
     dict_text_id = read_channel_db()
     for x, y in dict_text_id.items():
         group_content.objects.filter(channel_text=None, replied_message_id=x).update(channel_text=y)
-        print(f"Message - {x}, updated with text - {y}!")
+        print(f"[blue1]Message - {x}, updated with text - {y}!")
         logging.info(f"Message - {x}, updated with text - {y}!")
 
 
@@ -51,7 +52,7 @@ def add_parser_channel_id():
         msg_id = x
         id = y
         group_content.objects.filter(message_id=msg_id).update(parser_channel_id=id)
-        print(f'Message: {msg_id} is updated with id={id}')
+        print(f'[blue1]Message: {msg_id} is updated with id={id}')
         logging.info(f'Message: {msg_id} is updated with id={id}')
 
 
@@ -70,5 +71,5 @@ def update_db():
 
 def read_group_content():
     info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list[6500:6600]
+    return info_list
 
