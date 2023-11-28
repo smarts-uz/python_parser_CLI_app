@@ -7,9 +7,7 @@ from .functions import correct_data_title, correct_video_title, correct_post_tit
 def create_dirs_all(list_of_data):
     load_dotenv()
     path_to_save = os.getenv('PATH_TO_SAVE')
-    print(path_to_save)
     base_dir = os.getenv('BASE_DIR')
-    print(base_dir)
     for item in list_of_data:
         if item[1] != None:
             from_name = item[0]
@@ -32,12 +30,16 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.copy2(file_location, actual_path_dir)
+                            shutil.move(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.txt', 'x', encoding='UTF-8') as file:
-                                file.write(f'From_name: {from_name}')
-                        except:
+                                file.write(f'''From_name: {from_name}\n{video_title}''')
+                            print(actual_path + content + '___Succes_2!')
+                        except Exception as e:
+                            with open(f'{actual_path_dir}{from_name}.txt', 'a', encoding='UTF-8') as file:
+                                file.write(f'''\n{video_title}''')
+                            print(e)
                             pass
-                        print(actual_path + content + '___Succes_2!')
+
                 elif content.startswith('video'):
                     actual_path = path_to_save  # There should be path of directory where you want to save all videos
                     for i in post_title:
@@ -49,8 +51,8 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.copy2(file_location, actual_path_dir + video_title)
-                            with open(f'{actual_path_dir}{video_title}.txt', 'x', encoding='UTF-8') as file:
+                            shutil.move(file_location, actual_path_dir + video_title)
+                            with open(f'{actual_path_dir}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                                 try:
                                     file.write(f'''Description: {description}
 Video_duration: {video_duration}
@@ -59,9 +61,11 @@ From_name: {from_name}''')
                                     file.write(f'''Description: None
 Video_duration: {video_duration}
 From_name: {from_name}''')
-                        except:
+                            print(actual_path_dir + video_title + '___Succes_1!')
+                        except Exception as e:
+                            print(e)
                             pass
-                        print(actual_path_dir + video_title + '___Succes_1!')
+
                 elif content.startswith('https'):
                     for i in channel_text:
                         actual_path_dir = actual_path + i + "\\"
@@ -96,12 +100,16 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        shutil.copy2(file_location, actual_path)
+                        shutil.move(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.txt', 'x', encoding='UTF-8') as file:
-                            file.write(f'From_name: {from_name}')
-                    except:
+                            file.write(f'From_name: {from_name}\n{video_title}')
+                        print(actual_path + content + '___Succes_2!')
+                    except Exception as e:
+                        with open(f'{actual_path}{from_name}.txt', 'a', encoding='UTF-8') as file:
+                            file.write(f'''\n{video_title}''')
+                        print(e)
                         pass
-                    print(actual_path + content + '___Succes_2!')
+
                 elif content.startswith('video'):
                     actual_path = path_to_save  # There should be path of directory where you want to save all videos
                     file_location = correct_file_location(content, data, base_dir)
@@ -113,8 +121,8 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        shutil.copy2(file_location, actual_path + video_title)
-                        with open(f'{actual_path}{video_title}.txt', 'x', encoding='UTF-8') as file:
+                        shutil.move(file_location, actual_path + video_title)
+                        with open(f'{actual_path}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                             try:
                                 file.write(f'''Description: {description}
 Video_duration: {video_duration}
@@ -123,9 +131,11 @@ From_name: {from_name}''')
                                 file.write(f'''Description: None
 Video_duration: {video_duration}
 From_name: {from_name}''')
-                    except:
+                        print(actual_path + video_title + '___Succes_2!')
+                    except Exception as e:
+                        print(e)
                         pass
-                    print(actual_path + video_title + '___Succes_2!')
+
                 elif content.startswith('https'):
                     actual_path = path_to_save
                     for i in channel_text:
@@ -148,6 +158,8 @@ HotKey=0
 IconFile=C:\Windows\System32\SHELL32.dll""")
                     except:
                         pass
+                else:
+                    pass
 
 
 

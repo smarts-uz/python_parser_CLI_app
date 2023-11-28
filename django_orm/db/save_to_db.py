@@ -1,10 +1,6 @@
 from .models import channel_content, group_content
 from parsing.functions import correct_info, correct_info_id, correct_info_name, get_from_name_for_group, prepare_name_info
-from parsing.functions import logger_path
-import logging
-import os
-module_name = os.path.splitext(os.path.basename(__file__))[0]
-logging.basicConfig(level=logging.INFO, format="%(name)s %(asctime)s %(levelname)s %(message)s", filename=f"{logger_path()}/{module_name}.log",filemode="a")
+
 
 def read_channel_db():
     dict_r = list(channel_content.objects.values_list('message_id', 'text'))
@@ -28,7 +24,6 @@ def update_group_name(dict_id):
     for x, y in dict_id.items():
         group_content.objects.filter(message_id=x).update(from_name=y)
         print(f"Message - {x}, updated with name - {y}!")
-        logging.info(f"Message - {x}, updated with name - {y}!")
 
 
 def update_group_text():
@@ -36,7 +31,6 @@ def update_group_text():
     for x, y in dict_text_id.items():
         group_content.objects.filter(channel_text=None, replied_message_id=x).update(channel_text=y)
         print(f"Message - {x}, updated with text - {y}!")
-        logging.info(f"Message - {x}, updated with text - {y}!")
 
 
 def add_parser_channel_id():
@@ -52,7 +46,6 @@ def add_parser_channel_id():
         id = y
         group_content.objects.filter(message_id=msg_id).update(parser_channel_id=id)
         print(f'Message: {msg_id} is updated with id={id}')
-        logging.info(f'Message: {msg_id} is updated with id={id}')
 
 
 def update_db():
@@ -64,11 +57,10 @@ def update_db():
     update_group_name(prepare_name_info(dict_id, list_of_name_2))
     update_group_text()
     add_parser_channel_id()
-    logging.info('Db has been updated!')
     return 'Db has been updated!'
 
 
 def read_group_content():
     info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list[6500:6600]
+    return info_list
 

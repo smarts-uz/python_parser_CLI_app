@@ -24,7 +24,6 @@ def get_info(html):
                 dict_learning_id[int(msg_id)] = [text]
                 dict_learning_id[int(msg_id)].append(title)
                 dict_learning_id[int(msg_id)].append(from_name)
-
             elif from_name == 'SmartTech Learning Group':
                 reply_id_details = body.find('div', class_='reply_to details')
                 replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
@@ -62,8 +61,16 @@ def get_info(html):
                         dict_learning_content[reply_id].append(from_name)
                         dict_all_content[msg_id].append(url)
                     except:
-                        text_content = body.find('div', class_='text').get_text()  # text
-                        dict_learning_content[reply_id] = [text_content]
+                        text_content = body.find('div', class_='text')  # text
+                        if text_content.find('strong'):
+                            text_content_1 = text_content.get_text()
+                            result_text = f'**{text_content_1}**'
+                        elif text_content.find('i'):
+                            text_content_2 = text_content.get_text()
+                            result_text = f'*{text_content_2}*'
+                        else:
+                            result_text = text_content.get_text()
+                        dict_learning_content[reply_id] = [result_text]
                         dict_learning_content[reply_id].append(from_name)
                         dict_all_content[msg_id].append(text_content)
                 dict_all_content[msg_id].append(reply_id)

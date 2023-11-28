@@ -4,7 +4,7 @@ from os import listdir
 from datetime import datetime
 import pytz
 import os
-from datetime import datetime
+
 
 # Здесь происходит первый парсинг через библиотеку BeautifulSoup
 def get_html(file_path):
@@ -190,11 +190,13 @@ def get_htmls(path):
                 last_path = hmtl_path + '\\' + k
                 result.append(last_path)
     return result
+
+#  get_htmls(r'E:\SmartTech Learning Group\2021')
+
+
 def logger_path():
     year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
     logger_path = f"logs/{year}/{month}/{day}/"
     if not os.path.exists(logger_path):
         os.makedirs(logger_path)
     return logger_path
-#  get_htmls(r'E:\SmartTech Learning Group\2021')
-

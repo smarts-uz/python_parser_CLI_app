@@ -31,7 +31,6 @@ errors = (AssertionError,AttributeError,EOFError,FloatingPointError,
     SyntaxError,Exception,ValueError,KeyboardInterrupt)
 
 
-
 @click.group('Parser')
 def parser():
     pass
