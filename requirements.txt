@@ -1,9 +1,10 @@
-python-dotenv
-click
-django
-psycopg2-binary
-psycopg2
-beautifulsoup4
-pytz
---upgrade sentry-sdk[django]
-rich
+python-dotenv == 1.0.0
+click == 8.1.7
+django == 4.2.7
+psycopg2-binary ==  2.9.9
+psycopg2 ==  2.9.9
+beautifulsoup4 == 4.12.2
+pytz == 2023.3.post1
+sentry-sdk[django] == 1.37.0
+rich == 13.7.0
+
