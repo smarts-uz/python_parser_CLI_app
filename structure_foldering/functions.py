@@ -13,6 +13,31 @@ def correct_post_title(post_title):
         third_step = second_step[0]
         first_step_2[-1] = third_step
         first_step_2.reverse()
+        print(first_step_2)
+        for k in first_step_2:
+            index = first_step_2.index(k)
+            if len(k.split('https:')) > 1:
+                temp = k.split('https:')
+                variable = [temp[0]]
+            elif len(k.split('/')) > 1:
+                variable = k.split('/')
+            elif len(k.split('\\')) > 1:
+                variable = k.split('\\')
+            elif len(k.split(':')) > 1:
+                variable = k.split(':')
+            else:
+                variable = k
+            try:
+                if len(variable) > 1:
+                    variable.reverse()
+                    first_step_2.pop(index)
+                    for y in variable:
+                        first_step_2.insert(index, y)
+                else:
+                    first_step_2.pop(index)
+                    first_step_2.insert(index, variable[0])
+            except Exception as e:
+                print(e)
         return first_step_2
     else:
         second_step = first_step[-1].split('#')

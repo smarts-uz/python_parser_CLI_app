@@ -72,7 +72,7 @@ def get_info(html):
                             result_text = text_content.get_text()
                         dict_learning_content[reply_id] = [result_text]
                         dict_learning_content[reply_id].append(from_name)
-                        dict_all_content[msg_id].append(text_content)
+                        dict_all_content[msg_id].append(result_text)
                 dict_all_content[msg_id].append(reply_id)
                 dict_all_content[msg_id].append(from_name)
             else:
@@ -112,10 +112,18 @@ def get_info(html):
                         dict_learning_content[reply_id].append(from_name)
                         dict_all_content[msg_id].append(url)
                     except:
-                        text_content = body.find('div', class_='text').get_text()
-                        dict_learning_content[reply_id] = [text_content]
+                        text_content = body.find('div', class_='text')
+                        if text_content.find('strong'):
+                            text_content_1 = text_content.get_text()
+                            result_text = f'**{text_content_1}**'
+                        elif text_content.find('i'):
+                            text_content_2 = text_content.get_text()
+                            result_text = f'*{text_content_2}*'
+                        else:
+                            result_text = text_content.get_text()
+                        dict_learning_content[reply_id] = [result_text]
                         dict_learning_content[reply_id].append(from_name)
-                        dict_all_content[msg_id].append(text_content)
+                        dict_all_content[msg_id].append(result_text)
                 dict_all_content[msg_id].append(reply_id)
                 dict_all_content[msg_id].append(from_name)
         except:
@@ -165,9 +173,17 @@ def get_info(html):
                         dict_learning_content[reply_id].append(url)
                         dict_all_content[msg_id].append(url)
                     except:
-                        text_content = body.find('div', class_='text').get_text()
-                        dict_learning_content[reply_id].append(text_content)
-                        dict_all_content[msg_id].append(text_content)
+                        text_content = body.find('div', class_='text')
+                        if text_content.find('strong'):
+                            text_content_1 = text_content.get_text()
+                            result_text = f'**{text_content_1}**'
+                        elif text_content.find('i'):
+                            text_content_2 = text_content.get_text()
+                            result_text = f'*{text_content_2}*'
+                        else:
+                            result_text = text_content.get_text()
+                        dict_learning_content[reply_id].append(result_text)
+                        dict_all_content[msg_id].append(result_text)
             except:
                 pass
             dict_all_content[msg_id].append(reply_id)

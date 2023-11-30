@@ -24,3 +24,4 @@ def correct_data_title(dt):
     formatted_date = dt.strftime("%Y-%m-%d %H:%M:%S")
     year = formatted_date[0:4]
     return year
+

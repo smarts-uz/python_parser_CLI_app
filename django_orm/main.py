@@ -42,6 +42,7 @@ def group_content_db_add(list2):
             description = i[9]
             video_duration = i[10]
         else:
+            description = None
             video_duration = None
         data = {'from_name': from_name, 'channel_text': text, 'content': content, 'data': data_title,
                 'message_details': message_details, 'message_id': msg_id, 'replied_message_details': replied_message_details,
@@ -49,7 +50,6 @@ def group_content_db_add(list2):
         my_model_instance = group_content(**data)
         my_model_instance.save()
         print(f"{content} - has added to group_content!")
-
 
 
 def save_data_to_db(info_list):
