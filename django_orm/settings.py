@@ -1,5 +1,7 @@
 import os
 
+import sentry_sdk
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,6 +50,16 @@ DATABASES = {
 }
 """
 
+sentry_sdk.init(
+    dsn="https://8462f1946c3b86e047cb8a1c23fd2076@o4506200236687360.ingest.sentry.io/4506320652992512",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
 
 INSTALLED_APPS = ("django_orm.db",)
 # INSTALLED_APPS = ("db",)
