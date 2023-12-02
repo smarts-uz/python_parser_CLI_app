@@ -9,7 +9,6 @@ def create_dirs_all(list_of_data):
     path_to_save = os.getenv('PATH_TO_SAVE')
     base_dir = os.getenv('BASE_DIR')
     for item in list_of_data:
-        print(item)
         if item[1] != None:
             if item[0] is None:
                 from_name = 'Unknown_user'
@@ -19,7 +18,6 @@ def create_dirs_all(list_of_data):
                 from_name = 'Unknown_user'
             else:
                 from_name = item[0].strip()
-            print(from_name)
             channel_text = correct_post_title(item[1])
             content = item[2]
             description = item[3]
@@ -27,9 +25,6 @@ def create_dirs_all(list_of_data):
             data = correct_data_title(item[5])
             post_title = correct_post_title(item[1])
             video_title = correct_video_title(content, post_title)
-            print(f'post1 - "{item[1]}"')
-            print(f'post_title - "{post_title}"')
-            print(f'video_title - "{video_title}"')
             if len(channel_text) == 1:
                 actual_path = path_to_save
                 if content.startswith('files') or content.startswith('photos'):
@@ -42,7 +37,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            #shutil.move(file_location, actual_path_dir)
+                            shutil.move(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                                 file.write(f'''From_name: {from_name}\n{video_title}''')
                             print(actual_path + content + '___Succes_2!')
@@ -63,7 +58,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            #shutil.move(file_location, actual_path_dir + video_title)
+                            shutil.move(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                                 try:
                                     file.write(f'''Description: {description}
@@ -112,7 +107,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        #shutil.move(file_location, actual_path)
+                        shutil.move(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                             file.write(f'From_name: "{from_name}"\n{video_title}')
                         print(actual_path + content + '___Succes_2!')
@@ -132,7 +127,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        #shutil.move(file_location, actual_path + video_title)
+                        shutil.move(file_location, actual_path + video_title)
                         with open(f'{actual_path}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                             try:
                                 file.write(f'''Description: {description}
