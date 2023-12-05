@@ -5,7 +5,11 @@
 
 
 Also check video [explanation](https://t.me/c/1608280866/742?thread=567):
-https://github.com/smarts-uz/python_parser_CLI_app/assets/117033000/7ece9fd3-27a2-4f7a-9072-423f5978bf51
+
+
+https://github.com/smarts-uz/python_parser_CLI_app/assets/117033000/74e9e009-4cd3-4c9c-9181-2f7e21d1dcbf
+
+
 ```python
 git clone https://github.com/smarts-uz/python_parser_CLI_app
 ```
