@@ -1,5 +1,5 @@
 import os
-
+from dotenv import load_dotenv
 import sentry_sdk
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -9,17 +9,30 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = "6few3nci_q_o@l1dlbk81%wcxe!*6r29yu629&d97!hiqat9fa"
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-
+load_dotenv()
+name = os.getenv('name')
+password = os.getenv('password')
+port = os.getenv('port')
+host = os.getenv('host')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'name',
+#         'USER': 'name',
+#         'PASSWORD': 'password',
+#         'HOST': 'host',
+#         'PORT': port,
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'MkTbWEfE7YBhjj8l',
-        'HOST': 'db.jzqvdexjreyryogyhmdr.supabase.co',
-        'PORT': 5432,
-    }
+        'PASSWORD': '2308',
+        'HOST': 'localhost',
+        'PORT': '5433'}
 }
 
 
