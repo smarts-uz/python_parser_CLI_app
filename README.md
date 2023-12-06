@@ -61,4 +61,12 @@ after this do this
 python manage.py makemigrations
 python manage.py migrate
 ```
+After this return everything back in setting.py
+it makes parser working.
+It should be look like that
+```python
+#INSTALLED_APPS = ("django_orm.db",)
+INSTALLED_APPS = ("db",)
+```
+
 Congrats you have change the db
