@@ -56,6 +56,6 @@ The script requires a input list with data rows provided in a specific format:
 It can then be run simply with:
 
 ```python
-python main.py structuring-folder
+python main.py create-folders
 ```
 And will automatically organize the content into the folder structure.
