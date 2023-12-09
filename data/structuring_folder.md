@@ -15,12 +15,12 @@ The main function that handles parsing the input data and organizing the content
 
 ## Parameters:
 
-list_of_data: List containing:
-Author name
-Channel/post title
-Content file path or URL
-Description
-Duration etc.
+* list_of_data: List containing:
+* Author name
+* Channel/post title
+* Content file path or URL
+* Description
+* Duration etc.
 ## Steps:
 
 1. Load environment variables for save locations
