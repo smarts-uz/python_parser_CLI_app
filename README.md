@@ -41,8 +41,12 @@ Third step
 ```python
 py main.py create-folders
 ```
-
-
+## [Documentation](https://github.com/smarts-uz/python_parser_CLI_app/tree/main/docs)
+* [Parsing](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/parsing/parsing.md)
+* [Parsing functions](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/parsing/functions.md)
+* [Folder  structuring](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/folders/structuring_folder.md)
+* [Functions of folder  structuring ](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/folders/functions.md)
+* [Database in parser](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/database/saving2db.md)  
 ## How to change db
 change .env credentials
 then move to django_orm/settings.py file
