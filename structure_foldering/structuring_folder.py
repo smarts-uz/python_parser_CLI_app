@@ -9,6 +9,9 @@ def create_dirs_all(list_of_data):
     path_to_save = os.getenv('PATH_TO_SAVE')
     base_dir = os.getenv('BASE_DIR')
     for item in list_of_data:
+
+
+
         if item[1] != None:
             if item[0] is None:
                 from_name = 'Unknown_user'

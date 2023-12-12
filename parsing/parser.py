@@ -21,9 +21,10 @@ def get_info(html):
         try:
             if from_name == 'SmartTech Learning':
                 text = ' '.join(body.find('div', class_='text').get_text().split())  # text
-                dict_learning_id[int(msg_id)] = [text]
-                dict_learning_id[int(msg_id)].append(title)
-                dict_learning_id[int(msg_id)].append(from_name)
+                intMsg = int(msg_id)
+                dict_learning_id[intMsg] = [text]
+                dict_learning_id[intMsg].append(title)
+                dict_learning_id[intMsg].append(from_name)
             elif from_name == 'SmartTech Learning Group':
                 reply_id_details = body.find('div', class_='reply_to details')
                 replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
