@@ -1,9 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="py -m venv venv" type="ShConfigurationType" singleton="false">
-    <option name="SCRIPT_TEXT" value="py -m venv venv" />
+  <configuration default="false" name="create-folders" type="ShConfigurationType" singleton="false">
+    <option name="SCRIPT_TEXT" value="py main.py create-folders" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
-    <option name="SCRIPT_PATH" value="pip" />
-    <option name="SCRIPT_OPTIONS" value="install -r requirements.txt" />
+    <option name="SCRIPT_PATH" value="" />
+    <option name="SCRIPT_OPTIONS" value="" />
     <option name="INDEPENDENT_SCRIPT_WORKING_DIRECTORY" value="true" />
     <option name="SCRIPT_WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="INDEPENDENT_INTERPRETER_PATH" value="true" />

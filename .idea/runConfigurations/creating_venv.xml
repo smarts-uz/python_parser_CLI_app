@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="py main.py parsing" type="ShConfigurationType" singleton="false">
-    <option name="SCRIPT_TEXT" value="py main.py parsing" />
+  <configuration default="false" name="creating venv" type="ShConfigurationType" singleton="false">
+    <option name="SCRIPT_TEXT" value="py -m venv venv" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="pip" />
     <option name="SCRIPT_OPTIONS" value="install -r requirements.txt" />
