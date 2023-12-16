@@ -190,7 +190,25 @@ def get_htmls(path):
                 last_path = hmtl_path + '\\' + k
                 result.append(last_path)
     return result
+def recursive_search_html(path):
+    """
+    Recursively search for .html files starting from path.
+    Returns a list of paths for all .html files found.
+    """
+    html_files = []
+    if '\\messages.html' in path:path = path[:-len('\\messages.html')]
 
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if file.startswith('message') and file.endswith('.html'):
+                html_files.append(os.path.join(root, file))
+
+        # Recursive call for each subdirectory
+        for dir in dirs:
+            sub_path = os.path.join(root, dir)
+            html_files.extend(recursive_search_html(sub_path))
+
+    return html_files
 #  get_htmls(r'E:\SmartTech Learning Group\2021')
 
 
