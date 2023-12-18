@@ -1,4 +1,4 @@
-from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, get_htmls, correct_time_data
+from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, get_htmls, correct_time_data, main_from_name
 # from save_to_db import save_mysql_channel, save_mysql_group, save_mysql_video
 
 
@@ -18,14 +18,15 @@ def get_info(html):
         from_name = ' '.join(body.find('div', class_='from_name').get_text().split())  # from_name
         title = body.find('div', class_='pull_right date details').get('title') # time_data
         joined = False
+        from_name = main_from_name(html)
         try:
-            if from_name == 'SmartTech Learning':
+            if "Group" not in from_name:
                 text = ' '.join(body.find('div', class_='text').get_text().split())  # text
                 intMsg = int(msg_id)
                 dict_learning_id[intMsg] = [text]
                 dict_learning_id[intMsg].append(title)
                 dict_learning_id[intMsg].append(from_name)
-            elif from_name == 'SmartTech Learning Group':
+            elif "Group" in from_name:
                 reply_id_details = body.find('div', class_='reply_to details')
                 replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
                 reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))  # replied_message_id
