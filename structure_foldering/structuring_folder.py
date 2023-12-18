@@ -2,16 +2,13 @@ import os
 from dotenv import load_dotenv
 import shutil
 from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name
-
+from rich import print
 
 def create_dirs_all(list_of_data):
     load_dotenv()
     path_to_save = os.getenv('PATH_TO_SAVE')
     base_dir = os.getenv('BASE_DIR')
     for item in list_of_data:
-
-
-
         if item[1] != None:
             if item[0] is None:
                 from_name = 'Unknown_user'
@@ -40,7 +37,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.move(file_location, actual_path_dir)
+                            shutil.copy(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                                 file.write(f'''From_name: {from_name}\n{video_title}''')
                             print(actual_path + content + '___Succes_2!')
@@ -61,7 +58,7 @@ def create_dirs_all(list_of_data):
                                 pass
                         try:
                             file_location = correct_file_location(content, data, base_dir)
-                            shutil.move(file_location, actual_path_dir + video_title)
+                            shutil.copy(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                                 try:
                                     file.write(f'''Description: {description}
@@ -108,9 +105,9 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             try:
                                 os.mkdir(actual_path)
                             except:
-                                pass
+                                print('[red] unable to create folder')
                     try:
-                        shutil.move(file_location, actual_path)
+                        shutil.copy(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                             file.write(f'From_name: "{from_name}"\n{video_title}')
                         print(actual_path + content + '___Succes_2!')
@@ -130,7 +127,7 @@ IconFile=C:\Windows\System32\SHELL32.dll
                             except:
                                 pass
                     try:
-                        shutil.move(file_location, actual_path + video_title)
+                        shutil.copy(file_location, actual_path + video_title)
                         with open(f'{actual_path}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                             try:
                                 file.write(f'''Description: {description}

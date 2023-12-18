@@ -43,30 +43,26 @@ def parser():
 def parsing(path):
     info_list = final_result_info(path)
     save_data_to_db(info_list)
-    click.echo('Success!')
-    print('[green]Success!')
+    print('[green]Successful parsing!')
 
 
 @parser.command(help="Update db")
 def update_db_content():
     update_database()
-    click.echo('Success!')
-    print('[green]Success!')
+    print('[green]Successful database updating!')
 
 
 @parser.command(help="Create folders, change .env file to adjusments")
 def create_folders():
     info_list = read_group_content()
     create_dirs_all(info_list)
-    click.echo('Success!')
-    print('[green]Success!')
+    print('[green]Successful creating folders!')
 
-
+import sys
 try:
-    if __name__ == '__main__':
-        parser()
-    logger2.info("Successful run")
-    print('[green]Success!')
+    if __name__ == '__main__':parser()
+    logger2.info("Successful parser-cli app run")
+    print('[green]Success parser-cli app run!')
 except errors as err:
     logger2.exception("Some kind of error, check log file")
     print('[red]Some kind of error, check log file!')
