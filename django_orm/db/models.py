@@ -29,6 +29,7 @@ class group_content(models.Model):
     replied_message_details = models.CharField(max_length=100)
     replied_message_id = models.IntegerField()
     joined = models.BooleanField(default=True)
+    filepath = models.TextField(null=True, blank=True)
     type_choices = [('url', 'url_type'), ('file', 'file_type'), ('video', 'video_type'), ('photo', 'photo_type'), ('audio', 'audio_type'), ('text', 'text_type')]
     type = models.CharField(max_length=10, choices=type_choices, default=type_choices[-1][0])
     parser_channel = models.ForeignKey(channel_content, to_field='id', on_delete=models.CASCADE, default=1)
