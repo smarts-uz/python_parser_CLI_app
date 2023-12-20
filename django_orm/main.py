@@ -16,11 +16,12 @@ def channel_content_db_add(dict_1):
         try:
             from_name = k[2]
         except:
-            from_name = 'SmartTech Learning'
+            from_name = 'Admin'
         text = k[0]
         data_time = correct_time_data(k[1])
+        main_folder_name = k[-1]
         msg_id = i
-        data = {'from_name': from_name, 'text': text, 'data': data_time, 'message_id': msg_id}
+        data = {'from_name': from_name, 'text': text, 'data': data_time, 'message_id': msg_id, 'main_folder_name': main_folder_name}
         my_model_instance = channel_content(**data)
         my_model_instance.save()
         print(f'{text} - has added to channel_content!')

@@ -1,5 +1,5 @@
-from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, correct_time_data,
-# from save_to_db import save_mysql_channel, save_mysql_group, save_mysql_video
+from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, correct_time_data
+
 
 # функция парсит все необходимые данные и на выходе дает список словарей со всей спарсенной информацией
 def get_info(html):
@@ -16,15 +16,14 @@ def get_info(html):
         title = body.find('div', class_='pull_right date details').get('title') # time_data
         joined = False
         try:
-            match main_name:
-                case main_name if main_name and body.find('div', class_='reply_to details') is None:
+            if from_name and body.find('div', class_='reply_to details') is None:
                     text = ' '.join(body.find('div', class_='text').get_text().split())  # text
                     intMsg = int(msg_id)
                     dict_learning_id[intMsg] = [text]
                     dict_learning_id[intMsg].append(title)
                     dict_learning_id[intMsg].append(from_name)
                     dict_learning_id[intMsg].append(main_folder_name)
-                case main_name if main_name and body.find('div', class_='reply_to details'):
+            elif from_name and body.find('div', class_='reply_to details'):
                     reply_id_details = body.find('div', class_='reply_to details')
                     replied_message_details = reply_id_details.find('a').get('href')  # replied_message_details
                     reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))  # replied_message_id
@@ -75,7 +74,7 @@ def get_info(html):
                             dict_all_content[msg_id].append(result_text)
                     dict_all_content[msg_id].append(reply_id)
                     dict_all_content[msg_id].append(from_name)
-                case _:
+            else:
                     reply_id_details = body.find('div', class_='reply_to details')
                     replied_message_details = reply_id_details.find('a').get('href')
                     reply_id = ''.join(reply_id_details.find('a').get('href').split('#go_to_message'))
@@ -204,12 +203,12 @@ def final_result_info(path):
     channel_content_list = []
     group_content_list = []
     for i in fname_list:
-        main_html = get_html(i)  #  Здесь мы передаем путь к mhtml-файлу и происходит первичный парсинг через bs4
-        result = get_info(main_html)  #  Результат выше указанной функции(get_html) мы передаем в данную функцию(get_info), где и происходит основной сбор данных(парсинг)
-        save_json(result)  #  На данном этапе мы сохраняем полученныет данные в json формат, для первичного визуального анализа и дальнейшей обработки данных
-        prepare_info = prepare_group_info(result)  #  Здесь происходит первичная обработка данных
-        dict_reply = get_from_name_joined(result)  #  Здесь мы получаем словарь с replied_id и from_name
-        ready_information = get_from_name(prepare_info, dict_reply) #  Данная функция возвращает на выходе готовый список данных из Learning Group для отправки в бд
+        main_html = get_html(i)
+        result = get_info(main_html)
+        save_json(result)
+        prepare_info = prepare_group_info(result)
+        dict_reply = get_from_name_joined(result)
+        ready_information = get_from_name(prepare_info, dict_reply)
         channel_content = result[0]
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
