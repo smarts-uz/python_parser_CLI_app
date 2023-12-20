@@ -12,6 +12,7 @@ class channel_content(models.Model):
     text = models.TextField(null=True, blank=True)
     data = models.DateTimeField()
     message_id = models.IntegerField()
+    main_folder_name = models.CharField(max_length=100)
 
     class Meta:
         db_table = 'channel_content'
