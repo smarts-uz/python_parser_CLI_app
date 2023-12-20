@@ -196,8 +196,3 @@ def logger_path():
     if not os.path.exists(logger_path):
         os.makedirs(logger_path)
     return logger_path
-
-def main_from_name(html):
-    page_body = html.find('div', class_='content')
-    page_body.text
-    return page_body.text.strip()
