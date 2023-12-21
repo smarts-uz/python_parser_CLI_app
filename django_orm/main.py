@@ -38,7 +38,8 @@ def group_content_db_add(list2):
         replied_message_details = i[6]
         reply_id = i[7]
         joined = i[8]
-        type_of_content = i[-1]
+        type_of_content = i[-2]
+        file_path = i[-1]
         if len(i) == 12:
             description = i[9]
             video_duration = i[10]
@@ -47,7 +48,7 @@ def group_content_db_add(list2):
             video_duration = None
         data = {'from_name': from_name, 'channel_text': text, 'content': content, 'data': data_title,
                 'message_details': message_details, 'message_id': msg_id, 'replied_message_details': replied_message_details,
-                'replied_message_id': reply_id, 'joined': joined, 'type': type_of_content, 'description': description, 'video_duration': video_duration}
+                'replied_message_id': reply_id, 'joined': joined, 'type': type_of_content, 'description': description, 'video_duration': video_duration, 'filepath':file_path}
         my_model_instance = group_content(**data)
         my_model_instance.save()
         print(f"{content} - has added to group_content!")

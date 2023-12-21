@@ -29,9 +29,10 @@ def save_json(list):
 
 
 # Здесь происходит первичная обработка и корректировка данных из Learning Group
-def prepare_group_info(list):
+def prepare_group_info(list, mhtml_path):
     dict_learning_id = list[0]
     dict_all_content = list[2]
+    main_folder_name = list[-1]
     test = []
     for x, y in dict_all_content.items():
         try:
@@ -42,6 +43,10 @@ def prepare_group_info(list):
             replied_message_details = y[0]
             joined = y[3]
             type_of_content = define_type(content)
+            if type_of_content in ['file', 'video', 'photo', 'audio']:
+                file_path = get_file_path(content, mhtml_path, main_folder_name)
+            else:
+                file_path = None
             if len(y) > 7:
                 reply_id = int(y[7])
                 text = get_text(dict_learning_id, reply_id)
@@ -53,7 +58,7 @@ def prepare_group_info(list):
                     from_name = None
                 test.append(
                     [from_name, text, content, data_title, message_details, msg_id, replied_message_details, reply_id,
-                     joined, description, video_duration, type_of_content])
+                     joined, description, video_duration, type_of_content, file_path])
             else:
                 reply_id = int(y[5])
                 text = get_text(dict_learning_id, reply_id)
@@ -63,7 +68,7 @@ def prepare_group_info(list):
                     from_name = None
                 test.append(
                     [from_name, text, content, data_title, message_details, msg_id, replied_message_details, reply_id,
-                     joined, type_of_content])
+                     joined, type_of_content, file_path])
         except:
             pass
     return test
@@ -104,6 +109,18 @@ def get_from_name(list_info, dict_reply):
                     i[0] = y
                 else:
                     pass
+    return result
+
+
+def get_file_path(content, mhtml_path, main_folder_name):
+    correct_mhtml_path = mhtml_path.split('\\')
+    correct_mhtml_path[-1] = content
+    result_list = []
+    if main_folder_name in correct_mhtml_path:
+        break_point = correct_mhtml_path.index(main_folder_name)
+        for i in range(break_point, len(correct_mhtml_path)):
+            result_list.append(correct_mhtml_path[i])
+    result = '\\'.join(result_list)
     return result
 
 

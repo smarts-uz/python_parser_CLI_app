@@ -48,6 +48,13 @@ def add_parser_channel_id():
         print(f'Message: {msg_id} is updated with id={id}')
 
 
+def update_folder_name():
+    list_of_folder_name = list(channel_content.objects.values_list('message_id', 'main_folder_name'))
+    for i in list_of_folder_name:
+        group_content.objects.filter(replied_message_id=i[0]).update(main_folder_name=i[1])
+        print(f'Message_replied: {i[0]} is updated with folder_name={i[1]}')
+
+
 def update_db():
     list_of_msg_id = get_info_from_db()
     list_of_name_2 = correct_info(get_info_from_db_2())
@@ -57,6 +64,7 @@ def update_db():
     update_group_name(prepare_name_info(dict_id, list_of_name_2))
     update_group_text()
     add_parser_channel_id()
+    update_folder_name()
     return 'Db has been updated!'
 
 
