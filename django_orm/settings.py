@@ -14,26 +14,26 @@ name = os.getenv('name')
 password = os.getenv('password')
 port = os.getenv('port')
 host = os.getenv('host')
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': name,
-#         'USER': name,
-#         'PASSWORD': password,
-#         'HOST': host,
-#         'PORT': port,
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '2308',
-        'HOST': 'localhost',
-        'PORT': '5433'}
+        'NAME': name,
+        'USER': name,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
+    }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'postgres',
+#         'PASSWORD': '2308',
+#         'HOST': 'localhost',
+#         'PORT': '5433'}
+# }
 
 
 """
@@ -52,9 +52,9 @@ DATABASES = {
     }
 }
 """
-
+sentry_dsn = os.getenv('dsn')
 sentry_sdk.init(
-    dsn="https://8462f1946c3b86e047cb8a1c23fd2076@o4506200236687360.ingest.sentry.io/4506320652992512",
+    dsn=sentry_dsn,
     # Set traces_sample_rate to 1.0 to capture 100%
     # of transactions for performance monitoring.
     traces_sample_rate=1.0,
