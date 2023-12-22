@@ -25,17 +25,6 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'postgres',
-#         'PASSWORD': '2308',
-#         'HOST': 'localhost',
-#         'PORT': '5433'}
-# }
-
-
 """
 To connect to an existing postgres database, first:
 pip install psycopg2
