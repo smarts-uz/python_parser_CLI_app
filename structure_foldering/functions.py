@@ -13,30 +13,30 @@ def correct_post_title(post_title):
         third_step = second_step[0]
         first_step_2[-1] = third_step
         first_step_2.reverse()
-        for k in first_step_2:
-            index = first_step_2.index(k)
-            if len(k.split('https:')) > 1:
-                temp = k.split('https:')
-                variable = [temp[0]]
-            elif len(k.split('/')) > 1:
-                variable = k.split('/')
-            elif len(k.split('\\')) > 1:
-                variable = k.split('\\')
-            elif len(k.split(':')) > 1:
-                variable = k.split(':')
-            else:
-                variable = k
-            try:
-                if len(variable) > 1:
-                    variable.reverse()
-                    first_step_2.pop(index)
-                    for y in variable:
-                        first_step_2.insert(index, y)
-                else:
-                    first_step_2.pop(index)
-                    first_step_2.insert(index, variable[0])
-            except Exception as e:
-                print(e)
+        # for k in first_step_2:
+        #     index = first_step_2.index(k)
+        #     if len(k.split('https:')) > 2:
+        #         temp = k.split('https:')
+        #         variable = [temp[0]]
+        #     elif len(k.split('/')) > 2:
+        #         variable = k.split('/')
+        #     elif len(k.split('\\')) > 2:
+        #         variable = k.split('\\')
+        #     elif len(k.split(':')) > 2:
+        #         variable = k.split(':')
+        #     else:
+        #         variable = k
+            # try:
+            #     if len(variable) > 1:
+            #         variable.reverse()
+            #         first_step_2.pop(index)
+            #         for y in variable:
+            #             first_step_2.insert(index, y)
+            #     else:
+            #         first_step_2.pop(index)
+            #         first_step_2.insert(index, variable[0])
+            # except Exception as e:
+            #     print(e)
         return first_step_2
     else:
         second_step = first_step[-1].split('#')
@@ -79,7 +79,6 @@ def correct_video_duration(video_duration):
     return result
 
 
-
 # https://www.youtube.com/watch?v=1Q6pw9gPDp0
 # https://stackoverflow.com/questions/41116013/selenium-code-to-scroll-horizontally-in-a-web-element-which-is-loading-lazily
 # https://koofr.eu/
@@ -114,3 +113,5 @@ IconFile=C:\Windows\System32\SHELL32.dll""")
 #  \\192.168.100.100\SmartTech Learning Group\2023\9-8\video_files\«Account» folder of Services.mp4 True
 #  \\192.168.100.100\SmartTech Learning Group\\2023\9-8\video_files\«Account» folder of Services.mp4  false
 
+# "\\192.168.1.236\Exports\SmartTech Learning Group\2023\8-18\files\Name Everything _ Introduction to DhiWise - DhiWise.mhtml" True
+# '\\192.168.1.236\Exports\SmartTech Learning Group\2023\8-18\files/Name Everything _ Introduction to DhiWise - DhiWise.mhtml' False

@@ -7,7 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 from django_orm.main import save_data_to_db, update_database
-from django_orm.db.save_to_db import read_group_content
+from django_orm.db.save_to_db import read_group_content, read_main_folder_name
 from structure_foldering.structuring_folder import create_dirs_all
 
 
@@ -54,7 +54,10 @@ def update_db_content():
 
 @parser.command(help="Create folders, change .env file to adjusments")
 def create_folders():
-    info_list = read_group_content()
+    name_list = read_main_folder_name()
+    print(name_list)
+    chosen_name = input('Выберите название группы для создания папок: ')
+    info_list = read_group_content(chosen_name)
     create_dirs_all(info_list)
     print('[green]Successful creating folders!')
 

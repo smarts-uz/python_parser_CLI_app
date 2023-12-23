@@ -18,10 +18,7 @@ def create_dirs_all(list_of_data):
                 from_name = 'Unknown_user'
             else:
                 from_name = item[0].strip()
-            print(item[1])
-            print(item[2])
             channel_text = correct_post_title(item[1])
-            print(channel_text)
             content = item[2]
             description = item[3]
             video_duration = item[4]
@@ -42,7 +39,7 @@ def create_dirs_all(list_of_data):
                         try:
                             # file_location = correct_file_location(content, data, base_dir)
                             file_location = base_dir + '\\' + file_path
-                            # shutil.copy(file_location, actual_path_dir)
+                            shutil.copy(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                                 file.write(f'''From_name: {from_name}\n{video_title}''')
                             print(actual_path + content + '___Succes_2!')
@@ -64,7 +61,7 @@ def create_dirs_all(list_of_data):
                         try:
                             # file_location = correct_file_location(content, data, base_dir)
                             file_location = base_dir + '\\' + file_path
-                            # shutil.copy(file_location, actual_path_dir + video_title)
+                            shutil.copy(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                                 try:
                                     file.write(f'''Description: {description}
@@ -104,7 +101,7 @@ From_name: {from_name}''')
                             except:
                                 print('[red] unable to create folder')
                     try:
-                        # shutil.copy(file_location, actual_path)
+                        shutil.copy(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                             file.write(f'From_name: "{from_name}"\n{video_title}')
                         print(actual_path + content + '___Succes_2!')
@@ -125,7 +122,7 @@ From_name: {from_name}''')
                             except:
                                 pass
                     try:
-                        # shutil.copy(file_location, actual_path + video_title)
+                        shutil.copy(file_location, actual_path + video_title)
                         with open(f'{actual_path}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                             try:
                                 file.write(f'''Description: {description}
