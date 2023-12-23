@@ -14,44 +14,18 @@ name = os.getenv('name')
 password = os.getenv('password')
 port = os.getenv('port')
 host = os.getenv('host')
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': name,
-#         'USER': name,
-#         'PASSWORD': password,
-#         'HOST': host,
-#         'PORT': port,
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '2308',
-        'HOST': 'localhost',
-        'PORT': '5433'}
-}
-
-
-"""
-To connect to an existing postgres database, first:
-pip install psycopg2
-then overwrite the settings above with:
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'YOURDB',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': name,
+        'USER': name,
+        'PASSWORD': password,
+        'HOST': host,
+        'PORT': port,
     }
 }
-"""
+
+
 sentry_dsn = os.getenv('dsn')
 sentry_sdk.init(
     dsn=sentry_dsn,
