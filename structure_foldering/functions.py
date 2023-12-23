@@ -110,6 +110,24 @@ IconIndex=13
 HotKey=0
 IconFile=C:\Windows\System32\SHELL32.dll""")
 
+
+def create_video_note(actual_path, video_title, description, video_duration, from_name):
+    if description is None:
+        description = 'None'
+    with open(f'{actual_path}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
+        file.write(f'''Description: {description}
+Video_duration: {video_duration}
+From_name: {from_name}''')
+
+
+def create_folder_to_save(path_to_save, main_folder_name):
+    if not os.path.exists(path_to_save + main_folder_name):
+        os.mkdir(path_to_save + main_folder_name)
+    path = path_to_save + main_folder_name + '\\'
+    return path
+
+
+
 #  \\192.168.100.100\SmartTech Learning Group\2023\9-8\video_files\«Account» folder of Services.mp4 True
 #  \\192.168.100.100\SmartTech Learning Group\\2023\9-8\video_files\«Account» folder of Services.mp4  false
 

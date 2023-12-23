@@ -58,7 +58,7 @@ def create_folders():
     print(name_list)
     chosen_name = input('Выберите название группы для создания папок: ')
     info_list = read_group_content(chosen_name)
-    create_dirs_all(info_list)
+    create_dirs_all(info_list, chosen_name)
     print('[green]Successful creating folders!')
 
 import sys
