@@ -69,6 +69,11 @@ def update_db():
 
 
 def read_group_content():
-    info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list
+    info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data", 'filepath', 'main_folder_name'))
+    return info_list[10000:10100]
+
+
+def read_main_folder_name():
+    name_list = list(group_content.objects.values_list('main_folder_name').distinct())
+    return name_list
 

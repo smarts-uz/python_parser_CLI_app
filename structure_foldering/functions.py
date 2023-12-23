@@ -13,7 +13,6 @@ def correct_post_title(post_title):
         third_step = second_step[0]
         first_step_2[-1] = third_step
         first_step_2.reverse()
-        print(first_step_2)
         for k in first_step_2:
             index = first_step_2.index(k)
             if len(k.split('https:')) > 1:
@@ -80,6 +79,7 @@ def correct_video_duration(video_duration):
     return result
 
 
+
 # https://www.youtube.com/watch?v=1Q6pw9gPDp0
 # https://stackoverflow.com/questions/41116013/selenium-code-to-scroll-horizontally-in-a-web-element-which-is-loading-lazily
 # https://koofr.eu/
@@ -99,9 +99,18 @@ def correct_url_name(url):
             return last_step[:30]
 
 
+def create_link(actual_path, url_name, content):
+    with open(f'{actual_path}{url_name}.url', 'x', encoding='UTF-8') as file:
+        file.write("""
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,11
+[InternetShortcut]
+IDList=
+URL=""" + content + """
+IconIndex=13
+HotKey=0
+IconFile=C:\Windows\System32\SHELL32.dll""")
+
 #  \\192.168.100.100\SmartTech Learning Group\2023\9-8\video_files\«Account» folder of Services.mp4 True
 #  \\192.168.100.100\SmartTech Learning Group\\2023\9-8\video_files\«Account» folder of Services.mp4  false
 
-
-# file_path_list = listdir(r'\\192.168.100.100\SmartTech Learning Group\2021 ')
-# print(file_path_list)
