@@ -22,7 +22,7 @@ def get_info_from_db_2():
 
 def update_group_name(dict_id):
     for x, y in dict_id.items():
-        group_content.objects.filter(message_id=x).update(from_name=y)
+        group_content.objects.filter(message_id=x, from_name=None).update(from_name=y)
         print(f"Message - {x}, updated with name - {y}!")
 
 
@@ -51,7 +51,7 @@ def add_parser_channel_id():
 def update_folder_name():
     list_of_folder_name = list(channel_content.objects.values_list('message_id', 'main_folder_name'))
     for i in list_of_folder_name:
-        group_content.objects.filter(replied_message_id=i[0]).update(main_folder_name=i[1])
+        group_content.objects.filter(replied_message_id=i[0], main_folder_name=None).update(main_folder_name=i[1])
         print(f'Message_replied: {i[0]} is updated with folder_name={i[1]}')
 
 
