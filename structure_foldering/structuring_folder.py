@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 import shutil
-from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name
-from rich import print
+from .functions import correct_data_title, correct_video_title, correct_post_title, correct_file_location, correct_url_name, create_link
+
 
 def create_dirs_all(list_of_data):
     load_dotenv()
@@ -25,6 +25,7 @@ def create_dirs_all(list_of_data):
             data = correct_data_title(item[5])
             post_title = correct_post_title(item[1])
             video_title = correct_video_title(content, post_title)
+            file_path = item[-2]
             if len(channel_text) == 1:
                 actual_path = path_to_save
                 if content.startswith('files') or content.startswith('photos'):
@@ -36,7 +37,8 @@ def create_dirs_all(list_of_data):
                             except:
                                 pass
                         try:
-                            file_location = correct_file_location(content, data, base_dir)
+                            # file_location = correct_file_location(content, data, base_dir)
+                            file_location = base_dir + '\\' + file_path
                             shutil.copy(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                                 file.write(f'''From_name: {from_name}\n{video_title}''')
@@ -48,7 +50,7 @@ def create_dirs_all(list_of_data):
                             pass
 
                 elif content.startswith('video'):
-                    actual_path = path_to_save  # There should be path of directory where you want to save all videos
+                    actual_path = path_to_save
                     for i in post_title:
                         actual_path_dir = actual_path + i + "\\"
                         if not os.path.exists(actual_path_dir):
@@ -57,7 +59,8 @@ def create_dirs_all(list_of_data):
                             except:
                                 pass
                         try:
-                            file_location = correct_file_location(content, data, base_dir)
+                            # file_location = correct_file_location(content, data, base_dir)
+                            file_location = base_dir + '\\' + file_path
                             shutil.copy(file_location, actual_path_dir + video_title)
                             with open(f'{actual_path_dir}{video_title}.tmnote', 'x', encoding='UTF-8') as file:
                                 try:
@@ -82,23 +85,14 @@ From_name: {from_name}''')
                             except:
                                 pass
                         try:
-                            with open(f'{actual_path_dir}{correct_url_name(content)}.url', 'x', encoding='UTF-8') as file:
-                                file.write("""
-[{000214A0-0000-0000-C000-000000000046}]
-Prop3=19,11
-[InternetShortcut]
-IDList=
-URL=""" + content + """
-IconIndex=13
-HotKey=0
-IconFile=C:\Windows\System32\SHELL32.dll
-""")
+                            create_link(actual_path_dir, correct_url_name(content), content)
                         except:
                             pass
             else:
                 if content.startswith('files') or content.startswith('photos'):
                     actual_path = path_to_save
-                    file_location = correct_file_location(content, data, base_dir)
+                    # file_location = correct_file_location(content, data, base_dir)
+                    file_location = base_dir + '\\' + file_path
                     for i in channel_text:
                         actual_path = actual_path + i + "\\"
                         if not os.path.exists(actual_path):
@@ -117,8 +111,9 @@ IconFile=C:\Windows\System32\SHELL32.dll
                         print(e)
                         pass
                 elif content.startswith('video'):
-                    actual_path = path_to_save  # There should be path of directory where you want to save all videos
-                    file_location = correct_file_location(content, data, base_dir)
+                    actual_path = path_to_save
+                    # file_location = correct_file_location(content, data, base_dir)
+                    file_location = base_dir + '\\' + file_path
                     for i in post_title:
                         actual_path = actual_path + i + "\\"
                         if not os.path.exists(actual_path):
@@ -152,20 +147,14 @@ From_name: {from_name}''')
                             except:
                                 pass
                     try:
-                        with open(f'{actual_path}{correct_url_name(content)}.url', 'x', encoding='UTF-8') as file:
-                            file.write("""
-[{000214A0-0000-0000-C000-000000000046}]
-Prop3=19,11
-[InternetShortcut]
-IDList=
-URL=""" + content + """
-IconIndex=13
-HotKey=0
-IconFile=C:\Windows\System32\SHELL32.dll""")
+                        create_link(actual_path, correct_url_name(content), content)
                     except:
                         pass
                 else:
                     pass
+
+
+
 
 
 

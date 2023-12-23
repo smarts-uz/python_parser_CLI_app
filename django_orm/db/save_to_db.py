@@ -68,7 +68,17 @@ def update_db():
     return 'Db has been updated!'
 
 
-def read_group_content():
-    info_list = list(group_content.objects.values_list("from_name", "channel_text", "content", "description", "video_duration", "data"))
-    return info_list
+def read_group_content(main_folder_name):
+    info_list = list(group_content.objects.filter(main_folder_name=main_folder_name).values_list("from_name", "channel_text", "content", "description", "video_duration", "data", 'filepath', 'main_folder_name'))
+    return info_list[1000:1500]
+
+
+def read_main_folder_name():
+    name_list_1 = list(group_content.objects.values_list('main_folder_name').distinct())
+    name_result = []
+    for i in name_list_1:
+        if i[0] != None:
+            name_result.append(*i)
+    return name_result
+
 

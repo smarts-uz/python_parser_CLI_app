@@ -14,16 +14,27 @@ name = os.getenv('name')
 password = os.getenv('password')
 port = os.getenv('port')
 host = os.getenv('host')
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': name,
+#         'USER': name,
+#         'PASSWORD': password,
+#         'HOST': host,
+#         'PORT': port,
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': name,
-        'USER': name,
-        'PASSWORD': password,
-        'HOST': host,
-        'PORT': port,
-    }
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': '2308',
+        'HOST': 'localhost',
+        'PORT': '5433'}
 }
+
 
 """
 To connect to an existing postgres database, first:
