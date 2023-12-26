@@ -6,10 +6,13 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 import django
 django.setup()
-
+from rich import print
 from django_orm.db.models import *
 from django_orm.db.save_to_db import update_db
+from rich import print
+from log3 import Logger
 
+statistic = Logger('statictics', 'a')
 
 def channel_content_db_add(dict_1):
     for i, k in dict_1.items():
@@ -24,7 +27,9 @@ def channel_content_db_add(dict_1):
         data = {'from_name': from_name, 'text': text, 'data': data_time, 'message_id': msg_id, 'main_folder_name': main_folder_name}
         my_model_instance = channel_content(**data)
         my_model_instance.save()
-        print(f'{text} - has added to channel_content!')
+        msg = f'{text} - has added to channel_content!'
+        statistic.log(msg)
+        print(f'[bright_cyan]{msg}')
 
 
 def group_content_db_add(list2):
@@ -51,7 +56,9 @@ def group_content_db_add(list2):
                 'replied_message_id': reply_id, 'joined': joined, 'type': type_of_content, 'description': description, 'video_duration': video_duration, 'filepath':file_path}
         my_model_instance = group_content(**data)
         my_model_instance.save()
-        print(f"{content} - has added to group_content!")
+        msg = f"{content} - has added to group_content!"
+        statistic.log(msg)
+        print(f'[bright_cyan]{msg}')
 
 
 def save_data_to_db(info_list):
