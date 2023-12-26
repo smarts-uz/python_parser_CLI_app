@@ -18,6 +18,7 @@ module_name = os.path.splitext(os.path.basename(__file__))[0]
 logger2 = logging.getLogger(module_name)
 logger2.setLevel(logging.INFO)
 # настройка обработчика и форматировщика для logger2
+#handlers=[RichHandler(rich_tracebacks=True,tracebacks_suppress=[click])]
 handler2 = logging.FileHandler(f"{logger_path()}/{module_name}.log", mode='a')
 formatter2 = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
 # добавление форматировщика к обработчику
