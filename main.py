@@ -18,6 +18,7 @@ module_name = os.path.splitext(os.path.basename(__file__))[0]
 logger2 = logging.getLogger(module_name)
 logger2.setLevel(logging.INFO)
 # настройка обработчика и форматировщика для logger2
+#handlers=[RichHandler(rich_tracebacks=True,tracebacks_suppress=[click])]
 handler2 = logging.FileHandler(f"{logger_path()}/{module_name}.log", mode='a')
 formatter2 = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
 # добавление форматировщика к обработчику
@@ -55,11 +56,14 @@ def update_db_content():
 @parser.command(help="Create folders, change .env file to adjusments")
 def create_folders():
     name_list = read_main_folder_name()
-    print(name_list)
+    for i in range(len(name_list)):
+        print(f'{i} - {name_list[i]}')
     chosen_name = input('Выберите название группы для создания папок: ')
-    info_list = read_group_content(chosen_name)
-    create_dirs_all(info_list)
+    info_list = read_group_content(chosen_name, name_list)
+    create_dirs_all(info_list, chosen_name, name_list)
     print('[green]Successful creating folders!')
+
+
 
 import sys
 try:
