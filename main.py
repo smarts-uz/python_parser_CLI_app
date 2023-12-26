@@ -9,31 +9,10 @@ django.setup()
 from django_orm.main import save_data_to_db, update_database
 from django_orm.db.save_to_db import read_group_content, read_main_folder_name
 from structure_foldering.structuring_folder import create_dirs_all
+from log3 import Logger
 
-
-
-import logging
-import os
-module_name = os.path.splitext(os.path.basename(__file__))[0]
-logger2 = logging.getLogger(module_name)
-logger2.setLevel(logging.INFO)
-# настройка обработчика и форматировщика для logger2
-#handlers=[RichHandler(rich_tracebacks=True,tracebacks_suppress=[click])]
-handler2 = logging.FileHandler(f"{logger_path()}/{module_name}.log", mode='a')
-formatter2 = logging.Formatter("%(name)s %(asctime)s %(levelname)s %(message)s")
-# добавление форматировщика к обработчику
-handler2.setFormatter(formatter2)
-# добавление обработчика к логгеру
-logger2.addHandler(handler2)
-logger2.info(f"Running module {module_name}...")
-
-errors = (AssertionError,AttributeError,EOFError,FloatingPointError,
-    GeneratorExit,ImportError,IndexError,KeyError,MemoryError,
-    NotImplementedError,OSError,OverflowError,ReferenceError,StopIteration,
-    IndentationError,TabError,SystemError,SystemExit,TypeError,UnboundLocalError,UnicodeError,UnicodeEncodeError,
-    UnicodeDecodeError,UnicodeTranslateError,ValueError,ZeroDivisionError,RuntimeError, TypeError, NameError,
-    SyntaxError,Exception,ValueError,KeyboardInterrupt)
-
+#3log
+current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 @click.group('Parser')
 def parser():
     pass
@@ -44,13 +23,13 @@ def parser():
 def parsing(path):
     info_list = final_result_info(path)
     save_data_to_db(info_list)
-    print('[green]Successful parsing!')
+    msg = 'Successful parsing!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
 
 
 @parser.command(help="Update db")
 def update_db_content():
     update_database()
-    print('[green]Successful database updating!')
+    msg = 'Successful database updating!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
 
 
 @parser.command(help="Create folders, change .env file to adjusments")
@@ -61,15 +40,13 @@ def create_folders():
     chosen_name = input('Выберите название группы для создания папок: ')
     info_list = read_group_content(chosen_name, name_list)
     create_dirs_all(info_list, chosen_name, name_list)
-    print('[green]Successful creating folders!')
+    msg = 'Successful database updating!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]!{msg}')
 
 
-
-import sys
 try:
     if __name__ == '__main__':parser()
-    logger2.info("Successful parser-cli app run")
-    print('[green]Success parser-cli app run!')
-except errors as err:
-    logger2.exception("Some kind of error, check log file")
-    print('[red]Some kind of error, check log file!')
+    msg = "Successful parser-cli app run";current.log(msg);history.log(msg);statistic.log(msg);print(f'[green]{msg}')
+except Exception:
+    msg = "Some kind of error, check log file"
+    current.log(msg);current.err(Exception);history.log(msg);history.err(Exception);statistic.log(msg)
+    print(f'[red]{msg}')
