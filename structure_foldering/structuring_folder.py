@@ -50,7 +50,7 @@ def create_dirs_all(list_of_data, main_folder_name,name_list):
                             shutil.copy(file_location, actual_path_dir)
                             with open(f'{actual_path_dir}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                                 file.write(f'''From_name: {from_name}\n{video_title}''')
-                            msg = "[wheat1]"+actual_path + content + '___Succes_2!'
+                            msg = "[purple]"+actual_path + content + '___Succes_2!'
                             statistic.log(msg)
                             print(msg)
 
@@ -59,7 +59,7 @@ def create_dirs_all(list_of_data, main_folder_name,name_list):
                                 with open(f'{actual_path_dir}{from_name}.tmnote', 'a', encoding='UTF-8') as file:
                                     file.write(f'''\n{video_title}''')
                             except:
-                                msg = f'[wheat1] {content} - unable to create tmnote'
+                                msg = f'[purple] {content} - unable to create tmnote'
                                 statistic.log(msg)
                                 print(msg)
                             pass
@@ -116,7 +116,7 @@ def create_dirs_all(list_of_data, main_folder_name,name_list):
                         shutil.copy(file_location, actual_path)
                         with open(f'{actual_path}{from_name}.tmnote', 'x', encoding='UTF-8') as file:
                             file.write(f'From_name: "{from_name}"\n{video_title}')
-                        msg = "[wheat1]"+actual_path + content + '___Succes_2!'
+                        msg = "[purple]"+actual_path + content + '___Succes_2!'
                         statistic.log(msg)
                         print(msg)
                     except:
@@ -143,7 +143,7 @@ def create_dirs_all(list_of_data, main_folder_name,name_list):
                     try:
                         shutil.copy(file_location, actual_path + video_title)
                         create_video_note(actual_path, video_title, description, video_duration, from_name)
-                        msg = "[wheat1]"+actual_path + video_title + '___Succes_2!'
+                        msg = "[purple]"+actual_path + video_title + '___Succes_2!'
                         statistic.log(msg)
                         print(msg)
                     except:
