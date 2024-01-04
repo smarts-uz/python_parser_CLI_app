@@ -40,13 +40,13 @@ def create_folders():
     chosen_name = input('Выберите название группы для создания папок: ')
     info_list = read_group_content(chosen_name, name_list)
     create_dirs_all(info_list, chosen_name, name_list)
-    msg = 'Successful database updating!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]!{msg}')
+    msg = 'Successful creating folders!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]!{msg}')
 
 
 try:
     if __name__ == '__main__':parser()
     msg = "Successful parser-cli app run";current.log(msg);history.log(msg);statistic.log(msg);print(f'[green]{msg}')
-except Exception:
+except Exception as errs:
     msg = "Some kind of error, check log file"
-    current.log(msg);current.err(Exception);history.log(msg);history.err(Exception);statistic.log(msg)
+    current.log(msg);current.err(errs);history.log(msg);history.err(errs);statistic.log(msg);statistic.err(errs)
     print(f'[red]{msg}')
