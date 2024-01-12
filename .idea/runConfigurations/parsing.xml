@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="parsing" type="ShConfigurationType" singleton="false">
-    <option name="SCRIPT_TEXT" value="py main.py parsing" />
+    <option name="SCRIPT_TEXT" value="python main.py parsing " />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="pip" />
     <option name="SCRIPT_OPTIONS" value="install -r requirements.txt" />

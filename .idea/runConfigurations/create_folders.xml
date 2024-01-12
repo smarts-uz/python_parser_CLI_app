@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="create-folders" type="ShConfigurationType" singleton="false">
-    <option name="SCRIPT_TEXT" value="py main.py create-folders" />
+    <option name="SCRIPT_TEXT" value="Python main.py create-folders" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />

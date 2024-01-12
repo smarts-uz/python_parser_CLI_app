@@ -16,6 +16,7 @@ def create_dirs_all(list_of_data, main_folder_name,name_list):
         main_folder_name = name_list[index_of_group]
     except:
         pass
+
     path_to_save_last = create_folder_to_save(path_to_save, main_folder_name)
     for item in list_of_data:
         if item[1] != None:

@@ -99,8 +99,10 @@ def correct_url_name(url):
 
 
 def create_link(actual_path, url_name, content):
+    statistic = Logger('statictics', 'a')
     with open(f'{actual_path}{url_name}.url', 'x', encoding='UTF-8') as file:
-        file.write("""
+
+        str = """
 [{000214A0-0000-0000-C000-000000000046}]
 Prop3=19,11
 [InternetShortcut]
@@ -108,7 +110,12 @@ IDList=
 URL=""" + content + """
 IconIndex=13
 HotKey=0
-IconFile=C:\Windows\System32\SHELL32.dll""")
+IconFile=C:\Windows\System32\SHELL32.dll"""
+
+        statistic.log(str)
+        print(f'[green]!{str}')
+
+        file.write(str)
 
 
 def create_video_note(actual_path, video_title, description, video_duration, from_name):
