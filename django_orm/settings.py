@@ -10,15 +10,16 @@ SECRET_KEY = "6few3nci_q_o@l1dlbk81%wcxe!*6r29yu629&d97!hiqat9fa"
 
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 load_dotenv()
-name = os.getenv('name')
+db_name = os.getenv('db_name')
+db_user = os.getenv('db_user')
 password = os.getenv('password')
 port = os.getenv('port')
 host = os.getenv('host')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': name,
-        'USER': name,
+        'NAME': db_name,
+        'USER': db_user,
         'PASSWORD': password,
         'HOST': host,
         'PORT': port,
