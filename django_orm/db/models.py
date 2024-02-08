@@ -66,6 +66,10 @@ class TgChannel(models.Model):
     message_id = models.IntegerField()
     main_folder_name = models.CharField(max_length=100, blank=True, null=True)
     execution_id = models.IntegerField(blank=True, null=True)
+    size = models.CharField(max_length=50, blank=True, null=True)
+    file_path = models.CharField(max_length=255, blank=True, null=True)
+    reply_to_msg_id = models.IntegerField(blank=True, null=True)
+    duration = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -73,19 +77,15 @@ class TgChannel(models.Model):
 
 
 class TgGroup(models.Model):
-    channel_text = models.TextField(blank=True, null=True)
     content = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    video_duration = models.CharField(max_length=50, blank=True, null=True)
+    duration = models.CharField(max_length=50, blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     message_details = models.CharField(max_length=100, blank=True, null=True)
     message_id = models.IntegerField(blank=True, null=True)
     replied_message_details = models.CharField(max_length=100, blank=True, null=True)
     replied_message_id = models.IntegerField(blank=True, null=True)
-    joined = models.BooleanField(blank=True, null=True)
-    filepath = models.TextField(blank=True, null=True)
-    type = models.CharField(max_length=10, blank=True, null=True)
-    main_folder_name = models.CharField(max_length=100, blank=True, null=True)
+    file_path = models.TextField(blank=True, null=True)
+    size = models.CharField(max_length=10, blank=True, null=True)
     tg_channel = models.ForeignKey(TgChannel, models.DO_NOTHING, blank=True, null=True)
     execution_id = models.IntegerField(blank=True, null=True)
 

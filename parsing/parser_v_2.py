@@ -1,3 +1,4 @@
+import json
 from pprint import pprint
 
 from bs4 import BeautifulSoup
@@ -18,12 +19,16 @@ class Pars:
 
     def parsing(self):
         soup = self.get_html()
+        main_folder_name = soup.find('div', class_='content').find('div', class_='text_bold')
         history = soup.find('div', class_="history")
-        main_messages = history.find_all('div',class_='message default clearfix')
-        joined_messages = history.find_all('div',class_='message default clearfix joined')
+        main_messages = history.find_all('div', class_='message default clearfix')
+        joined_messages = history.find_all('div', class_='message default clearfix joined')
 
-        return main_messages,joined_messages
+        return main_messages, joined_messages, main_folder_name
+
     def main_msg(self):
+        global ogg_url, photo_url, video_url, duration_ogg, duration_video
+        execution_id = None
         duration = None
         size = None
         data = []
@@ -31,16 +36,17 @@ class Pars:
         file_url = None
         duration_ogg = None
         duration_video = None
+        main_folder_name = self.parsing()[2]
         main_messages = self.parsing()[0]
         for main_message in main_messages:
             msg_id = main_message['id'][7:]
-            message_body = main_message.find('div',class_='body')
+            message_body = main_message.find('div', class_='body')
             date = message_body.find('div', class_='pull_right date details')['title']
-            from_name = message_body.find('div',class_='from_name').get_text(strip=True)
+            from_name = message_body.find('div', class_='from_name').get_text(strip=True)
 
             try:
-                text = message_body.find('div',class_='text').get_text(strip=True)
-            except :
+                text = message_body.find('div', class_='text').get_text(strip=True)
+            except:
                 text = message_body.find('div', class_='text')
             try:
                 media = message_body.find('div', class_='media_wrap clearfix')
@@ -51,7 +57,8 @@ class Pars:
 
                 try:
                     ogg_url = media.find('a', class_='media clearfix pull_left block_link media_voice_message')['href']
-                    duration_ogg = media.find('a', class_='media clearfix pull_left block_link media_voice_message').find(
+                    duration_ogg = media.find('a',
+                                              class_='media clearfix pull_left block_link media_voice_message').find(
                         'div', class_='status details').get_text(strip=True)
 
                 except:
@@ -65,7 +72,6 @@ class Pars:
                 except:
                     video_url = None
                     duration_video = None
-
 
                 try:
                     file = media.find('a', class_='media clearfix pull_left block_link media_file')
@@ -81,31 +87,34 @@ class Pars:
 
                 size = None
 
-
-            file_path = file_choose(photo_url,ogg_url,video_url,file_url)
-            duration = choose_duration(duration_ogg,duration_video)
+            file_path = file_choose(photo_url, ogg_url, video_url, file_url)
+            duration = choose_duration(duration_ogg, duration_video)
 
             try:
-                reply_to_message_id = message_body.find('div',class_='reply_to details').find('a')['href'][14:]
+                reply_to_message_id = message_body.find('div', class_='reply_to details').find('a')['href'][14:]
 
             except:
                 reply_to_message_id = None
 
             data.append(
                 {
-                    "msg_id" : msg_id,
-                    "text" : text,
-                    "file" : file_path,
-                    "duration" : duration,
-                    "size" : size,
-                    'reply_to_msg_id' : reply_to_message_id,
-                    'date' :date,
-                    'from_name' :from_name
+                    "message_id": msg_id,
+                    "text": text,
+                    "file_path": file_path,
+                    "duration": duration,
+                    "size": size,
+                    'reply_to_msg_id': reply_to_message_id,
+                    'date': date,
+                    'from_name': from_name,
+                    'main_folder_name': main_folder_name,
+                    'execution_id': execution_id
                 }
             )
-        return data
 
     def joined_messages(self):
+        global ogg_url, photo_url, video_url, duration_ogg, duration_video
+        tg_channel_id = None
+        execution_id = None
         duration = None
         size = None
         data = []
@@ -116,9 +125,8 @@ class Pars:
             msg_details = joined_message['id']
 
             msg_id = joined_message['id'][7:]
-            message_body = joined_message.find('div',class_='body')
+            message_body = joined_message.find('div', class_='body')
             date = message_body.find('div', class_='pull_right date details')['title']
-
 
             try:
                 reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
@@ -128,40 +136,41 @@ class Pars:
                 reply_to_details = None
                 reply_to_message_id = None
 
-
             try:
-                text = message_body.find('div',class_='text').get_text(strip=True)
+                text = message_body.find('div', class_='text').get_text(strip=True)
             except:
                 text = message_body.find('div', class_='text')
             try:
-                media = message_body.find('div',class_='media_wrap clearfix')
+                media = message_body.find('div', class_='media_wrap clearfix')
                 try:
-                    photo_url = media.find('a',class_='photo_wrap clearfix pull_left')['href']
+                    photo_url = media.find('a', class_='photo_wrap clearfix pull_left')['href']
                 except:
                     photo_url = None
 
                 try:
                     ogg_url = media.find('a', class_='media clearfix pull_left block_link media_voice_message')['href']
-                    duration_ogg = media.find('a', class_='media clearfix pull_left block_link media_voice_message').find('div',class_='status details').get_text(strip=True)
+                    duration_ogg = media.find('a',
+                                              class_='media clearfix pull_left block_link media_voice_message').find(
+                        'div', class_='status details').get_text(strip=True)
 
                 except:
                     ogg_url = None
                     duration_ogg = None
                 try:
-                    video = media.find('a',class_='video_file_wrap clearfix pull_left')
-                    video_url = media.find('a',class_='video_file_wrap clearfix pull_left')['href']
-                    duration_video = video.find('div',class_='video_duration').get_text(strip=True)
+                    video = media.find('a', class_='video_file_wrap clearfix pull_left')
+                    video_url = media.find('a', class_='video_file_wrap clearfix pull_left')['href']
+                    duration_video = video.find('div', class_='video_duration').get_text(strip=True)
                 except:
                     video_url = None
-                    duration_video =None
+                    duration_video = None
 
                 try:
-                    file = media.find('a',class_='media clearfix pull_left block_link media_file')
-                    file_url = media.find('a',class_='media clearfix pull_left block_link media_file')['href']
-                    size = file.find('div',class_='status details').get_text(strip=True)
+                    file = media.find('a', class_='media clearfix pull_left block_link media_file')
+                    file_url = media.find('a', class_='media clearfix pull_left block_link media_file')['href']
+                    size = file.find('div', class_='status details').get_text(strip=True)
                 except:
-                    file_url =None
-                    size =None
+                    file_url = None
+                    size = None
 
             except:
                 media = None
@@ -172,22 +181,17 @@ class Pars:
             file_path = file_choose(photo_url, ogg_url, video_url, file_url)
             duration = choose_duration(duration_ogg, duration_video)
             data.append({
-                'msg_id': msg_id,
-                'msg_detail' : msg_details,
-                'date' :date,
-                "reply_to_message_id" :reply_to_message_id,
-                'reply_to_details':reply_to_details,
-                "text" : text,
-                "file" : file_path,
-                "duration" : duration,
-                "size" : size,
+                'message_id': msg_id,
+                'message_details': msg_details,
+                'date': date,
+                "replied_message_id": reply_to_message_id,
+                'replied_message_details': reply_to_details,
+                "content": text,
+                "file_path": file_path,
+                "duration": duration,
+                "size": size,
+                'execution_id': execution_id,
+                'tg_channel_id': tg_channel_id
             })
 
-
-
-
-
-
         return data
-
-
