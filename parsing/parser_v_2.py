@@ -3,7 +3,7 @@ from pprint import pprint
 
 from bs4 import BeautifulSoup
 
-from parsing.functions import file_choose, choose_duration
+from parsing.functions import file_choose, choose_duration, correct_time_data
 
 
 class Pars:
@@ -41,7 +41,8 @@ class Pars:
         for main_message in main_messages:
             msg_id = main_message['id'][7:]
             message_body = main_message.find('div', class_='body')
-            date = message_body.find('div', class_='pull_right date details')['title']
+            original_date = message_body.find('div', class_='pull_right date details')['title']
+            date = correct_time_data(original_date)
             from_name = message_body.find('div', class_='from_name').get_text(strip=True)
 
             try:
@@ -110,7 +111,7 @@ class Pars:
                     'execution_id': execution_id
                 }
             )
-
+        return data
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
         tg_channel_id = None
@@ -126,7 +127,8 @@ class Pars:
 
             msg_id = joined_message['id'][7:]
             message_body = joined_message.find('div', class_='body')
-            date = message_body.find('div', class_='pull_right date details')['title']
+            original_date = message_body.find('div', class_='pull_right date details')['title']
+            date = correct_time_data(original_date)
 
             try:
                 reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
@@ -195,3 +197,5 @@ class Pars:
             })
 
         return data
+
+

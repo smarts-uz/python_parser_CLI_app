@@ -8,7 +8,7 @@ import django
 django.setup()
 from rich import print
 from django_orm.db.models import *
-from django_orm.db.save_to_db import update_db
+from django_orm.db.save_to_db import update_db, get_channel_id
 from rich import print
 from log3 import Logger
 
@@ -62,13 +62,34 @@ def group_content_db_add(list2):
         print(f'[bright_cyan]{msg}')
 
 
-def save_data_to_db(info_list):
-    for i in info_list[0]:
-        channel_content_db_add(i)
-    for k in info_list[1]:
 
-        group_content_db_add(k)
+#         ------------------------------------------
+def channel_add_db(data):
+    for msg in data:
+        print(f'{msg["message_id"]} saved to db channel')
+        channel = TgChannel.objects.create(**msg)
+
+
+def group_add_db(data):
+    for msg in data:
+        print(f'{msg["message_id"]} saved to db group')
+        msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
+        gr = TgGroup.objects.create(**msg)
+
+
+
+#         ------------------------------------------
+def save_data_to_db(info_list):
+
+    for i in info_list[0]:
+        channel_add_db(i) #changes v_2
+        # channel_content_db_add(i) #old_changes
+    for k in info_list[1]:
+        group_add_db(k)#changes v_2
+        # group_content_db_add(k) #old_changes
 
 
 def update_database():
     update_db()
+
+

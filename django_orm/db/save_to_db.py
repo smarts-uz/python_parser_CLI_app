@@ -1,4 +1,4 @@
-from .models import TgGroup ,TgChannel
+from .models import *
 from parsing.functions import correct_info, correct_info_id, correct_info_name, get_from_name_for_group, prepare_name_info
 from log3 import Logger
 from rich import print
@@ -92,4 +92,11 @@ def read_main_folder_name():
             name_result.append(*i)
     return name_result
 
+def get_channel_id(msg_id):
+    try:
+       channel =  TgChannel.objects.get(message_id=msg_id)
+       channel_id = channel.pk
+    except TgChannel.DoesNotExist:
+        channel_id =  None
+    return  channel_id
 

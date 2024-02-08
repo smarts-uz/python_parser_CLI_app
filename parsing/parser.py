@@ -1,4 +1,7 @@
+from pprint import pprint
+
 from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, correct_time_data
+from .parser_v_2 import Pars
 
 
 # функция парсит все необходимые данные и на выходе дает список словарей со всей спарсенной информацией
@@ -202,17 +205,28 @@ def final_result_info(path):
     fname_list = search_html(path)
     channel_content_list = []
     group_content_list = []
-    for i in fname_list:
-        main_html = get_html(i)
-        result = get_info(main_html)
-        save_json(result)
-        prepare_info = prepare_group_info(result, i)
-        dict_reply = get_from_name_joined(result)
-        ready_information = get_from_name(prepare_info, dict_reply)
-        channel_content = result[0]
+    for folder in fname_list:
+        parsing = Pars(folder)
+        ready_information = parsing.joined_messages()
+        channel_content = parsing.main_msg()
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
+
     return [channel_content_list, group_content_list]
+
+
+
+    # for i in fname_list:
+    #     main_html = get_html(i)
+    #     result = get_info(main_html)
+    #     save_json(result)
+    #     prepare_info = prepare_group_info(result, i)
+    #     dict_reply = get_from_name_joined(result)
+    #     ready_information = get_from_name(prepare_info, dict_reply)
+    #     channel_content = result[0]
+    #     channel_content_list.append(channel_content)
+    #     group_content_list.append(ready_information)
+    # return [channel_content_list, group_content_list]
 
 
 # final_result_info('E:\SmartTech Learning Group\\2022')
