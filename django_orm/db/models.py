@@ -5,16 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-import sys
-
-
 from django.db import models
-
-try:
-    from django.db import models
-except Exception:
-    print('Exception: Django Not Found, please install it with "pip install django".')
-    sys.exit()
 
 
 class DjangoMigrations(models.Model):
@@ -28,7 +19,6 @@ class DjangoMigrations(models.Model):
 
 
 class Execution(models.Model):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
     status = models.TextField(blank=True, null=True)  # This field type is a guess.
@@ -39,7 +29,7 @@ class Execution(models.Model):
 
 
 class SystemConfig(models.Model):
-    id = models.BigIntegerField(primary_key=True, db_comment='1|41')
+    id = models.BigAutoField(primary_key=True, db_comment='1|41')
     key = models.TextField(db_comment='2|82')  # This field type is a guess.
     value = models.TextField(blank=True, null=True, db_comment='3|164')
     type = models.TextField(blank=True, null=True, db_comment='4|82')  # This field type is a guess.

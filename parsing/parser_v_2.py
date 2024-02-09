@@ -12,6 +12,7 @@ class Pars:
         self.file_path = file_path
 
     def get_html(self):
+
         HtmlFile = open(self.file_path, 'r', encoding='utf-8')
         source_code = HtmlFile.read()
         soup = BeautifulSoup(source_code, 'html.parser')
@@ -19,7 +20,8 @@ class Pars:
 
     def parsing(self):
         soup = self.get_html()
-        main_folder_name = soup.find('div', class_='content').find('div', class_='text_bold')
+        main_folder_name = soup.find('div', class_='content').get_text(strip=True)
+
         history = soup.find('div', class_="history")
         main_messages = history.find_all('div', class_='message default clearfix')
         joined_messages = history.find_all('div', class_='message default clearfix joined')

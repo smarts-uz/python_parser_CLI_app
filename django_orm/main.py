@@ -1,12 +1,14 @@
 import sys
-sys.dont_write_bytecode = True
-from parsing.functions import correct_time_data
+
 # Django specific settings
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 import django
 django.setup()
 from rich import print
+
+sys.dont_write_bytecode = True
+from parsing.functions import correct_time_data
 from django_orm.db.models import *
 from django_orm.db.save_to_db import update_db, get_channel_id
 from rich import print
@@ -93,3 +95,14 @@ def update_database():
     update_db()
 
 
+def save_to_execution(name,path,status):
+    try:
+        execute = Execution.objects.get(path=path)
+        print('this path already exists!!')
+    except Execution.DoesNotExist:
+        execute = Execution.objects.create(
+            name = name,
+            path = path,
+            status = status
+        )
+        print(f'{path} saved to Execution table')
