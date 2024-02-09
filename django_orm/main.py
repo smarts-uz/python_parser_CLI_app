@@ -68,17 +68,29 @@ def group_content_db_add(list2):
 #         ------------------------------------------
 def channel_add_db(data):
     for msg in data:
-        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
-        print(f'{msg["message_id"]} saved to db channel')
-        channel = TgChannel.objects.create(**msg)
+        try:
+            # tg_channels = TgChannel.objects.filter(date=msg['date'],message_id=msg['message_id'])
+            tg_channels = TgChannel.objects.filter(**msg)
+            for tg_channel in tg_channels:
+                print(f'this message already exists in [green]tg_channel [cyan]{tg_channel.message_id}')
+        except TgChannel.DoesNotExist:
+            msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+            print(f'{msg["message_id"]} saved to db channel')
+            channel = TgChannel.objects.create(**msg)
 
 
 def group_add_db(data):
     for msg in data:
-        print(f'{msg["message_id"]} saved to db group')
-        msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
-        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
-        gr = TgGroup.objects.create(**msg)
+        try:
+            tg_groups = TgGroup.objects.filter(date=msg['date'],message_id=msg['message_id'],replied_message_id=msg['replied_message_id'])
+            for tg_group in  tg_groups:
+                print(f'this message already exists in [green]tg_groups [cyan]{tg_group.message_id}')
+
+        except TgGroup.DoesNotExist:
+            print(f'{msg["message_id"]} saved to db group')
+            msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
+            msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+            gr = TgGroup.objects.create(**msg)
 
 
 
