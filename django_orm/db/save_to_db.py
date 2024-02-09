@@ -103,8 +103,8 @@ def get_channel_id(msg_id):
 
 
 
-def get_execution_id(name:str):
-    return Execution.objects.get(name=name).pk
+def get_execution_id(path:str):
+    return Execution.objects.get(path=path).pk
 
 
 

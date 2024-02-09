@@ -237,3 +237,7 @@ def choose_duration(duration_ogg,duration_video):
         duration = None
     return duration
 
+def folder_path(path):
+    f_path = path.split('\\')
+    f_path.pop()
+    return '\\'.join(f_path)

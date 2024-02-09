@@ -3,7 +3,7 @@ from pprint import pprint
 
 from bs4 import BeautifulSoup
 
-from parsing.functions import file_choose, choose_duration, correct_time_data
+from parsing.functions import file_choose, choose_duration, correct_time_data, folder_path
 
 
 class Pars:
@@ -29,6 +29,7 @@ class Pars:
         return main_messages, joined_messages, main_folder_name
 
     def main_msg(self):
+        path = folder_path(self.file_path)
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
         execution_id = None
         duration = None
@@ -110,14 +111,15 @@ class Pars:
                     'date': date,
                     'from_name': from_name,
                     'main_folder_name': main_folder_name,
-                    'execution_id': execution_id
+                    'execution_id': execution_id,
+                    'path' : path
                 }
             )
 
         return data
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
-
+        path = folder_path(self.file_path)
         tg_channel_id = None
         execution_id = None
         duration = None
@@ -199,7 +201,8 @@ class Pars:
                 "size": size,
                 'execution_id': execution_id,
                 'tg_channel_id': tg_channel_id,
-                'main_folder_name': main_folder_name
+                'main_folder_name': main_folder_name,
+                'path': path
             })
 
 

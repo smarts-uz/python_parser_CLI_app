@@ -60,6 +60,7 @@ class TgChannel(models.Model):
     file_path = models.CharField(max_length=255, blank=True, null=True)
     reply_to_msg_id = models.IntegerField(blank=True, null=True)
     duration = models.CharField(max_length=50, blank=True, null=True)
+    path = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -79,6 +80,7 @@ class TgGroup(models.Model):
     tg_channel = models.ForeignKey(TgChannel, models.DO_NOTHING, blank=True, null=True)
     execution_id = models.IntegerField(blank=True, null=True)
     main_folder_name = models.CharField(max_length=255, blank=True, null=True)
+    path = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

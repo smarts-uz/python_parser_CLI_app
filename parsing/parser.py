@@ -1,7 +1,8 @@
 from pprint import pprint
 
 from django_orm.main import save_to_execution
-from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, correct_time_data
+from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, \
+    correct_time_data, folder_path
 from .parser_v_2 import Pars
 
 
@@ -203,12 +204,13 @@ def get_info(html):
 
 
 def final_result_info(path):
-    main_folder_name = None
+
     fname_list = search_html(path)
     channel_content_list = []
     group_content_list = []
 
     for folder in fname_list:
+        f_path = folder_path(folder)
         parsing = Pars(folder)
         main_folder_name = parsing.parsing()[2]
         ready_information = parsing.joined_messages()
@@ -216,10 +218,7 @@ def final_result_info(path):
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
 
-
-
-
-    save_to_execution(name=main_folder_name,path=path,status='in_process')
+        save_to_execution(name=main_folder_name,path=f_path,status='in_process')
 
     return [channel_content_list, group_content_list]
 

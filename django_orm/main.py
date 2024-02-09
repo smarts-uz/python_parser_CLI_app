@@ -68,7 +68,7 @@ def group_content_db_add(list2):
 #         ------------------------------------------
 def channel_add_db(data):
     for msg in data:
-        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+        msg['execution_id'] = get_execution_id(msg['path'])
         try:
             tg_channels = TgChannel.objects.get(**msg)
 
@@ -81,7 +81,7 @@ def channel_add_db(data):
 def group_add_db(data):
     for msg in data:
         msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
-        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+        msg['execution_id'] = get_execution_id(msg['path'])
         tg_groups = TgGroup.objects.filter(**msg)
         if list(tg_groups) != []:
             for tg_group in tg_groups:
