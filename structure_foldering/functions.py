@@ -1,5 +1,6 @@
 import os
 from os import listdir
+from log3 import Logger
 
 
 def correct_post_title(post_title):
@@ -101,16 +102,16 @@ def correct_url_name(url):
 def create_link(actual_path, url_name, content):
     statistic = Logger('statictics', 'a')
     with open(f'{actual_path}{url_name}.url', 'x', encoding='UTF-8') as file:
-
-        str = """
-[{000214A0-0000-0000-C000-000000000046}]
+        a='000214A0-0000-0000-C000-000000000046'
+        str = f"""
+[{a}]
 Prop3=19,11
 [InternetShortcut]
 IDList=
-URL=""" + content + """
+URL='''+{content}+'''
 IconIndex=13
 HotKey=0
-IconFile=C:\Windows\System32\SHELL32.dll"""
+IconFile=C:\\Windows\\System32\\SHELL32.dll"""
 
         statistic.log(str)
         print(f'[green]!{str}')
