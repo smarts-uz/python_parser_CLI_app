@@ -23,7 +23,6 @@ def parser():
 @click.option('--path', prompt='Path of directory', help='Here you should enter the path of files to parse')
 def parsing(path):
     info_list = final_result_info(path)
-
     save_data_to_db(info_list)
     msg = 'Successful parsing!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
 
@@ -53,6 +52,6 @@ try:
     if __name__ == '__main__':parser()
     msg = "Successful parser-cli app run";current.log(msg);history.log(msg);statistic.log(msg);print(f'[green]{msg}')
 except Exception as errs:
-    msg = "Some kind of error, check log file"
+    msg = f"[red]Error: {errs}"
     current.log(msg);current.err(errs);history.log(msg);history.err(errs);statistic.log(msg);statistic.err(errs)
     print(f'[red]{msg}')

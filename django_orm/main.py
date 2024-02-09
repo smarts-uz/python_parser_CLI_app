@@ -68,29 +68,30 @@ def group_content_db_add(list2):
 #         ------------------------------------------
 def channel_add_db(data):
     for msg in data:
+        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
         try:
-            # tg_channels = TgChannel.objects.filter(date=msg['date'],message_id=msg['message_id'])
-            tg_channels = TgChannel.objects.filter(**msg)
-            for tg_channel in tg_channels:
-                print(f'this message already exists in [green]tg_channel [cyan]{tg_channel.message_id}')
+            tg_channels = TgChannel.objects.get(**msg)
+
         except TgChannel.DoesNotExist:
-            msg['execution_id'] = get_execution_id(msg['main_folder_name'])
-            print(f'{msg["message_id"]} saved to db channel')
             channel = TgChannel.objects.create(**msg)
+            print(f'{msg["message_id"]} saved to db channel')
+
 
 
 def group_add_db(data):
     for msg in data:
-        try:
-            tg_groups = TgGroup.objects.filter(date=msg['date'],message_id=msg['message_id'],replied_message_id=msg['replied_message_id'])
-            for tg_group in  tg_groups:
+        msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
+        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+        tg_groups = TgGroup.objects.filter(**msg)
+        if list(tg_groups) != []:
+            for tg_group in tg_groups:
                 print(f'this message already exists in [green]tg_groups [cyan]{tg_group.message_id}')
-
-        except TgGroup.DoesNotExist:
-            print(f'{msg["message_id"]} saved to db group')
-            msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
-            msg['execution_id'] = get_execution_id(msg['main_folder_name'])
+        else:
             gr = TgGroup.objects.create(**msg)
+            print(f'{msg["message_id"]} saved to db group')
+
+
+
 
 
 
@@ -98,9 +99,11 @@ def group_add_db(data):
 def save_data_to_db(info_list):
 
     for i in info_list[0]:
+
         channel_add_db(i) #changes v_2
         # channel_content_db_add(i) #old_changes
     for k in info_list[1]:
+
         group_add_db(k)#changes v_2
         # group_content_db_add(k) #old_changes
 

@@ -113,6 +113,7 @@ class Pars:
                     'execution_id': execution_id
                 }
             )
+
         return data
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
@@ -200,6 +201,7 @@ class Pars:
                 'tg_channel_id': tg_channel_id,
                 'main_folder_name': main_folder_name
             })
+
 
         return data
 
