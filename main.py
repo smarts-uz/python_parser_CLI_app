@@ -24,7 +24,7 @@ def parser():
 def parsing(path):
     info_list = final_result_info(path)
 
-    # save_data_to_db(info_list)
+    save_data_to_db(info_list)
     msg = 'Successful parsing!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
 
 

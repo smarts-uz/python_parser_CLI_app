@@ -212,7 +212,7 @@ def final_result_info(path):
         parsing = Pars(folder)
         main_folder_name = parsing.parsing()[2]
         ready_information = parsing.joined_messages()
-        channel_content = parsing.main_msg()[0]
+        channel_content = parsing.main_msg()
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
 

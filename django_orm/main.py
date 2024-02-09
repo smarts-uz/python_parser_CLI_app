@@ -10,7 +10,7 @@ from rich import print
 sys.dont_write_bytecode = True
 from parsing.functions import correct_time_data
 from django_orm.db.models import *
-from django_orm.db.save_to_db import update_db, get_channel_id
+from django_orm.db.save_to_db import update_db, get_channel_id, get_execution_id
 from rich import print
 from log3 import Logger
 
@@ -68,6 +68,7 @@ def group_content_db_add(list2):
 #         ------------------------------------------
 def channel_add_db(data):
     for msg in data:
+        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
         print(f'{msg["message_id"]} saved to db channel')
         channel = TgChannel.objects.create(**msg)
 
@@ -76,6 +77,7 @@ def group_add_db(data):
     for msg in data:
         print(f'{msg["message_id"]} saved to db group')
         msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
+        msg['execution_id'] = get_execution_id(msg['main_folder_name'])
         gr = TgGroup.objects.create(**msg)
 
 

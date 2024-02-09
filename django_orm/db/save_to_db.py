@@ -101,3 +101,12 @@ def get_channel_id(msg_id):
     return  channel_id
 
 
+
+
+def get_execution_id(name:str):
+    return Execution.objects.get(name=name).pk
+
+
+
+
+

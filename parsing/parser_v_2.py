@@ -116,6 +116,7 @@ class Pars:
         return data
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
+
         tg_channel_id = None
         execution_id = None
         duration = None
@@ -124,6 +125,7 @@ class Pars:
         media = None
         file_url = None
         joined_messages = self.parsing()[1]
+        main_folder_name = self.parsing()[2]
         for joined_message in joined_messages:
             msg_details = joined_message['id']
 
@@ -195,7 +197,8 @@ class Pars:
                 "duration": duration,
                 "size": size,
                 'execution_id': execution_id,
-                'tg_channel_id': tg_channel_id
+                'tg_channel_id': tg_channel_id,
+                'main_folder_name': main_folder_name
             })
 
         return data

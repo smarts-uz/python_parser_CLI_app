@@ -78,6 +78,7 @@ class TgGroup(models.Model):
     size = models.CharField(max_length=10, blank=True, null=True)
     tg_channel = models.ForeignKey(TgChannel, models.DO_NOTHING, blank=True, null=True)
     execution_id = models.IntegerField(blank=True, null=True)
+    main_folder_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
