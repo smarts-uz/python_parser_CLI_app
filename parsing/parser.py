@@ -1,9 +1,6 @@
-from pprint import pprint
 
-from django_orm.main import save_to_execution
-from .functions import get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name, search_html, \
-    correct_time_data, folder_path
-from .parser_v_2 import Pars
+from .functions import (search_html, get_html, save_json, prepare_group_info, get_from_name_joined, get_from_name)
+
 
 
 # функция парсит все необходимые данные и на выходе дает список словарей со всей спарсенной информацией
@@ -204,37 +201,20 @@ def get_info(html):
 
 
 def final_result_info(path):
-
     fname_list = search_html(path)
     channel_content_list = []
     group_content_list = []
-
-    for folder in fname_list:
-        f_path = folder_path(folder)
-        parsing = Pars(folder)
-        main_folder_name = parsing.parsing()[2]
-        ready_information = parsing.joined_messages()
-        channel_content = parsing.main_msg()
+    for i in fname_list:
+        main_html = get_html(i)
+        result = get_info(main_html)
+        save_json(result)
+        prepare_info = prepare_group_info(result, i)
+        dict_reply = get_from_name_joined(result)
+        ready_information = get_from_name(prepare_info, dict_reply)
+        channel_content = result[0]
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
-
-        save_to_execution(name=main_folder_name,path=f_path,status='in_process')
-
     return [channel_content_list, group_content_list]
-
-
-
-    # for i in fname_list:
-    #     main_html = get_html(i)
-    #     result = get_info(main_html)
-    #     save_json(result)
-    #     prepare_info = prepare_group_info(result, i)
-    #     dict_reply = get_from_name_joined(result)
-    #     ready_information = get_from_name(prepare_info, dict_reply)
-    #     channel_content = result[0]
-    #     channel_content_list.append(channel_content)
-    #     group_content_list.append(ready_information)
-    # return [channel_content_list, group_content_list]
 
 
 # final_result_info('E:\SmartTech Learning Group\\2022')

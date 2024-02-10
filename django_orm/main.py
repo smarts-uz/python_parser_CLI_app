@@ -10,7 +10,7 @@ from rich import print
 sys.dont_write_bytecode = True
 from parsing.functions import correct_time_data
 from django_orm.db.models import *
-from django_orm.db.save_to_db import update_db, get_channel_id, get_execution_id
+from django_orm.db.save_to_db import update_db
 from rich import print
 from log3 import Logger
 
@@ -64,62 +64,16 @@ def group_content_db_add(list2):
         print(f'[bright_cyan]{msg}')
 
 
-
-#         ------------------------------------------
-def channel_add_db(data):
-    for msg in data:
-        msg['execution_id'] = get_execution_id(msg['path'])
-        try:
-            tg_channels = TgChannel.objects.get(**msg)
-
-        except TgChannel.DoesNotExist:
-            channel = TgChannel.objects.create(**msg)
-            print(f'{msg["message_id"]} saved to db channel')
-
-
-
-def group_add_db(data):
-    for msg in data:
-        msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
-        msg['execution_id'] = get_execution_id(msg['path'])
-        tg_groups = TgGroup.objects.filter(**msg)
-        if list(tg_groups) != []:
-            for tg_group in tg_groups:
-                print(f'this message already exists in [green]tg_groups [cyan]{tg_group.message_id}')
-        else:
-            gr = TgGroup.objects.create(**msg)
-            print(f'{msg["message_id"]} saved to db group')
-
-
-
-
-
-
-#         ------------------------------------------
 def save_data_to_db(info_list):
 
     for i in info_list[0]:
-
-        channel_add_db(i) #changes v_2
-        # channel_content_db_add(i) #old_changes
+        channel_content_db_add(i)
     for k in info_list[1]:
-
-        group_add_db(k)#changes v_2
-        # group_content_db_add(k) #old_changes
+        group_content_db_add(k)
 
 
 def update_database():
     update_db()
 
 
-def save_to_execution(name,path,status):
-    try:
-        execute = Execution.objects.get(path=path)
-        print('this path already exists!!')
-    except Execution.DoesNotExist:
-        execute = Execution.objects.create(
-            name = name,
-            path = path,
-            status = status
-        )
-        print(f'{path} saved to Execution table')
+

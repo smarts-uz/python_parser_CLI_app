@@ -21,7 +21,7 @@ def parser():
 
 @parser.command(help="Parse mhtml files from given path")
 @click.option('--path', prompt='Path of directory', help='Here you should enter the path of files to parse')
-def parsing(path):
+def old_parsing(path):
     info_list = final_result_info(path)
     save_data_to_db(info_list)
     msg = 'Successful parsing!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
