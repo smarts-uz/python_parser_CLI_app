@@ -1,5 +1,8 @@
 
 import os
+
+from version2.db_save import insert_or_get_execution
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -14,10 +17,10 @@ from log3 import Logger
 
 #3log
 current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
+
 @click.group('Parser')
 def parser():
     pass
-
 
 @parser.command(help="Parse mhtml files from given path")
 @click.option('--path', prompt='Path of directory', help='Here you should enter the path of files to parse')
@@ -47,10 +50,14 @@ def create_folders():
     statistic.log(msg);
     print(f'[green]!{msg}')
 
-@parser.command()
+@parser.command(help="Collects all messages.html files path")
+# @click.argument('path',type=str)
+# @click.argument('name',type=str)
 def collector():
-    path = input('input  path: ')
-    a = search_html(path)
+    path = input('input your path: ')
+    name = input('input your channel name: ')
+    insert_or_get_execution(path=path,name=name)
+    print(f'[cyan]Collecting end!!!!')
 
 
 try:

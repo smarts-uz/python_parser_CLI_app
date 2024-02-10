@@ -35,6 +35,7 @@ def search_message_html(path):
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.startswith('message') and file.endswith('s.html'):
+                print(f"find html file: {os.path.join(root, file)}")
                 html_files.append(os.path.join(root, file))
                 for d in dirs:dirs.remove(d)
 

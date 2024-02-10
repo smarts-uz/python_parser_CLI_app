@@ -92,9 +92,4 @@ def insert_or_get_execution(path:str,name:str):
     print(f'New count: {new_count}')
 
 
-insert_or_get_execution("h:\Exports\SmartTech Learning Group",'SmartTech Learning')
-
-#
-# end_text = 'Collecting successfully end!'
-# f = Figlet(font='doom')
-# print(f.renderText(end_text))
+# insert_or_get_execution("h:\Exports\SmartTech Learning Group",'SmartTech Learning')
