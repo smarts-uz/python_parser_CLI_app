@@ -5,7 +5,7 @@ import django
 django.setup()
 import click
 from parsing.parser import final_result_info
-from parsing.functions import logger_path
+from parsing.functions import logger_path, search_html
 from rich import print
 from django_orm.main import save_data_to_db, update_database
 from django_orm.db.save_to_db import read_group_content, read_main_folder_name
@@ -46,6 +46,11 @@ def create_folders():
     current.log(msg);
     statistic.log(msg);
     print(f'[green]!{msg}')
+
+@parser.command()
+def collector():
+    path = input('input  path: ')
+    a = search_html(path)
 
 
 try:

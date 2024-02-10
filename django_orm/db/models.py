@@ -22,6 +22,7 @@ class Execution(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
     status = models.TextField(blank=True, null=True)  # This field type is a guess.
+    current = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -81,6 +82,7 @@ class TgGroup(models.Model):
     execution_id = models.IntegerField(blank=True, null=True)
     main_folder_name = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
+    target = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

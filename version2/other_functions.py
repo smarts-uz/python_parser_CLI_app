@@ -1,3 +1,6 @@
+import os
+
+
 def file_choose(photo_url,ogg_url,video_url,file_url):
     if photo_url != None:
         file_path = photo_url
@@ -24,3 +27,15 @@ def folder_path(path):
     f_path = path.split('\\')
     f_path.pop()
     return '\\'.join(f_path)
+
+
+def search_message_html(path):
+    html_files = []
+    if '\\messages.html' in path:path = path[:-len('\\messages.html')]
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if file.startswith('message') and file.endswith('s.html'):
+                html_files.append(os.path.join(root, file))
+                for d in dirs:dirs.remove(d)
+
+    return html_files
