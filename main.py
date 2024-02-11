@@ -1,14 +1,15 @@
 
 import os
 
-from version2.db_save import insert_or_get_execution
+from django_orm.db.db_functions import get_path_by_execution_id
+from django_orm.db.db_save import insert_or_get_execution, insert_data_to_db
+from parsing.foreach_parser import parsing_foreach
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 from parsing.parser import final_result_info
-from parsing.functions import logger_path, search_html
 from rich import print
 from django_orm.main import save_data_to_db, update_database
 from django_orm.db.save_to_db import read_group_content, read_main_folder_name
@@ -58,6 +59,17 @@ def collector():
     name = input('input your channel name: ')
     insert_or_get_execution(path=path,name=name)
     print(f'[cyan]Collecting end!!!!')
+
+@parser.command()
+def parsing():
+    execution_id = int(input('execution id: '))
+    path = get_path_by_execution_id(execution_id)[1]
+    channel_name = get_path_by_execution_id(execution_id)[0]
+    parsing_data = parsing_foreach(path,execution_id,channel_name)
+    insert_data_to_db(parsing_data)
+    print(f'[green]Success')
+
+
 
 
 try:

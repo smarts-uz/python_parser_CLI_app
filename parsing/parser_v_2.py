@@ -3,13 +3,17 @@ from pprint import pprint
 
 from bs4 import BeautifulSoup
 
-from parsing.functions import file_choose, choose_duration, correct_time_data, folder_path
+from django_orm.db.db_functions import change_status_execution
+from parsing.functions import correct_time_data, search_html
+from parsing.other_functions import file_choose, choose_duration, folder_path
 
 
 class Pars:
 
-    def __init__(self, file_path):
+    def __init__(self, file_path,execution_id,channel_name):
         self.file_path = file_path
+        self.execution_id = execution_id
+        self.channel_name = channel_name
 
     def get_html(self):
 
@@ -26,20 +30,22 @@ class Pars:
         main_messages = history.find_all('div', class_='message default clearfix')
         joined_messages = history.find_all('div', class_='message default clearfix joined')
 
-        return main_messages, joined_messages, main_folder_name
+        return main_messages, joined_messages
 
     def main_msg(self):
         path = folder_path(self.file_path)
+        # path = None
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
         execution_id = None
         duration = None
         size = None
         data = []
+        data_g = []
         media = None
         file_url = None
         duration_ogg = None
         duration_video = None
-        main_folder_name = self.parsing()[2]
+
         main_messages = self.parsing()[0]
         for main_message in main_messages:
             msg_id = main_message['id'][7:]
@@ -99,8 +105,8 @@ class Pars:
 
             except:
                 reply_to_message_id = None
-
-            data.append(
+            if from_name == self.channel_name:
+                data.append(
                 {
                     "message_id": msg_id,
                     "text": text,
@@ -110,16 +116,30 @@ class Pars:
                     'reply_to_msg_id': reply_to_message_id,
                     'date': date,
                     'from_name': from_name,
-                    'main_folder_name': main_folder_name,
-                    'execution_id': execution_id,
+                    'execution_id': self.execution_id,
                     'path' : path
-                }
-            )
+                })
+            else:
+                data_g.append(
+                    {
+                        "message_id": msg_id,
+                        "content": text,
+                        "file_path": file_path,
+                        "duration": duration,
+                        "size": size,
+                        'replied_message_id': reply_to_message_id,
+                        'date': date,
+                        'execution_id': self.execution_id,
+                        'path': path,
+                    }
+                )
 
-        return data
+
+        return [data,data_g]
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
-        path = folder_path(self.file_path)
+        # path = folder_path(self.file_path)
+        path = None
         tg_channel_id = None
         execution_id = None
         duration = None
@@ -128,7 +148,7 @@ class Pars:
         media = None
         file_url = None
         joined_messages = self.parsing()[1]
-        main_folder_name = self.parsing()[2]
+
         for joined_message in joined_messages:
             msg_details = joined_message['id']
 
@@ -199,13 +219,10 @@ class Pars:
                 "file_path": file_path,
                 "duration": duration,
                 "size": size,
-                'execution_id': execution_id,
+                'execution_id': self.execution_id,
                 'tg_channel_id': tg_channel_id,
-                'main_folder_name': main_folder_name,
                 'path': path
             })
 
 
         return data
-
-

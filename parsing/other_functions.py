@@ -40,3 +40,24 @@ def search_message_html(path):
                 for d in dirs:dirs.remove(d)
 
     return html_files
+
+
+def current_html_name(html_name):
+    current = html_name.split('\\')
+    return current[-1]
+
+
+# fname_list = search_html(path)
+#     channel_content_list = []
+#     group_content_list = []
+#
+#     for folder in fname_list:
+#         f_path = folder_path(folder)
+#         parsing = Pars(folder)
+#         main_folder_name = parsing.parsing()[2]
+#         ready_information = parsing.joined_messages()
+#         channel_content = parsing.main_msg()
+#         channel_content_list.append(channel_content)
+#         group_content_list.append(ready_information)
+#
+#         save_to_execution(name=main_folder_name, path=f_path, status='in_process')

@@ -92,19 +92,9 @@ def read_main_folder_name():
             name_result.append(*i)
     return name_result
 
-def get_channel_id(msg_id):
-    try:
-       channel =  TgChannel.objects.get(message_id=msg_id)
-       channel_id = channel.pk
-    except TgChannel.DoesNotExist:
-        channel_id =  None
-    return  channel_id
 
 
 
-
-def get_execution_id(path:str):
-    return Execution.objects.get(path=path).pk
 
 
 

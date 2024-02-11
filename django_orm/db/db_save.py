@@ -1,14 +1,15 @@
 import os
+from rich import print
+from pprint import pprint
+
+from django_orm.db.db_functions import insert_or_get_channel, insert_or_get_group
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 
-
-from pyfiglet import Figlet
-from parsing.functions import search_html
-from version2.other_functions import folder_path, search_message_html
+from parsing.other_functions import folder_path, search_message_html
 from django_orm.db.models import *
-import sys
 
 
 # def smth():
@@ -41,31 +42,31 @@ import sys
 #         )
 #         print(f'{path} saved to Execution table')
 
+def insert_data_to_db(info_list):
 
-#
-# def channel_add_db(data):
-#     for msg in data:
-#         msg['execution_id'] = get_execution_id(msg['path'])
-#         try:
-#             tg_channels = TgChannel.objects.get(**msg)
-#
-#         except TgChannel.DoesNotExist:
-#             channel = TgChannel.objects.create(**msg)
-#             print(f'{msg["message_id"]} saved to db channel')
+    for i in info_list[0]:
+        channel_add_db(i)
+    for k in info_list[1]:
+        group_add_db(k)
 
 
-#
-# def group_add_db(data):
-#     for msg in data:
-#         msg["tg_channel_id"] = get_channel_id(msg['replied_message_id'])
-#         msg['execution_id'] = get_execution_id(msg['path'])
-#         tg_groups = TgGroup.objects.filter(**msg)
-#         if list(tg_groups) != []:
-#             for tg_group in tg_groups:
-#                 print(f'this message already exists in [green]tg_groups [cyan]{tg_group.message_id}')
-#         else:
-#             gr = TgGroup.objects.create(**msg)
-#             print(f'{msg["message_id"]} saved to db group')
+
+def channel_add_db(data):
+    for msg_c in data[0]:
+        insert_or_get_channel(msg_c)
+    for msg_g in data[1]:
+        insert_or_get_group(msg_g)
+
+
+
+
+
+
+
+def group_add_db(data):
+    for msg in data:
+        insert_or_get_group(msg)
+
 
 
 def insert_or_get_execution(path:str,name:str):
