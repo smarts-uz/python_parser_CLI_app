@@ -39,6 +39,27 @@ def update_execution_current(id,current):
     print(f'Current parsing is: {current}')
 
 
+# def get_channel_id(msg_id,ex_id):
+#     global tg_channel_id
+#     tg_channels = TgChannel.objects.filter(message_id=msg_id, execution_id=ex_id)
+#     if list(tg_channels) != []:
+#         for tg_channel in tg_channels:
+#             print(tg_channel.text)
+#             tg_channel_id = tg_channel.pk
+#             print(tg_channel_id)
+#             return tg_channel_id
+#     else:
+#         messages = TgGroup.objects.filter(message_id=msg_id, execution_id=ex_id)
+#         for message in messages:
+#             rpl_msg_id = message.replied_message_id
+#             t_channels = TgGroup.objects.filter(message_id=rpl_msg_id, execution_id=ex_id)
+#             if list(t_channels) != []:
+#                 for t_channel in t_channels:
+#                     tg_channel_id = t_channel.tg_channel_id
+#                     return tg_channel_id
+#             else:
+#                 print('recall function')
+#                 get_channel_id(rpl_msg_id, ex_id)
 
 def get_channel_id(msg_id):
     global tg_channel_id
@@ -61,13 +82,7 @@ def get_channel_id(msg_id):
 
     return tg_channel_id
 
-# def get_channel_id(msg_id):
-#     try:
-#        channel =  TgChannel.objects.get(message_id=msg_id)
-#        channel_id = channel.pk
-#     except TgChannel.DoesNotExist:
-#         channel_id =  None
-#     return  channel_id
+
 
 
 
@@ -87,4 +102,4 @@ def insert_or_get_group(data):
         print(f'[{data["content"]}] already exist with id:{tg_group.pk}')
     except TgGroup.DoesNotExist:
         tg_group = TgGroup.objects.create(**data)
-        print(f'{data["content"]}] saved to db with id:{tg_group.pk} ')
+        print(f'[{data["content"]}] saved to db with id:{tg_group.pk} ')

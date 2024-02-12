@@ -1,13 +1,11 @@
 import os
-from rich import print
-from pprint import pprint
-
-from django_orm.db.db_functions import insert_or_get_channel, insert_or_get_group
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
-
+from rich import print
+from pprint import pprint
+from django_orm.db.db_functions import insert_or_get_channel, insert_or_get_group
 from parsing.other_functions import folder_path, search_message_html
 from django_orm.db.models import *
 

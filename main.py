@@ -1,21 +1,21 @@
-
 import os
+import sys
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
+import django
+django.setup()
+import click
 
 from django_orm.db.db_functions import get_path_by_execution_id
 from django_orm.db.db_save import insert_or_get_execution, insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
-import django
-django.setup()
-import click
 from parsing.parser import final_result_info
 from rich import print
 from django_orm.main import save_data_to_db, update_database
 from django_orm.db.save_to_db import read_group_content, read_main_folder_name
 from structure_foldering.structuring_folder import create_dirs_all
 from log3 import Logger
-
+import subprocess
 #3log
 current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
@@ -61,12 +61,20 @@ def collector(path,name):
 @parser.command()
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
-    # execution_id = int(input('execution id: '))
-    path = get_path_by_execution_id(ex_id)[1]
-    channel_name = get_path_by_execution_id(ex_id)[0]
-    parsing_data = parsing_foreach(path,ex_id,channel_name)
-    insert_data_to_db(parsing_data)
-    print(f'[green]Success')
+    try:
+        path = get_path_by_execution_id(ex_id)[1]
+        channel_name = get_path_by_execution_id(ex_id)[0]
+        parsing_data = parsing_foreach(path,ex_id,channel_name)
+        insert_data_to_db(parsing_data)
+        print(f'[green]Success')
+        return sys.exit(100)
+    except Exception as e:
+        print(e)
+
+@parser.command()
+def execute():
+    ad = subprocess.run(['python',f'main.py parsing --ex_id={id}'])
+    # print(ad.returncode)
 
 
 
