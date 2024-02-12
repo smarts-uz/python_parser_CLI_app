@@ -52,20 +52,19 @@ def create_folders():
     print(f'[green]!{msg}')
 
 @parser.command(help="Collects all messages.html files path")
-# @click.argument('path',type=str)
-# @click.argument('name',type=str)
-def collector():
-    path = input('input your path: ')
-    name = input('input your channel name: ')
+@click.option('--path',help='Html files folder path')
+@click.option('--name',help='Channel name')
+def collector(path,name):
     insert_or_get_execution(path=path,name=name)
     print(f'[cyan]Collecting end!!!!')
 
 @parser.command()
-def parsing():
-    execution_id = int(input('execution id: '))
-    path = get_path_by_execution_id(execution_id)[1]
-    channel_name = get_path_by_execution_id(execution_id)[0]
-    parsing_data = parsing_foreach(path,execution_id,channel_name)
+@click.option('--ex_id',help='Execution id')
+def parsing(ex_id):
+    # execution_id = int(input('execution id: '))
+    path = get_path_by_execution_id(ex_id)[1]
+    channel_name = get_path_by_execution_id(ex_id)[0]
+    parsing_data = parsing_foreach(path,ex_id,channel_name)
     insert_data_to_db(parsing_data)
     print(f'[green]Success')
 
