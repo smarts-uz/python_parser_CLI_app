@@ -1,11 +1,15 @@
 import os
 import sys
+
+from process_cmdline import cmd_process
+from run import run_parsing
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 
-from django_orm.db.db_functions import get_path_by_execution_id
+from django_orm.db.db_functions import get_path_by_execution_id, get_all_execution_status_pk
 from django_orm.db.db_save import insert_or_get_execution, insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 
@@ -64,20 +68,45 @@ def parsing(ex_id):
     try:
         path = get_path_by_execution_id(ex_id)[1]
         channel_name = get_path_by_execution_id(ex_id)[0]
-        parsing_data = parsing_foreach(path,ex_id,channel_name)
+        parsing_data = parsing_foreach(path, ex_id, channel_name)
         save_info = insert_data_to_db(parsing_data)
         channel_count = save_info[0]
         group_count = save_info[1]
         print(f'[green]Success')
         print(f'[cyan]Channel: [blue]exist:{channel_count[0]}, [green]new:{channel_count[1]}')
         print(f'[cyan]Group: [blue]exist:{group_count[0]}, [green]new:{group_count[1]}')
+        # while True:
+        #     print('123')
     except Exception as e:
         print(e)
 
+
+
+
+
 @parser.command()
 def execute():
-    ad = subprocess.run(['python',f'main.py parsing --ex_id={id}'])
-    # print(ad.returncode)
+    get_process = cmd_process()
+    executions =get_all_execution_status_pk()
+    for exe in executions:
+        if exe['status'] == 'parsing_process' or exe['status'] == 'new':
+            print(exe)
+            print(get_process)
+            if get_process != None and get_process[-1].split('=')[1] == str(exe['pk']):
+                print('This parsing is already running please wait until end!!!')
+            else:
+                pars = run_parsing(exe['pk'])
+                if pars==0:
+                    print('ok')
+                else:
+                    print('warning! problem')
+
+
+
+
+
+    else:
+        print('parsing is starting')
 
 
 

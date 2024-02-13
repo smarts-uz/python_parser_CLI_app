@@ -5,7 +5,7 @@ import django
 django.setup()
 from rich import print
 from pprint import pprint
-from django_orm.db.db_functions import insert_or_get_channel, insert_or_get_group
+from django_orm.db.db_functions import insert_or_get_channel, insert_or_get_group, change_status_execution
 from parsing.other_functions import folder_path, search_message_html
 from django_orm.db.models import *
 
@@ -54,10 +54,12 @@ def insert_data_to_db(info_list):
         group = insert_or_get_group(data_g)
         exist_g = group[0]
         new_g = group[1]
+        ex_id= group[2]
         group_count[0]+=exist_g
         group_count[1]+=new_g
 
-
+    if ex_id !=None:
+        change_status_execution(id=ex_id,parsing_ok=True)
     return channel_count,group_count
 
 

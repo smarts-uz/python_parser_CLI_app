@@ -4,8 +4,6 @@ import django
 django.setup()
 from .models import *
 
-def get_all_path_from_collector():
-    pass
 
 def get_path_by_execution_id(id):
     execution = Execution.objects.get(pk=id)
@@ -80,9 +78,16 @@ def insert_or_get_channel(data_c):
 def insert_or_get_group(data_g):
     exist = 0
     new = 0
+    ex_id = None
     for data in data_g.values():
+        ex_id = data['execution_id']
+
         if data['replied_message_id'] !=None:
-            data["tg_channel_id"] = get_channel_id(data['replied_message_id'])
+            try:
+                data["tg_channel_id"] = get_channel_id(data['replied_message_id'])
+            except:
+                print(data['message_details'], data['replied_message_details'])
+                data['tg_channel_id'] = None
         try:
             tg_group = TgGroup.objects.get(**data)
             exist += 1
@@ -91,4 +96,8 @@ def insert_or_get_group(data_g):
             tg_group = TgGroup.objects.create(**data)
             new += 1
             print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ')
-    return exist, new
+    return exist, new,ex_id
+
+def get_all_execution_status_pk():
+    execution = Execution.objects.values('pk','status','name')
+    return list(execution)
