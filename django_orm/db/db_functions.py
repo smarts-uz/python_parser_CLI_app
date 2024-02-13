@@ -63,20 +63,32 @@ def get_channel_id(msg_id):
 
 
 
-def insert_or_get_channel(data):
-    try:
-        tg_channel = TgChannel.objects.get(**data)
-        print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk}')
-    except TgChannel.DoesNotExist:
-        channel = TgChannel.objects.create(**data)
-        print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ')
+def insert_or_get_channel(data_c):
+    exist = 0
+    new = 0
+    for data in data_c.values():
+        try:
+            tg_channel = TgChannel.objects.get(**data)
+            exist+=1
+            print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk}')
+        except TgChannel.DoesNotExist:
+            channel = TgChannel.objects.create(**data)
+            new +=1
+            print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ')
+    return exist,new
 
-def insert_or_get_group(data):
-    if data['replied_message_id'] !=None:
-        data["tg_channel_id"] = get_channel_id(data['replied_message_id'])
-    try:
-        tg_group = TgGroup.objects.get(**data)
-        print(f'[{data["content"]}] already exist with group_id:{tg_group.pk}')
-    except TgGroup.DoesNotExist:
-        tg_group = TgGroup.objects.create(**data)
-        print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ')
+def insert_or_get_group(data_g):
+    exist = 0
+    new = 0
+    for data in data_g.values():
+        if data['replied_message_id'] !=None:
+            data["tg_channel_id"] = get_channel_id(data['replied_message_id'])
+        try:
+            tg_group = TgGroup.objects.get(**data)
+            exist += 1
+            print(f'[{data["content"]}] already exist with group_id:{tg_group.pk}')
+        except TgGroup.DoesNotExist:
+            tg_group = TgGroup.objects.create(**data)
+            new += 1
+            print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ')
+    return exist, new

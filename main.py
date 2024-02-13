@@ -65,9 +65,12 @@ def parsing(ex_id):
         path = get_path_by_execution_id(ex_id)[1]
         channel_name = get_path_by_execution_id(ex_id)[0]
         parsing_data = parsing_foreach(path,ex_id,channel_name)
-        insert_data_to_db(parsing_data)
+        save_info = insert_data_to_db(parsing_data)
+        channel_count = save_info[0]
+        group_count = save_info[1]
         print(f'[green]Success')
-        return sys.exit(100)
+        print(f'[cyan]Channel: [blue]exist:{channel_count[0]}, [green]new:{channel_count[1]}')
+        print(f'[cyan]Group: [blue]exist:{group_count[0]}, [green]new:{group_count[1]}')
     except Exception as e:
         print(e)
 

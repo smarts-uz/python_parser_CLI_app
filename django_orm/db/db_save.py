@@ -41,19 +41,34 @@ from django_orm.db.models import *
 #         print(f'{path} saved to Execution table')
 
 def insert_data_to_db(info_list):
+    channel_count = [0,0]
+    group_count = [0,0]
+    for data_c in info_list[0][0]:
+        channel = insert_or_get_channel(data_c)
+        exist_c = channel[0]
+        new_c = channel[1]
+        channel_count[0]+=exist_c
+        channel_count[1]+=new_c
 
-    for i in info_list[0]:
-        channel_add_db(i)
-    for k in info_list[1]:
-        group_add_db(k)
+    for data_g in info_list[1][0]:
+        group = insert_or_get_group(data_g)
+        exist_g = group[0]
+        new_g = group[1]
+        group_count[0]+=exist_g
+        group_count[1]+=new_g
+
+
+    return channel_count,group_count
 
 
 
-def channel_add_db(data):
-    for msg_c in data[0]:
+
+
+
+def channel_add_db(data:dict):
+    for msg_c in data:
+        print(msg_c['message_detail'])
         insert_or_get_channel(msg_c)
-    for msg_g in data[1]:
-        insert_or_get_group(msg_g)
 
 
 
@@ -61,9 +76,13 @@ def channel_add_db(data):
 
 
 
-def group_add_db(data):
-    for msg in data:
-        insert_or_get_group(msg)
+
+def group_add_db(data:dict):
+
+    # for msg in data:
+    #     print(msg,'123')
+    #     # print(msg['message_detail'])
+    insert_or_get_group(data)
 
 
 
