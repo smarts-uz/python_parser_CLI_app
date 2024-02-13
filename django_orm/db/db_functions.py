@@ -38,29 +38,6 @@ def update_execution_current(id,current):
     execute.save()
     print(f'Current parsing is: {current}')
 
-
-# def get_channel_id(msg_id,ex_id):
-#     global tg_channel_id
-#     tg_channels = TgChannel.objects.filter(message_id=msg_id, execution_id=ex_id)
-#     if list(tg_channels) != []:
-#         for tg_channel in tg_channels:
-#             print(tg_channel.text)
-#             tg_channel_id = tg_channel.pk
-#             print(tg_channel_id)
-#             return tg_channel_id
-#     else:
-#         messages = TgGroup.objects.filter(message_id=msg_id, execution_id=ex_id)
-#         for message in messages:
-#             rpl_msg_id = message.replied_message_id
-#             t_channels = TgGroup.objects.filter(message_id=rpl_msg_id, execution_id=ex_id)
-#             if list(t_channels) != []:
-#                 for t_channel in t_channels:
-#                     tg_channel_id = t_channel.tg_channel_id
-#                     return tg_channel_id
-#             else:
-#                 print('recall function')
-#                 get_channel_id(rpl_msg_id, ex_id)
-
 def get_channel_id(msg_id):
     global tg_channel_id
     try:
@@ -89,17 +66,17 @@ def get_channel_id(msg_id):
 def insert_or_get_channel(data):
     try:
         tg_channel = TgChannel.objects.get(**data)
-        print(f'[{data["text"]}] already exist with id:{tg_channel.pk}')
+        print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk}')
     except TgChannel.DoesNotExist:
         channel = TgChannel.objects.create(**data)
-        print(f'[{data["text"]}] saved to db with id:{channel.pk} ')
+        print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ')
 
 def insert_or_get_group(data):
     if data['replied_message_id'] !=None:
         data["tg_channel_id"] = get_channel_id(data['replied_message_id'])
     try:
         tg_group = TgGroup.objects.get(**data)
-        print(f'[{data["content"]}] already exist with id:{tg_group.pk}')
+        print(f'[{data["content"]}] already exist with group_id:{tg_group.pk}')
     except TgGroup.DoesNotExist:
         tg_group = TgGroup.objects.create(**data)
-        print(f'[{data["content"]}] saved to db with id:{tg_group.pk} ')
+        print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ')

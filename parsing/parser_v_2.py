@@ -35,7 +35,7 @@ class Pars:
     def main_msg(self):
         path = folder_path(self.file_path)
         # path = None
-        global ogg_url, photo_url, video_url, duration_ogg, duration_video
+        global ogg_url, photo_url, video_url, duration_ogg, duration_video,reply_to_details
         execution_id = None
         duration = None
         size = None
@@ -48,6 +48,7 @@ class Pars:
 
         main_messages = self.parsing()[0]
         for main_message in main_messages:
+            msg_details = main_message['id']
             msg_id = main_message['id'][7:]
             message_body = main_message.find('div', class_='body')
             original_date = message_body.find('div', class_='pull_right date details')['title']
@@ -101,32 +102,45 @@ class Pars:
             duration = choose_duration(duration_ogg, duration_video)
 
             try:
+                reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
                 reply_to_message_id = message_body.find('div', class_='reply_to details').find('a')['href'][14:]
 
             except:
+                reply_to_details = None
                 reply_to_message_id = None
+
+            if msg_id!=None:
+                msg_id = f'{self.execution_id}{msg_id}'
+
+            if reply_to_message_id !=None:
+                reply_to_message_id = f'{self.execution_id}{reply_to_message_id}'
             if from_name == self.channel_name:
                 data.append(
                 {
                     "message_id": msg_id,
+                    "message_details": msg_details,
                     "text": text,
                     "file_path": file_path,
                     "duration": duration,
                     "size": size,
                     'reply_to_msg_id': reply_to_message_id,
+                    "replied_message_details": reply_to_details,
                     'date': date,
                     'from_name': from_name,
                     'execution_id': self.execution_id,
                     'path' : path
                 })
+
             else:
                 data_g.append(
                     {
                         "message_id": msg_id,
+                        "message_details": msg_details,
                         "content": text,
                         "file_path": file_path,
                         "duration": duration,
                         "size": size,
+                        "replied_message_details": reply_to_details,
                         'replied_message_id': reply_to_message_id,
                         'date': date,
                         'execution_id': self.execution_id,
@@ -138,8 +152,7 @@ class Pars:
         return [data,data_g]
     def joined_messages(self):
         global ogg_url, photo_url, video_url, duration_ogg, duration_video
-        # path = folder_path(self.file_path)
-        path = None
+        path = folder_path(self.file_path)
         tg_channel_id = None
         execution_id = None
         duration = None
@@ -209,6 +222,11 @@ class Pars:
 
             file_path = file_choose(photo_url, ogg_url, video_url, file_url)
             duration = choose_duration(duration_ogg, duration_video)
+
+            if msg_id != None:
+                msg_id = f'{self.execution_id}{msg_id}'
+            if reply_to_message_id != None:
+                reply_to_message_id = f'{self.execution_id}{reply_to_message_id}'
             data.append({
                 'message_id': msg_id,
                 'message_details': msg_details,

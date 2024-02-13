@@ -62,6 +62,8 @@ class TgChannel(models.Model):
     reply_to_msg_id = models.IntegerField(blank=True, null=True)
     duration = models.CharField(max_length=50, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
+    message_details = models.CharField(max_length=255, blank=True, null=True)
+    replied_message_details = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
