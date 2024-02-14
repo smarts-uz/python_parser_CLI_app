@@ -1,4 +1,7 @@
 import os
+
+import natsort
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -100,4 +103,5 @@ def insert_or_get_group(data_g):
 
 def get_all_execution_status_pk():
     execution = Execution.objects.values('pk','status','name')
-    return list(execution)
+    return natsort.os_sorted(list(execution))
+

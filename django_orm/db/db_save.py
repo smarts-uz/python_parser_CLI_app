@@ -97,7 +97,7 @@ def insert_or_get_execution(path:str,name:str):
         try:
             execute = Execution.objects.get(path=pth)
             exist_count += 1
-            print(f'[{pth}] this path already exist with [blue]id: {execute.pk} and [green]status: {execute.status} ')
+            print(f'{pth} : this path already exist with [blue]id: {execute.pk} and [green]status: {execute.status} ')
         except Execution.DoesNotExist:
 
             execute = Execution.objects.create(
@@ -106,6 +106,7 @@ def insert_or_get_execution(path:str,name:str):
             status='new'
         )
             new_count += 1
+            print(pth)
             print(f'{pth} : new added to db with id: {execute.pk}')
 
     print(f'Exist count: {exist_count}')

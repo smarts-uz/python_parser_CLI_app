@@ -55,6 +55,7 @@ def search_message_html(path):
         for file in files:
             if file.startswith('message') and file.endswith('s.html'):
                 html_files.append(os.path.join(root, file))
+                print(f'{os.path.join(root, file)} : directory found!!')
                 for d in dirs:dirs.remove(d)
 
     return os_sorted(html_files)
