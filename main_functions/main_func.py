@@ -12,8 +12,8 @@ def main_execute(exe):
         get_proces = cmd_process()
         print(exe)
         if get_proces !=None:
-            print(get_proces)
             if f'--ex_id={exe['pk']}' in get_proces:
+                print(get_proces)
                 print(f'This execution {exe['pk']} is already running please wait until end!!!')
             else:
                 print(f'parsing is starting ex_id: {exe['pk']}')
