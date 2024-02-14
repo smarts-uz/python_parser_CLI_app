@@ -7,4 +7,3 @@ def run_parsing(ex_id):
     code = pros.wait()
     return code
 
-

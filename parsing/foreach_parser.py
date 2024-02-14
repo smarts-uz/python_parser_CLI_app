@@ -14,7 +14,6 @@ def parsing_foreach(path,execution_id,channel_name):
         update_execution_current(id=execution_id,current=current_html)
         parsing = Pars(folder,execution_id,channel_name)
         ready_information = parsing.main_msg()[1]
-
         channel_content = parsing.main_msg()[0]
         channel_content_list.append(channel_content)
         group_content_list.append(ready_information)
