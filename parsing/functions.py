@@ -5,6 +5,8 @@ from datetime import datetime
 import pytz
 import os
 
+from natsort import natsorted
+
 
 # Здесь происходит первый парсинг через библиотеку BeautifulSoup
 def get_html(file_path):
@@ -193,6 +195,8 @@ def prepare_name_info(dict_info, list_name):
             if t in k:
                 result_dict[t] = from_name
     return result_dict
+
+
 
 
 def search_html(path):

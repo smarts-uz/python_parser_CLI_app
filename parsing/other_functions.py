@@ -1,6 +1,23 @@
 import os
 
+
+from natsort import os_sorted
+
 from parsing.functions import correct_time_data
+
+def html_search(path):
+    html_files = []
+    if '\\messages.html' in path:path = path[:-len('\\messages.html')]
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            if file.startswith('message') and file.endswith('.html'):
+                file_m = os.path.join(root, file)
+                html_files.append(os.path.join(root, file))
+                for d in dirs:dirs.remove(d)
+
+    return os_sorted(html_files)
+2
+
 
 
 def file_choose(photo_url,ogg_url,video_url,file_url):
@@ -37,11 +54,10 @@ def search_message_html(path):
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.startswith('message') and file.endswith('s.html'):
-                print(f"find html file: {os.path.join(root, file)}")
                 html_files.append(os.path.join(root, file))
                 for d in dirs:dirs.remove(d)
 
-    return html_files
+    return os_sorted(html_files)
 
 
 def current_html_name(html_name):
