@@ -82,6 +82,7 @@ class Pars:
                         'date': c_msg['date'],
                         'execution_id': self.execution_id,
                         'path': path,
+                        'channel_name' : self.channel_name
                     }}
                 )
 
@@ -101,7 +102,8 @@ class Pars:
                     "size": j_data['duration'],
                     'execution_id': self.execution_id,
                     'tg_channel_id': tg_channel_id,
-                    'path': path
+                    'path': path,
+                    'channel_name': self.channel_name
                 }}
             )
 

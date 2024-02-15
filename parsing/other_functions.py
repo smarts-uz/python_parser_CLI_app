@@ -16,7 +16,7 @@ def html_search(path):
                 for d in dirs:dirs.remove(d)
 
     return os_sorted(html_files)
-2
+
 
 
 
@@ -129,11 +129,6 @@ def clear_fix_message(main_message,execution_id,path):
         reply_to_details = None
         reply_to_message_id = None
 
-    if msg_id != None:
-        msg_id = f'{execution_id}{msg_id}'
-
-    if reply_to_message_id != None:
-        reply_to_message_id = f'{execution_id}{reply_to_message_id}'
     return {
         "message_id": msg_id,
         "message_details": msg_details,
@@ -208,11 +203,6 @@ def joined_msg(joined_message,execution_id,path):
 
     file_path = file_choose(photo_url, ogg_url, video_url, file_url)
     duration = choose_duration(duration_ogg, duration_video)
-
-    if msg_id != None:
-        msg_id = f'{execution_id}{msg_id}'
-    if reply_to_message_id != None:
-        reply_to_message_id = f'{execution_id}{reply_to_message_id}'
 
     return {
         'message_id': msg_id,

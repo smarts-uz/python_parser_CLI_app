@@ -1,3 +1,5 @@
+import natsort
+
 from django_orm.db.db_functions import change_status_execution, update_execution_current
 from parsing.functions import search_html
 from parsing.other_functions import current_html_name, html_search
@@ -9,9 +11,8 @@ def parsing_foreach(path,execution_id,channel_name):
     channel_content_list = []
     group_content_list = []
     change_status_execution(id=execution_id, parsing_process=True)
-    for folder in sorted(fname_list):
+    for folder in natsort.os_sorted(fname_list):
         current_html = current_html_name(folder)
-        print(f'current html :{current_html}')
         update_execution_current(id=execution_id,current=current_html)
         parsing = Pars(folder,execution_id,channel_name)
         ready_information = parsing.main_msg()[1]

@@ -10,36 +10,6 @@ from parsing.other_functions import folder_path, search_message_html
 from django_orm.db.models import *
 
 
-# def smth():
-#     fname_list = search_html(path)
-#     channel_content_list = []
-#     group_content_list = []
-#
-#     for folder in fname_list:
-#         f_path = folder_path(folder)
-#         parsing = Pars(folder)
-#         main_folder_name = parsing.parsing()[2]
-#         ready_information = parsing.joined_messages()
-#         channel_content = parsing.main_msg()
-#         channel_content_list.append(channel_content)
-#         group_content_list.append(ready_information)
-#
-#         save_to_execution(name=main_folder_name, path=f_path, status='in_process')
-#
-#     return [channel_content_list, group_content_list]
-#
-# def save_to_execution(name,path,status):
-#     try:
-#         execute = Execution.objects.get(path=path)
-#         print('this path already exists!!')
-#     except Execution.DoesNotExist:
-#         execute = Execution.objects.create(
-#             name = name,
-#             path = path,
-#             status = status
-#         )
-#         print(f'{path} saved to Execution table')
-
 def insert_data_to_db(info_list):
     channel_count = [0,0]
     group_count = [0,0]

@@ -1,5 +1,4 @@
 import os
-import sys
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -7,11 +6,8 @@ django.setup()
 import click
 
 from main_functions.main_func import main_execute, main_parsing
-from process_cmdline import cmd_process
-from run import run_parsing
-from django_orm.db.db_functions import get_path_by_execution_id, get_all_execution_status_pk
-from django_orm.db.db_save import insert_or_get_execution, insert_data_to_db
-from parsing.foreach_parser import parsing_foreach
+from django_orm.db.db_functions import get_all_execution_status_pk
+from django_orm.db.db_save import insert_or_get_execution
 
 from parsing.parser import final_result_info
 from rich import print
@@ -19,7 +15,7 @@ from django_orm.main import save_data_to_db, update_database
 from django_orm.db.save_to_db import read_group_content, read_main_folder_name
 from structure_foldering.structuring_folder import create_dirs_all
 from log3 import Logger
-import subprocess
+
 #3log
 current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
@@ -79,7 +75,9 @@ def execute():
     for exe in executions:
         e = main_execute(exe)
 
-
+@parser.command()
+def channel_empty():
+    pass
 
 
 

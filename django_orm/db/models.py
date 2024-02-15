@@ -85,6 +85,7 @@ class TgGroup(models.Model):
     main_folder_name = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
     target = models.CharField(max_length=255, blank=True, null=True)
+    channel_name = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

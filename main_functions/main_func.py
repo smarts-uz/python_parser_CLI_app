@@ -1,10 +1,8 @@
-import time
-
-from django_orm.db.db_functions import get_path_by_execution_id
+from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
-from process_cmdline import cmd_process
-from run import run_parsing
+from main_functions.process_cmdline import cmd_process
+from main_functions.run import run_parsing
 
 
 def main_execute(exe):
@@ -53,3 +51,9 @@ def main_parsing(ex_id):
     except Exception as e:
         print(e)
 
+def main_empty_channel():
+    empties = get_all_none_channel_id_from_group()
+    for empty in empties:
+        print(empty)
+        tg_channel_id = get_channel_id(empty['replied_message_id'])
+        print(tg_channel_id,'empty_channel')
