@@ -1,3 +1,5 @@
+from pprint import pprint
+
 import natsort
 
 from django_orm.db.db_functions import change_status_execution, update_execution_current
@@ -12,8 +14,6 @@ def parsing_foreach(path,execution_id,channel_name):
     group_content_list = []
     change_status_execution(id=execution_id, parsing_process=True)
     for folder in natsort.os_sorted(fname_list):
-        current_html = current_html_name(folder)
-        update_execution_current(id=execution_id,current=current_html)
         parsing = Pars(folder,execution_id,channel_name)
         ready_information = parsing.main_msg()[1]
         channel_content = parsing.main_msg()[0]

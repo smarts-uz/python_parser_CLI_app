@@ -37,7 +37,6 @@ def update_execution_current(id,current):
     execute = Execution.objects.get(pk=id)
     execute.current = current
     execute.save()
-    print(f'Current parsing is: {current}')
 
 
 def get_channel_id(msg_id,channel_name):
@@ -59,7 +58,8 @@ def get_channel_id(msg_id,channel_name):
             except:
                 rpl_msg_id = None
             if rpl_msg_id == None and channel_id == None:
-                print(f'This is parent message {tg_group.values_list('message_id', flat=True)[0]} of {msg_id}')
+                print('This is parent message')
+                # print(f'This is parent message {tg_group.values_list('pk', flat=True)[0]} of {msg_id}')
             elif rpl_msg_id != None and channel_id == None:
                 get_channel_id(msg_id=rpl_msg_id, channel_name=channel_name)
             else:
@@ -91,8 +91,8 @@ def insert_or_get_group(data_g):
     new = 0
     ex_id = None
     for data in data_g.values():
+        update_execution_current(id=data['execution_id'], current=data['html'])
         ex_id = data['execution_id']
-
         if data['replied_message_id'] !=None:
             try:
                 data["tg_channel_id"] = get_channel_id(data['replied_message_id'],data['channel_name'])
@@ -114,7 +114,7 @@ def get_all_execution_status_pk():
     return natsort.os_sorted(list(execution))
 
 def get_all_none_channel_id_from_group():
-    groups = TgGroup.objects.values('pk','message_id','replied_message_id','execution_id').filter(replied_message_id__isnull=False)
+    groups = TgGroup.objects.values('pk','message_id','replied_message_id','execution_id','channel_name').filter(replied_message_id__isnull=False,tg_channel_id__isnull=True)
     return natsort.os_sorted(list(groups))
 
 

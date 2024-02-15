@@ -5,7 +5,7 @@ import django
 django.setup()
 import click
 
-from main_functions.main_func import main_execute, main_parsing
+from main_functions.main_func import main_execute, main_parsing, main_empty_channel
 from django_orm.db.db_functions import get_all_execution_status_pk
 from django_orm.db.db_save import insert_or_get_execution
 
@@ -77,7 +77,8 @@ def execute():
 
 @parser.command()
 def channel_empty():
-    pass
+    main_empty_channel()
+    print('Checking channel_id end!')
 
 
 

@@ -13,20 +13,23 @@ from django_orm.db.models import *
 def insert_data_to_db(info_list):
     channel_count = [0,0]
     group_count = [0,0]
-    for data_c in info_list[0][0]:
-        channel = insert_or_get_channel(data_c)
-        exist_c = channel[0]
-        new_c = channel[1]
-        channel_count[0]+=exist_c
-        channel_count[1]+=new_c
+    for data_ch in info_list[0]:
+        for data_c in data_ch:
+            channel = insert_or_get_channel(data_c)
+            exist_c = channel[0]
+            new_c = channel[1]
+            channel_count[0]+=exist_c
+            channel_count[1]+=new_c
 
-    for data_g in info_list[1][0]:
-        group = insert_or_get_group(data_g)
-        exist_g = group[0]
-        new_g = group[1]
-        ex_id= group[2]
-        group_count[0]+=exist_g
-        group_count[1]+=new_g
+    for data_gr in info_list[1]:
+        for data_g in data_gr:
+            print(data_g)
+            group = insert_or_get_group(data_g)
+            exist_g = group[0]
+            new_g = group[1]
+            ex_id= group[2]
+            group_count[0]+=exist_g
+            group_count[1]+=new_g
 
     if ex_id !=None:
         change_status_execution(id=ex_id,parsing_ok=True)

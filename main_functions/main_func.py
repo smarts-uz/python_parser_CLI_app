@@ -1,3 +1,10 @@
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
+import django
+django.setup()
+from django_orm.db.models import *
+
+
 from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
@@ -54,6 +61,13 @@ def main_parsing(ex_id):
 def main_empty_channel():
     empties = get_all_none_channel_id_from_group()
     for empty in empties:
-        print(empty)
-        tg_channel_id = get_channel_id(empty['replied_message_id'])
-        print(tg_channel_id,'empty_channel')
+        channel_id = get_channel_id(msg_id=empty['replied_message_id'],channel_name=empty['channel_name'])
+        gr = TgGroup.objects.get(pk=empty['pk'])
+        gr.channel_id = channel_id
+        if channel_id != None:
+            print(f'id = {empty['pk']}\'s channel_id updated = {channel_id} ')
+        else:
+            print(f' {empty['pk']} Channel id not found')
+
+
+# main_empty_channel()

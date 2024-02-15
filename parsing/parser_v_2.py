@@ -3,9 +3,10 @@ from pprint import pprint
 
 from bs4 import BeautifulSoup
 
-from django_orm.db.db_functions import change_status_execution
+from django_orm.db.db_functions import change_status_execution, update_execution_current
 from parsing.functions import correct_time_data, search_html
-from parsing.other_functions import file_choose, choose_duration, folder_path, clear_fix_message, joined_msg
+from parsing.other_functions import file_choose, choose_duration, folder_path, clear_fix_message, joined_msg, \
+    current_html_name
 
 
 class Pars:
@@ -33,6 +34,8 @@ class Pars:
         return main_messages, joined_messages
 
     def main_msg(self):
+        current_html = current_html_name(self.file_path)
+
         path = folder_path(self.file_path)
         # path = None
         global ogg_url, photo_url, video_url, duration_ogg, duration_video,reply_to_details
@@ -51,6 +54,7 @@ class Pars:
         joined_messages = self.parsing()[1]
         for main_message in main_messages:
             c_msg = clear_fix_message(main_message=main_message,execution_id=self.execution_id,path=path)
+            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']}')
             if c_msg['from_name'] == self.channel_name:
                 data.append(
                 {c_msg['message_id']:{
@@ -82,13 +86,16 @@ class Pars:
                         'date': c_msg['date'],
                         'execution_id': self.execution_id,
                         'path': path,
-                        'channel_name' : self.channel_name
+                        'channel_name' : self.channel_name,
+                        'html' : current_html
                     }}
                 )
 
 
         for joined_message in joined_messages:
             j_data = joined_msg(joined_message,self.execution_id,path)
+            print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']}')
+
             data_g.append(
                 {j_data['message_id']:{
                     'message_id': j_data['message_id'],
@@ -103,7 +110,8 @@ class Pars:
                     'execution_id': self.execution_id,
                     'tg_channel_id': tg_channel_id,
                     'path': path,
-                    'channel_name': self.channel_name
+                    'channel_name': self.channel_name,
+                    'html': current_html
                 }}
             )
 
