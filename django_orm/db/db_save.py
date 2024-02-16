@@ -23,7 +23,6 @@ def insert_data_to_db(info_list):
 
     for data_gr in info_list[1]:
         for data_g in data_gr:
-            print(data_g)
             group = insert_or_get_group(data_g)
             exist_g = group[0]
             new_g = group[1]
@@ -44,9 +43,6 @@ def channel_add_db(data:dict):
     for msg_c in data:
         print(msg_c['message_detail'])
         insert_or_get_channel(msg_c)
-
-
-
 
 
 

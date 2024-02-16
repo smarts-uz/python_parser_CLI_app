@@ -48,7 +48,8 @@ def main_parsing(ex_id):
     try:
         path = get_path_by_execution_id(ex_id)[1]
         channel_name = get_path_by_execution_id(ex_id)[0]
-        parsing_data = parsing_foreach(path, ex_id, channel_name)
+        current = get_path_by_execution_id(ex_id)[2]
+        parsing_data = parsing_foreach(path=path,execution_id=ex_id,channel_name=channel_name,current_html=current)
         save_info = insert_data_to_db(parsing_data)
         channel_count = save_info[0]
         group_count = save_info[1]

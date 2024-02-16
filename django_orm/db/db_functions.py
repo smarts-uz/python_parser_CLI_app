@@ -10,7 +10,7 @@ from .models import *
 
 def get_path_by_execution_id(id):
     execution = Execution.objects.get(pk=id)
-    return execution.name , execution.path
+    return execution.name , execution.path, execution.current
 
 def change_status_execution(id,parsing_process=False,parsing_ok=False,filemove_process=False,completed=False):
     execution = Execution.objects.get(pk=id)
