@@ -54,7 +54,7 @@ class Pars:
         joined_messages = self.parsing()[1]
         for main_message in main_messages:
             c_msg = clear_fix_message(main_message=main_message,execution_id=self.execution_id,path=path)
-            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']}')
+            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']} (parsed)')
             if c_msg['from_name'] == self.channel_name:
                 data.append(
                 {c_msg['message_id']:{
@@ -84,9 +84,10 @@ class Pars:
                         "replied_message_details": c_msg['replied_message_details'],
                         'replied_message_id': c_msg['reply_to_msg_id'],
                         'date': c_msg['date'],
+                        'tg_channel_id': tg_channel_id,
                         'execution_id': self.execution_id,
                         'path': path,
-                        'channel_name' : self.channel_name,
+                        'channel_name': self.channel_name,
                         'html' : current_html
                     }}
                 )
@@ -94,7 +95,7 @@ class Pars:
 
         for joined_message in joined_messages:
             j_data = joined_msg(joined_message,self.execution_id,path)
-            print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']}')
+            print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
 
             data_g.append(
                 {j_data['message_id']:{
