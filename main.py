@@ -1,5 +1,7 @@
 import os
 
+from main_functions.run import run_execute
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -55,7 +57,11 @@ def create_folders():
 @click.option('--path',help='Html files folder path')
 @click.option('--name',help='Channel name')
 def collector(path,name):
-    insert_or_get_execution(path=path,name=name)
+    executions_list = insert_or_get_execution(path=path,name=name)
+    for execution in executions_list:
+        run_execute(ex_id=execution['id'])
+
+
     print(f'[cyan]Collecting end!!!!')
 
 @parser.command()
@@ -69,11 +75,9 @@ def parsing(ex_id):
 
 
 @parser.command()
-def execute():
-
-    executions =get_all_execution_status_pk()
-    for exe in executions:
-        e = main_execute(exe)
+@click.option('--ex_id',help='Execution id')
+def execute(ex_id):
+    main_execute(ex_id=ex_id)
 
 @parser.command()
 def channel_empty():

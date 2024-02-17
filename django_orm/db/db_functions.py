@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 
 import natsort
 
@@ -59,10 +60,9 @@ def get_channel_id(msg_id,channel_name):
             try:
                 rpl_msg_id = tg_group.values_list('replied_message_id', flat=True)[0]
             except Exception as e:
-
                 rpl_msg_id = None
             if rpl_msg_id == None and channel_id == None:
-                print(f'This is parent message message_id')
+                print(f'Parent message found but without channel_id')
                 # print(f'This is parent message {tg_group.values_list('pk', flat=True)[0]} of {msg_id}')
             elif rpl_msg_id != None and channel_id == None:
                 get_channel_id(msg_id=rpl_msg_id, channel_name=channel_name)
@@ -83,11 +83,11 @@ def insert_or_get_channel(data_c):
         try:
             tg_channel = TgChannel.objects.get(**data)
             exist+=1
-            print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk}')
+            print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk} ex_id:{tg_channel.execution_id}')
         except TgChannel.DoesNotExist:
             channel = TgChannel.objects.create(**data)
             new +=1
-            print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ')
+            print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ex_id:{channel.execution_id}')
     return exist,new
 
 def insert_or_get_group(data_g):
@@ -100,20 +100,20 @@ def insert_or_get_group(data_g):
         if data['replied_message_id'] !=None:
             try:
                 data["tg_channel_id"] = get_channel_id(data['replied_message_id'],data['channel_name'])
-            except Exception as e:
-                print(e)
-                print('Channel id not found',data['message_details'], data['replied_message_details'])
+            except :
+                print('ups Channel id not found:',data['message_details'], data['replied_message_details'])
+                print(data)
                 data['tg_channel_id'] = None
         if data['tg_channel_id'] == None and data['replied_message_id'] !=None:
             change_status_execution(data['execution_id'],empty_channel=True)
         try:
             tg_group = TgGroup.objects.get(**data)
             exist += 1
-            print(f'[{data["content"]}] already exist with group_id:{tg_group.pk}')
+            print(f'[{data["content"]}] already exist with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
         except TgGroup.DoesNotExist:
             tg_group = TgGroup.objects.create(**data)
             new += 1
-            print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ')
+            print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
     return exist, new,ex_id
 
 def get_all_execution_status_pk():
@@ -142,3 +142,11 @@ def update_channel_id(pk,channel_id):
     tg_group = TgGroup.objects.get(pk=pk)
     tg_group.tg_channel_id= channel_id
     tg_group.save()
+
+
+def get_execution_data_from_id(ex_id):
+    execution = Execution.objects.get(pk=ex_id)
+    return execution
+
+
+

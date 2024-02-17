@@ -1,44 +1,74 @@
 import os
-from pprint import pprint
-
-from log3 import Logger
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 from django_orm.db.models import *
+from pprint import pprint
 
+from log3 import Logger
 current_l = Logger('current', 'w')
 from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id, \
-    change_status_execution, update_channel_id
+    change_status_execution, update_channel_id, get_execution_data_from_id
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 from main_functions.process_cmdline import cmd_process
 from main_functions.run import run_parsing
 
 
-def main_execute(exe):
-    if exe['status'] == 'parsing_process' or exe['status'] == 'new':
-        get_proces = cmd_process()
-        print(exe)
-        if get_proces !=None:
-            if f'--ex_id={exe['pk']}' in get_proces:
-                print(get_proces)
-                print(f'This execution {exe['pk']} is already running please wait until end!!!')
-            else:
-                print(f'parsing is starting ex_id: {exe['pk']}')
-                pars = run_parsing(exe['pk'])
-                if pars == 0:
-                   print('ok no problem')
-                else:
-                    print('warning! problem')
-        else:
-            print(f'parsing is starting ex_id: {exe['pk']}')
-            pars = run_parsing(exe['pk'])
-            if pars == 0:
-                print('ok')
-            else:
-                print('warning! problem')
+def main_execute(ex_id):
+    execution = get_execution_data_from_id(ex_id=ex_id)
+    match execution.status:
+        case 'completed':
+            pass
+        case 'parsing_process' | 'new' if cmd_process() != None and f'--ex_id={execution.pk}' in cmd_process():
+            print(cmd_process())
+            print(f'This execution {execution.pk} is already running please wait until end!!!')
+        case 'parsing_process' | 'new' if cmd_process() != None and f'--ex_id={execution.pk}' not in cmd_process():
+            print(f'parsing is starting ex_id: {execution.pk}')
+            pars = run_parsing(execution.pk)
+            match pars:
+                case 0:
+                    print(f'Current execution[{execution.pk}] is ready to copy')
+                case _:
+                    print('Warning problem')
+        case 'tg_channel_empty':
+            print('tg_channel_empty')
+            # main_empty_channel()
+        case 'parsing_ok':
+            print(f'Ready to copy to folder {execution.pk}')
+
+
+
+
+
+
+
+
+
+# def main_execute(exe):
+#     if exe['status'] == 'parsing_process' or exe['status'] == 'new':
+#         get_proces = cmd_process()
+#         print(exe)
+#         if get_proces !=None:
+#             if f'--ex_id={exe['pk']}' in get_proces:
+#                 print(get_proces)
+#                 print(f'This execution {exe['pk']} is already running please wait until end!!!')
+#             else:
+#                 print(f'parsing is starting ex_id: {exe['pk']}')
+#                 pars = run_parsing(exe['pk'])
+#                 if pars == 0:
+#                    print('ok no problem')
+#                 else:
+#                     print('warning! problem')
+#         else:
+#             print(f'parsing is starting ex_id: {exe['pk']}')
+#             pars = run_parsing(exe['pk'])
+#             if pars == 0:
+#                 print('ok')
+#             else:
+#                 print('warning! problem')
+
+
 
 
 def main_parsing(ex_id):
