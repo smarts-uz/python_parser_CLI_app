@@ -1,6 +1,6 @@
 import os
 
-
+import re
 from natsort import os_sorted
 
 from parsing.functions import correct_time_data
@@ -123,7 +123,8 @@ def clear_fix_message(main_message,execution_id,path):
 
     try:
         reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
-        reply_to_message_id = message_body.find('div', class_='reply_to details').find('a')['href'][14:]
+        # reply_to_message_id = message_body.find('div', class_='reply_to details').find('a')['href'][14:]
+        reply_to_message_id =  re.findall(r'\d+', reply_to_details)[0]
 
     except:
         reply_to_details = None
@@ -153,7 +154,7 @@ def joined_msg(joined_message,execution_id,path):
 
     try:
         reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
-        reply_to_message_id = reply_to_details[14:]
+        reply_to_message_id =  re.findall(r'\d+', reply_to_details)[0]
 
     except:
         reply_to_details = None
