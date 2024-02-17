@@ -12,7 +12,7 @@ def get_path_by_execution_id(id):
     execution = Execution.objects.get(pk=id)
     return execution.name , execution.path, execution.current
 
-def change_status_execution(id,parsing_process=False,parsing_ok=False,filemove_process=False,completed=False):
+def change_status_execution(id,parsing_process=False,parsing_ok=False,filemove_process=False,empty_channel=False,completed=False):
     execution = Execution.objects.get(pk=id)
     if parsing_ok == True:
         execution.status = 'parsing_ok'
@@ -30,6 +30,9 @@ def change_status_execution(id,parsing_process=False,parsing_ok=False,filemove_p
         execution.status = 'completed'
         execution.save()
         print(f'[Execution]\'s id:{execution.pk} status changed to [green]completed')
+    elif empty_channel==True:
+        execution.status = 'tg_channel_empty'
+        execution.save()
     else:
         pass
 
@@ -46,19 +49,20 @@ def get_channel_id(msg_id,channel_name):
         channel_id = channel.values_list('pk',flat=True)[0]
         if channel_id != None:
             return channel_id
-    except:
+    except Exception as e:
         tg_group =  TgGroup.objects.filter(channel_name=channel_name,message_id=msg_id)
         try:
             channel_id = tg_group.values_list('tg_channel_id', flat=True)[0]
             return channel_id
-        except:
+        except Exception as e:
             channel_id = None
             try:
                 rpl_msg_id = tg_group.values_list('replied_message_id', flat=True)[0]
-            except:
+            except Exception as e:
+
                 rpl_msg_id = None
             if rpl_msg_id == None and channel_id == None:
-                print('This is parent message')
+                print(f'This is parent message message_id')
                 # print(f'This is parent message {tg_group.values_list('pk', flat=True)[0]} of {msg_id}')
             elif rpl_msg_id != None and channel_id == None:
                 get_channel_id(msg_id=rpl_msg_id, channel_name=channel_name)
@@ -96,9 +100,12 @@ def insert_or_get_group(data_g):
         if data['replied_message_id'] !=None:
             try:
                 data["tg_channel_id"] = get_channel_id(data['replied_message_id'],data['channel_name'])
-            except:
+            except Exception as e:
+                print(e)
                 print('Channel id not found',data['message_details'], data['replied_message_details'])
                 data['tg_channel_id'] = None
+        if data['tg_channel_id'] == None and data['replied_message_id'] !=None:
+            change_status_execution(data['execution_id'],empty_channel=True)
         try:
             tg_group = TgGroup.objects.get(**data)
             exist += 1
@@ -125,3 +132,13 @@ def get_none_tgchannelid_and_rplid():
 
 def get_all_rpl_msg(msg_id):
     return TgGroup.objects.filter(replied_message_id=msg_id)
+
+
+def get_status_execution(ex_id):
+    return Execution.objects.get(pk=ex_id).status
+
+
+def update_channel_id(pk,channel_id):
+    tg_group = TgGroup.objects.get(pk=pk)
+    tg_group.tg_channel_id= channel_id
+    tg_group.save()
