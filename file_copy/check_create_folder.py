@@ -44,9 +44,7 @@ def correct_filename(text):
             new_text = remove_special_characters(text)
             path = f"{root}{new_text}"
             return path
-#
-#
-#
+
 def file_creator(actual_path1):
     actual_path=correct_filename(actual_path1)
     if not os.path.exists(actual_path):
@@ -59,6 +57,8 @@ def file_creator(actual_path1):
 # print(file_creator(actual_path1=text))
 # print(remove_special_characters(text))
 # print(correct_filename(text))
+
+
 
 my_file = open("text_names_of_db.txt", "r")
 
