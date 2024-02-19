@@ -12,7 +12,7 @@ from log3 import Logger
 current_l = Logger('current', 'w')
 from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id, \
     change_status_execution, update_channel_id, get_execution_data_from_id, get_content_from_tg_channel_by_ex_id, \
-    get_data_tg_channel_nonempty
+    get_data_tg_channel_nonempty, get_file_path
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 from main_functions.process_cmdline import cmd_process
@@ -109,7 +109,7 @@ def main_empty_channel():
     print(f'Channel id found: {found}')
     print(f'Channel id not found: {notfound}')
 
-
+import shutil
 def copy_file(ex_id):
     i = 0
     channels = get_content_from_tg_channel_by_ex_id(ex_id=ex_id)
@@ -119,9 +119,13 @@ def copy_file(ex_id):
         path = file_creator(actual_path1=channel.text)
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
         k = 0
-        print()
         for group in groups:
-            pass
+            if group.file_path != None:
+                file_path = get_file_path(pk=group.pk)
+                print("pk: ",group.pk)
+                a = shutil.copy(file_path,path)
+                print(a)
+
             # k += 1
             # print(
             #     f'group:{k}: pk:{group.pk} channel_id:{group.tg_channel_id},ex_id:{group.execution_id} content:{group.content} files:{group.file_path}')
