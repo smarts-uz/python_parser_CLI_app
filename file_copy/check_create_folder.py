@@ -1,4 +1,7 @@
 import os
+
+from file_copy.file_copy_functions import strip_space_list_element
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -16,9 +19,12 @@ def remove_special_characters(text):
 def correct_filename(text):
     text = text.split('\n')
     for line in text:
+        line = line.strip()
         # line=remove_special_characters(line)
         if '|' in line:
-            my_list = line.split(' | ')
+            # my_list = line.split(' | ')
+            my_list = line.split('|')
+            my_list = strip_space_list_element(text=my_list)
             my_list.reverse()
             my_list1 = '\\'.join(my_list)
             path = f"{root}{my_list1}"
@@ -32,9 +38,9 @@ def file_creator(actual_path1):
     actual_path=correct_filename(actual_path1)
     if not os.path.exists(actual_path):
         os.makedirs(actual_path)
-        print(f"Directory created sucsesfuly:{actual_path}")
-        return True
+        print(f"Directory created sucsesfuly: {actual_path}")
+        return actual_path
     else:
-        print(f"Directory already created:{actual_path}")
-        return False
+        print(f"Directory already exists: {actual_path}")
+        return actual_path
 # print(file_creator(actual_path1=text))

@@ -1,16 +1,13 @@
 import os
-
-from main_functions.run import run_execute
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 
-from main_functions.main_func import main_execute, main_parsing, main_empty_channel
+from main_functions.main_func import main_execute, main_parsing, main_empty_channel, copy_file
 from django_orm.db.db_functions import get_all_execution_status_pk
 from django_orm.db.db_save import insert_or_get_execution
-
+from main_functions.run import run_execute
 from parsing.parser import final_result_info
 from rich import print
 from django_orm.main import save_data_to_db, update_database
@@ -85,6 +82,10 @@ def channel_empty():
     print('Checking channel_id end!')
 
 
+@parser.command()
+@click.option('--ex_id',help='Execution id')
+def file_copy(ex_id):
+    copy_file(ex_id)
 
 
 

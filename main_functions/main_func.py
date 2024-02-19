@@ -1,4 +1,7 @@
 import os
+
+from file_copy.check_create_folder import file_creator
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -8,7 +11,8 @@ from pprint import pprint
 from log3 import Logger
 current_l = Logger('current', 'w')
 from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id, \
-    change_status_execution, update_channel_id, get_execution_data_from_id
+    change_status_execution, update_channel_id, get_execution_data_from_id, get_content_from_tg_channel_by_ex_id, \
+    get_data_tg_channel_nonempty
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 from main_functions.process_cmdline import cmd_process
@@ -104,5 +108,23 @@ def main_empty_channel():
         change_status_execution(id=empty['execution_id'], parsing_ok=True)
     print(f'Channel id found: {found}')
     print(f'Channel id not found: {notfound}')
+
+
+def copy_file(ex_id):
+    i = 0
+    channels = get_content_from_tg_channel_by_ex_id(ex_id=ex_id)
+    for channel in channels:
+        i += 1
+        print(f'channel:{i}: pk:{channel.pk} ex_id:{channel.execution_id} content:{channel.text}')
+        path = file_creator(actual_path1=channel.text)
+        groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
+        k = 0
+        print()
+        for group in groups:
+            pass
+            # k += 1
+            # print(
+            #     f'group:{k}: pk:{group.pk} channel_id:{group.tg_channel_id},ex_id:{group.execution_id} content:{group.content} files:{group.file_path}')
+        print()
 
 
