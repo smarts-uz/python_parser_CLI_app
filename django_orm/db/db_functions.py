@@ -148,5 +148,13 @@ def get_execution_data_from_id(ex_id):
     execution = Execution.objects.get(pk=ex_id)
     return execution
 
+def get_content_from_tg_channel_by_ex_id(ex_id):
+    channel = TgChannel.objects.filter(execution_id=ex_id)
+    return channel
+def get_data_tg_channel_nonempty(ex_id,channel_id):
+    tg_group = TgGroup.objects.filter(execution_id=ex_id,tg_channel_id=channel_id)
+    return tg_group
+
+
 
 
