@@ -39,7 +39,7 @@ def update_db_content():
     msg = 'Successful database updating!';history.log(msg);current.log(msg);statistic.log(msg);print(f'[green]{msg}')
 
 
-@parser.command(help="Create folders, change .env file to adjusments")
+@parser.command(help="Create folders, change .env.example file to adjusments")
 def create_folders():
     name_list = read_main_folder_name()
     for i in range(len(name_list)):
