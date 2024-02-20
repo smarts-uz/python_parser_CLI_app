@@ -5,3 +5,7 @@ def strip_space_list_element(text):
 
     return new_list
 
+
+def create_txt_file(content,size,duration,path,file_name):
+    pass
+
