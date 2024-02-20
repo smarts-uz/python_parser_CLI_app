@@ -1,12 +1,11 @@
 import os
 import time
-
-from file_copy.check_create_folder import file_creator
-from file_copy.file_copy_functions import create_txt_file, remove_unsupported_chars, create_txt_file_content
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
+
+from file_copy.check_create_folder import file_creator
+from file_copy.file_copy_functions import  remove_unsupported_chars, create_txt_file_content
 from django_orm.db.models import *
 from pprint import pprint
 
@@ -122,6 +121,11 @@ def copy_file(ex_id):
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
         k = 0
         for group in groups:
+            match group.content:
+                case None if group.file_path != None and group.absent == False:
+                    shutil.copy(file_path, path)
+
+
             if group.file_path != None and group.absent == False:
                 file = get_file_path(pk=group.pk)
                 file_path = file[0]
@@ -130,7 +134,7 @@ def copy_file(ex_id):
                 type = file[3]
 
                 print("pk: ",group.pk,group.file_path)
-                if group.content !=None and type == ['mp4','ogg','mov','png','jpg','jpeg']:
+                if group.content !=None:
                     content = remove_unsupported_chars(text=group.content)
                     destination_file_path = os.path.join(path,f'{content}.{type}')
                     try:
@@ -138,12 +142,13 @@ def copy_file(ex_id):
                         os.rename(os.path.join(path,file_name_ex), destination_file_path)
                     except:
                         continue
-                    create_txt = create_txt_file_content(content=group.content, size=group.size, duration=group.duration,path=path,file_name=file_name_ex,txt_name=f'{content}.{type}',date=group.date)
+                    create_txt = create_txt_file_content(content=group.content,path=path,txt_name=f'{content}.{type}')
                 else:
                     shutil.copy(file_path,path)
-                    create_txt_file(size=group.size,path=path,file_name=file_name_ex,date=group.date,duration=group.duration)
 
-                # print(a)
+            else:
+                content = remove_unsupported_chars(text=group.content)
+                create_txt_file_content(content=group.content,path=path,txt_name=content)
 
             # k += 1
             # print(

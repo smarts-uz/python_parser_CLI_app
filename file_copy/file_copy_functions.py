@@ -10,38 +10,21 @@ def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
     for char in unsupchar:
         text = text.replace(char,' ')
-    return text
+    if len(text) >6:
+        six_word = text.split(' ')[:6]
+        six_word =' '.join(six_word)
+    else:
+        six_word=text
+    return six_word
 
 
-def create_txt_file_content(size,duration,path,file_name,date,content=None,txt_name=None):
+def create_txt_file_content(path,content=None,txt_name=None):
 
 
     text = f""""{content}"
-{20*'-'}
-{duration}
-{20*'-'}
-{file_name}
-{20*'-'}
-{size}
-{20*'-'}
-{date}
 """
     with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
         file.write(text)
 
-
-def create_txt_file(size,duration,path,file_name,date):
-    text = f""""{None}"
-{20 * '-'}
-{duration}
-{20 * '-'}
-{file_name}
-{20 * '-'}
-{size}
-{20 * '-'}
-{date}
-    """
-    with open(f'{path}\\{file_name}.txt', mode="w", encoding='utf-8') as file:
-        file.write(text)
 
 # d:\testingparsing\PHP\HTML Parser\Paquettg.Php-Html-Parser\

@@ -1,17 +1,15 @@
 import os
-
-from file_copy_functions import strip_space_list_element
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
-# import django
-# django.setup()
-# from django_orm.db.models import *
+import django
+django.setup()
+from django_orm.db.models import *
 # ---Testing Structure Folsers function---
 from dotenv import load_dotenv
 load_dotenv()
 
 root=os.getenv('PATH_TO_SAVE')
 
+from file_copy.file_copy_functions import strip_space_list_element
 
 # Testing value
 # text='''No query results for model [Laravel\\Passport\\Client]., Laravel'''
@@ -59,18 +57,18 @@ def file_creator(actual_path1):
 # print(correct_filename(text))
 
 
-
-my_file = open("text_names_of_db.txt", "r")
+#
+# my_file = open("text_names_of_db.txt", "r")
 
 # reading the file
-data = my_file.read()
+# data = my_file.read()
 
 # replacing end splitting the text
 # when newline ('\n') is seen.
-data_into_list = data.split("\n")
-print(data_into_list)
-
-# for the testing Structure Folder
-for a in data_into_list:
-    print(file_creator(actual_path1=a))
-my_file.close()
+# data_into_list = data.split("\n")
+# print(data_into_list)
+#
+# # for the testing Structure Folder
+# for a in data_into_list:
+#     print(file_creator(actual_path1=a))
+# my_file.close()
