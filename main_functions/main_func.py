@@ -2,7 +2,7 @@ import os
 import time
 
 from file_copy.check_create_folder import file_creator
-from file_copy.file_copy_functions import create_txt_file
+from file_copy.file_copy_functions import create_txt_file, remove_unsupported_chars, create_txt_file_content
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -128,20 +128,21 @@ def copy_file(ex_id):
                 file_name_ex = file[1]
                 file_name = file[2]
                 type = file[3]
-                print('original path', file_path)
 
-                # print("pk: ",group.pk)
-                shutil.copy2(file_path,path)
-                if group.content !=None and type in ['mov','mp4','ogg'] and file_name != group.content:
-                    destination_file_path = os.path.join(path,f'{group.content}.{type}')
-                    print(os.path.isfile(destination_file_path),'1')
-                    os.rename(os.path.join(path,file_name_ex), destination_file_path)
-                    print(os.path.isfile(destination_file_path),'2')
+                print("pk: ",group.pk,group.file_path)
+                if group.content !=None and type == ['mp4','ogg','mov','png','jpg','jpeg']:
+                    content = remove_unsupported_chars(text=group.content)
+                    destination_file_path = os.path.join(path,f'{content}.{type}')
+                    try:
+                        shutil.copy2(file_path, path)
+                        os.rename(os.path.join(path,file_name_ex), destination_file_path)
+                    except:
+                        continue
+                    create_txt = create_txt_file_content(content=group.content, size=group.size, duration=group.duration,path=path,file_name=file_name_ex,txt_name=f'{content}.{type}',date=group.date)
+                else:
+                    shutil.copy(file_path,path)
+                    create_txt_file(size=group.size,path=path,file_name=file_name_ex,date=group.date,duration=group.duration)
 
-
-
-
-                # create_txt = create_txt_file(content=group.content, size=group.size, duration=group.duration,path=path,file_name=file_name)
                 # print(a)
 
             # k += 1
