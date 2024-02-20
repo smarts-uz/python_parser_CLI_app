@@ -69,7 +69,8 @@ class Pars:
                     'date':c_msg['date'],
                     'from_name': c_msg['from_name'],
                     'execution_id': self.execution_id,
-                    'path' : path
+                    'path' : path,
+
                 }})
 
             else:
@@ -88,7 +89,8 @@ class Pars:
                         'execution_id': self.execution_id,
                         'path': path,
                         'channel_name': self.channel_name,
-                        'html' : current_html
+                        'html' : current_html,
+                        'absent': c_msg['absent']
                     }}
                 )
 
@@ -112,7 +114,8 @@ class Pars:
                     'tg_channel_id': tg_channel_id,
                     'path': path,
                     'channel_name': self.channel_name,
-                    'html': current_html
+                    'html': current_html,
+                    'absent': j_data['absent']
                 }}
             )
 

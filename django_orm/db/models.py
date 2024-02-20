@@ -87,6 +87,7 @@ class TgGroup(models.Model):
     target = models.CharField(max_length=255, blank=True, null=True)
     channel_name = models.CharField(max_length=255, blank=True, null=True)
     html = models.CharField(max_length=255, blank=True, null=True)
+    absent = models.BooleanField(blank=True, null=True)
 
     class Meta:
         managed = False

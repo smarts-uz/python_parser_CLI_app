@@ -1,6 +1,8 @@
 import os
 
 import re
+import time
+
 from natsort import os_sorted
 
 from parsing.functions import correct_time_data
@@ -17,7 +19,14 @@ def html_search(path):
 
     return os_sorted(html_files)
 
-
+def check_file_exists(path,file_path):
+    file_path = file_path.replace('/','\\')
+    f_path = f'{path}\\{file_path}'
+    isFile = os.path.isfile(f_path)
+    if isFile == True:
+        return False
+    else:
+        return True
 
 
 def file_choose(photo_url,ogg_url,video_url,file_url):
@@ -68,6 +77,7 @@ def current_html_name(html_name):
 
 
 def clear_fix_message(main_message,execution_id,path):
+    global absent
     msg_details = main_message['id']
     msg_id = main_message['id'][7:]
     message_body = main_message.find('div', class_='body')
@@ -117,8 +127,18 @@ def clear_fix_message(main_message,execution_id,path):
         file_url = None
 
         size = None
-
+    check_exist = True
     file_path = file_choose(photo_url, ogg_url, video_url, file_url)
+    if file_path != None:
+        print(path)
+        print(file_path)
+        check_exist = check_file_exists(path=path, file_path=file_path)
+        # absent = check_file_exists(path=path, file_path=file_path)
+        print(check_exist)
+
+
+
+
     duration = choose_duration(duration_ogg, duration_video)
 
     try:
@@ -141,10 +161,12 @@ def clear_fix_message(main_message,execution_id,path):
         "replied_message_details": reply_to_details,
         'date': date,
         'from_name': from_name,
+        'absent' : check_exist
     }
 
 
 def joined_msg(joined_message,execution_id,path):
+    global absent
     msg_details = joined_message['id']
 
     msg_id = joined_message['id'][7:]
@@ -203,6 +225,9 @@ def joined_msg(joined_message,execution_id,path):
         size = None
 
     file_path = file_choose(photo_url, ogg_url, video_url, file_url)
+    absent = True
+    if file_path != None:
+        absent = check_file_exists(path=path, file_path=file_path)
     duration = choose_duration(duration_ogg, duration_video)
 
     return {
@@ -215,6 +240,7 @@ def joined_msg(joined_message,execution_id,path):
         "file_path": file_path,
         "duration": duration,
         "size": size,
+        'absent' : absent
     }
 
 
