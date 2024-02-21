@@ -203,6 +203,10 @@ def joined_msg(joined_message,execution_id,path):
             ogg_url = None
             duration_ogg = None
         try:
+            ogg_url = media.find('a',class_='media clearfix pull_left block_link media_audio_file')['href']
+        except:
+            ogg_url=None
+        try:
             video = media.find('a', class_='video_file_wrap clearfix pull_left')
             video_url = media.find('a', class_='video_file_wrap clearfix pull_left')['href']
             duration_video = video.find('div', class_='video_duration').get_text(strip=True)

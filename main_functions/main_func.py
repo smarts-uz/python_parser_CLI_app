@@ -121,38 +121,66 @@ def copy_file(ex_id):
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
         k = 0
         for group in groups:
-            match group.content:
-                case None if group.file_path != None and group.absent == False:
-                    shutil.copy(file_path, path)
-
-
-            if group.file_path != None and group.absent == False:
-                file = get_file_path(pk=group.pk)
-                file_path = file[0]
-                file_name_ex = file[1]
-                file_name = file[2]
-                type = file[3]
-
-                print("pk: ",group.pk,group.file_path)
-                if group.content !=None:
+            match group.absent:
+                case False:
+                    print('file_copy',group.pk)
+                    file = get_file_path(pk=group.pk)
+                    file_path = file[0]
+                    file_name_ex = file[1]
+                    file_name = file[2]
+                    type = file[3]
+                    match group.content:
+                        case None:
+                            print('file_copy without content', group.pk)
+                            shutil.copy(file_path, path)
+                        case _:
+                            print('file_copy with content', group.pk)
+                            content = remove_unsupported_chars(text=group.content)
+                            destination_file_path = os.path.join(path,f'{content}.{type}')
+                            try:
+                                shutil.copy2(file_path, path)
+                                os.rename(os.path.join(path,file_name_ex), destination_file_path)
+                            except:
+                                continue
+                            create_txt = create_txt_file_content(content=group.content,path=path,txt_name=f'{content}.{type}')
+                case _:
+                    print('message txt', group.pk)
                     content = remove_unsupported_chars(text=group.content)
-                    destination_file_path = os.path.join(path,f'{content}.{type}')
-                    try:
-                        shutil.copy2(file_path, path)
-                        os.rename(os.path.join(path,file_name_ex), destination_file_path)
-                    except:
-                        continue
-                    create_txt = create_txt_file_content(content=group.content,path=path,txt_name=f'{content}.{type}')
-                else:
-                    shutil.copy(file_path,path)
+                    create_txt = create_txt_file_content(content=group.content, path=path, txt_name=f'{content}')
 
-            else:
-                content = remove_unsupported_chars(text=group.content)
-                create_txt_file_content(content=group.content,path=path,txt_name=content)
 
-            # k += 1
-            # print(
-            #     f'group:{k}: pk:{group.pk} channel_id:{group.tg_channel_id},ex_id:{group.execution_id} content:{group.content} files:{group.file_path}')
-        print()
+
+
+
+        #
+        #
+        #     if group.file_path != None and group.absent == False:
+        #         file = get_file_path(pk=group.pk)
+        #         file_path = file[0]
+        #         file_name_ex = file[1]
+        #         file_name = file[2]
+        #         type = file[3]
+        #
+        #         print("pk: ",group.pk,group.file_path)
+        #         if group.content !=None:
+        #             content = remove_unsupported_chars(text=group.content)
+        #             destination_file_path = os.path.join(path,f'{content}.{type}')
+        #             try:
+        #                 shutil.copy2(file_path, path)
+        #                 os.rename(os.path.join(path,file_name_ex), destination_file_path)
+        #             except:
+        #                 continue
+        #             create_txt = create_txt_file_content(content=group.content,path=path,txt_name=f'{content}.{type}')
+        #         else:
+        #             shutil.copy(file_path,path)
+        #
+        #     else:
+        #         content = remove_unsupported_chars(text=group.content)
+        #         create_txt_file_content(content=group.content,path=path,txt_name=content)
+        #
+        #     # k += 1
+        #     # print(
+        #     #     f'group:{k}: pk:{group.pk} channel_id:{group.tg_channel_id},ex_id:{group.execution_id} content:{group.content} files:{group.file_path}')
+        # print()
 
 
