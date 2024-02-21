@@ -13,7 +13,7 @@ from log3 import Logger
 current_l = Logger('current', 'w')
 from django_orm.db.db_functions import get_path_by_execution_id, get_all_none_channel_id_from_group, get_channel_id, \
     change_status_execution, update_channel_id, get_execution_data_from_id, get_content_from_tg_channel_by_ex_id, \
-    get_data_tg_channel_nonempty, get_file_path
+    get_data_tg_channel_nonempty, get_file_paths
 from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 from main_functions.process_cmdline import cmd_process
@@ -124,7 +124,7 @@ def copy_file(ex_id):
             match group.absent:
                 case False:
                     print('file_copy',group.pk)
-                    file = get_file_path(pk=group.pk)
+                    file = get_file_paths(pk=group.pk)
                     file_path = file[0]
                     file_name_ex = file[1]
                     file_name = file[2]
@@ -137,14 +137,22 @@ def copy_file(ex_id):
                             print('file_copy with content', group.pk)
                             content = remove_unsupported_chars(text=group.content)
                             destination_file_path = os.path.join(path,f'{content}.{type}')
-                            try:
-                                shutil.copy2(file_path, path)
-                                os.rename(os.path.join(path,file_name_ex), destination_file_path)
-                            except:
-                                continue
-                            create_txt = create_txt_file_content(content=group.content,path=path,txt_name=f'{content}.{type}')
-                case _:
+                            print(destination_file_path)
+                            if os.path.isfile(destination_file_path):
+                                print('This file is already copied')
+                            else:
+                                try:
+                                    shutil.copy2(file_path, path)
+                                    os.rename(os.path.join(path, file_name_ex), destination_file_path)
+                                    create_txt = create_txt_file_content(content=group.content, path=path,
+                                                                         txt_name=f'{content}.{type}')
+                                except:
+                                    continue
+
+
+                case True:
                     print('message txt', group.pk)
+                    print(group.content,group.pk,group.message_id)
                     content = remove_unsupported_chars(text=group.content)
                     create_txt = create_txt_file_content(content=group.content, path=path, txt_name=f'{content}')
 

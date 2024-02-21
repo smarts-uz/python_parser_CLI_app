@@ -157,13 +157,13 @@ def get_data_tg_channel_nonempty(ex_id,channel_id):
 
 
 
-def get_file_path(pk):
+def get_file_paths(pk):
     group = TgGroup.objects.get(pk=pk)
     file_path = group.file_path.replace('/','\\')
     f_path = f'{group.path}\\{file_path}'
     file_name_ex = file_path.split('\\')[1]
     file_name= file_name_ex.split('.')[0]
-    type = file_name_ex.split('.')[1]
+    type = file_name_ex.split('.')[-1]
     return f_path,file_name_ex,file_name,type
 
 

@@ -1,3 +1,6 @@
+import os.path
+
+
 def strip_space_list_element(text):
     new_list = []
     for word in text:
@@ -29,8 +32,11 @@ def create_txt_file_content(path,content=None,txt_name=None):
 
     text = f""""{content}"
 """
-    with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
-        file.write(text)
+    if os.path.isfile(f'{path}\\{txt_name}.txt'):
+        print('This txt file is already created!')
+    else:
+        with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
+            file.write(text)
 
 
 # d:\testingparsing\PHP\HTML Parser\Paquettg.Php-Html-Parser\
