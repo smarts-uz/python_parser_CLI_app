@@ -5,6 +5,12 @@ def strip_space_list_element(text):
 
     return new_list
 
+def remove_hashtag(text):
+    import re
+    result = re.findall(r'#\w+', text)
+    for res in result:
+        text = text.replace(res, '')
+    return text
 
 def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]

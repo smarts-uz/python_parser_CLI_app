@@ -9,7 +9,8 @@ load_dotenv()
 
 root=os.getenv('PATH_TO_SAVE')
 
-from file_copy.file_copy_functions import strip_space_list_element
+from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag
+
 
 # Testing value
 # text='''No query results for model [Laravel\\Passport\\Client]., Laravel'''
@@ -26,6 +27,7 @@ def remove_special_characters(text):
 
 #
 def correct_filename(text):
+    text = remove_hashtag(text=text)
     text1 = text.split('\n')
     for line in text1:
         line = line.strip()
