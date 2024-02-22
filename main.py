@@ -1,7 +1,9 @@
 import os
 
+from django_orm.db.db_functions import get_status_execution
 from main_functions.main_channel_empty import main_empty_channel
 from main_functions.main_parsing_new import main_parsing
+from main_functions.parsing_process import main_parsing_process
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -68,7 +70,14 @@ def collector(path,name):
 @parser.command()
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
-    execute = main_parsing(ex_id)
+    status = get_status_execution(ex_id)
+    match status:
+        case 'new':
+            execute = main_parsing(ex_id)
+        case 'parsing_process':
+            main_parsing_process(ex_id=ex_id)
+        case _:
+            print(f'Status is: {status}. Already parsed')
 
 
 

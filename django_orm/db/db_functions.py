@@ -83,11 +83,11 @@ def insert_or_get_channel(data_c):
         try:
             tg_channel = TgChannel.objects.get(**data)
             exist+=1
-            print(f'[{data["text"]}] already exist with channel_id:{tg_channel.pk} ex_id:{tg_channel.execution_id}')
+            print(f'[++]{data["text"]} already exist with channel_id:{tg_channel.pk} ex_id:{tg_channel.execution_id}')
         except TgChannel.DoesNotExist:
             channel = TgChannel.objects.create(**data)
             new +=1
-            print(f'[{data["text"]}] saved to db with channel_id:{channel.pk} ex_id:{channel.execution_id}')
+            print(f'[+]{data["text"]} saved to db with channel_id:{channel.pk} ex_id:{channel.execution_id}')
     return exist,new
 
 def insert_or_get_group(data_g):
@@ -109,11 +109,11 @@ def insert_or_get_group(data_g):
         try:
             tg_group = TgGroup.objects.get(**data)
             exist += 1
-            print(f'[{data["content"]}] already exist with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
+            print(f'[++]{data["content"]} already exist with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
         except TgGroup.DoesNotExist:
             tg_group = TgGroup.objects.create(**data)
             new += 1
-            print(f'[{data["content"]}] saved to db with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
+            print(f'[+]{data["content"]} saved to db with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
     return exist, new,ex_id
 
 def get_all_execution_status_pk():

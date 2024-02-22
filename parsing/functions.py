@@ -213,7 +213,7 @@ def search_html(path):
 
 def logger_path():
     year, month, day = datetime.now().year, datetime.now().month, datetime.now().day
-    logger_path = f"logs/{year}/{month}/{day}/"
+    logger_path = f"C:/Learning Parser/logs/{year}/{month}/{day}/"
     if not os.path.exists(logger_path):
         os.makedirs(logger_path)
     return logger_path
