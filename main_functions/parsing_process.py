@@ -18,6 +18,3 @@ def main_parsing_process(ex_id):
     print(f'[cyan]Channel: [blue]exist:{channel_count[0]}, [green]new:{channel_count[1]}')
     print(f'[cyan]Group: [blue]exist:{group_count[0]}, [green]new:{group_count[1]}')
 
-
-
-main_parsing_process(ex_id=264)

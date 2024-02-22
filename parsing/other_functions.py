@@ -29,7 +29,7 @@ def check_file_exists(path,file_path):
         return True
 
 
-def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif):
+def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif,animation):
     if photo_url != None:
         file_path = photo_url
     elif ogg_url != None:
@@ -44,8 +44,11 @@ def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif):
         file_path = photo
     elif gif != None:
         file_path = gif
+    elif animation!=None:
+        file_path=animation
     else:
         file_path = None
+
     return file_path
 
 def choose_duration(duration_ogg,duration_video,duration_audio):
@@ -85,7 +88,7 @@ def current_html_name(html_name):
 
 
 def clear_fix_message(main_message,execution_id,path):
-    global absent,duration_audio
+    global absent,duration_audio,animation
     msg_details = main_message['id']
     msg_id = main_message['id'][7:]
     message_body = main_message.find('div', class_='body')
@@ -146,6 +149,10 @@ def clear_fix_message(main_message,execution_id,path):
             gif = media.find('a',class_='animated_wrap clearfix pull_left')['href']
         except:
             gif = None
+        try:
+            animation = media.find('a',class_='media clearfix pull_left media_video')['href']
+        except:
+            animation = None
 
         try:
             file = media.find('a', class_='media clearfix pull_left block_link media_file')
@@ -161,7 +168,7 @@ def clear_fix_message(main_message,execution_id,path):
 
         size = None
     check_exist = True
-    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif)
+    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation)
     if file_path != None:
         check_exist = check_file_exists(path=path, file_path=file_path)
         # absent = check_file_exists(path=path, file_path=file_path)
@@ -197,7 +204,7 @@ def clear_fix_message(main_message,execution_id,path):
 
 
 def joined_msg(joined_message,execution_id,path):
-    global absent,duration_audio
+    global absent,duration_audio,animation
     msg_details = joined_message['id']
     msg_id = joined_message['id'][7:]
     message_body = joined_message.find('div', class_='body')
@@ -252,6 +259,10 @@ def joined_msg(joined_message,execution_id,path):
             video_url = None
             duration_video = None
         try:
+            animation = media.find('a',class_='media clearfix pull_left media_video')['href']
+        except:
+            animation = None
+        try:
             photo = media.find('a',class_='media clearfix pull_left block_link media_photo')['href']
             try:
                 text = media.find('a',class_='media clearfix pull_left block_link media_photo').find('div',class_='status details').get_Text(strip=True)
@@ -278,7 +289,7 @@ def joined_msg(joined_message,execution_id,path):
         duration = None
         size = None
 
-    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif)
+    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation)
     absent = True
     if file_path != None:
         absent = check_file_exists(path=path, file_path=file_path)

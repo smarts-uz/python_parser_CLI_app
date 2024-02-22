@@ -162,7 +162,7 @@ class Pars:
 
                     }})
                     print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
-                    
+
             data_g.append(
                 {j_data['message_id']:{
                     'message_id': j_data['message_id'],
@@ -282,9 +282,3 @@ class Pars:
     #
     #     return data
 #
-a = Pars(file_path='h:\\Exports\\SmartTech Learning Group\\2023\\9-30\\messages.html',execution_id=123,channel_name='SmartTech Learning')
-
-msg = a.main_msg()
-# pprint(msg[0][1].values())
-# # if msg[0][1] >= 98052:
-#     pprint(msg)

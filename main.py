@@ -72,7 +72,7 @@ def parsing(ex_id):
     status = get_status_execution(ex_id)
     match status:
         case 'new':
-            execute = main_parsing(ex_id)
+            main_parsing(ex_id)
         case 'parsing_process':
             main_parsing_process(ex_id=ex_id)
         case _:
