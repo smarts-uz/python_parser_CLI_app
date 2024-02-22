@@ -23,6 +23,7 @@ class Execution(models.Model):
     path = models.CharField(max_length=255, blank=True, null=True)
     status = models.TextField(blank=True, null=True)  # This field type is a guess.
     current = models.CharField(max_length=255, blank=True, null=True)
+    last_copied_file_pk = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

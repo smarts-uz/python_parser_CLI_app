@@ -1,4 +1,7 @@
 import os
+
+from main_functions.file_copy_process import file_copy_pr
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -29,6 +32,7 @@ def main_execute(ex_id):
         case 'parsing_process':
             pass
 
+
         case 'parsing_ok':
             cmd_copy_process()
             match cmd_copy_process():
@@ -39,7 +43,8 @@ def main_execute(ex_id):
                         print('This move process already running. Please wait until end')
                     else:
                         run_copy(ex_id)
-
+        case 'filemove_process':
+            file_copy_pr(ex_id=ex_id)
         case 'parsing_ok':
             print(f'Ready to copy to folder {execution.pk}')
 

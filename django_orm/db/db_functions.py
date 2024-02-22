@@ -168,5 +168,26 @@ def get_file_paths(pk):
 def get_data_channel_id_none(ex_id):
     group = TgGroup.objects.filter(execution_id=ex_id,tg_channel_id__isnull=True)
     return group
+def update_target_group(pk,target):
+    group = TgGroup.objects.get(pk=pk)
+    group.target = target
+    group.save()
+    print(f'[+++]{pk}\'s target updated to {target}')
 
+def update_last_copy_file_pk(ex_id,id):
+    execute = Execution.objects.get(pk=ex_id)
+    execute.last_copied_file_pk = id
+    execute.save()
+    print(f'[+++]{ex_id}\'s last_copied_file_pk updated to {id}')
 
+def get_last_copied_pk(ex_id):
+    execute = Execution.objects.get(pk=ex_id)
+    return execute.last_copied_file_pk
+
+def get_data_from_group(ex_id,last_id):
+    group = TgGroup.objects.filter(pk__gte=last_id,execution_id=ex_id)
+    return group
+
+def get_name_from_channel(channel_id):
+    channel = TgChannel.objects.get(pk=channel_id)
+    return channel.text
