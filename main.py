@@ -1,11 +1,15 @@
 import os
+
+from main_functions.main_channel_empty import main_empty_channel
+from main_functions.main_parsing_new import main_parsing
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 
-from main_functions.main_func import main_execute, main_parsing, main_empty_channel, copy_file
-from django_orm.db.db_functions import get_all_execution_status_pk
+from main_functions.main_func import main_execute
+from main_functions.copy_file_main import copy_file
 from django_orm.db.db_save import insert_or_get_execution
 from main_functions.run import run_execute
 from parsing.parser import final_result_info
@@ -65,6 +69,7 @@ def collector(path,name):
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
     execute = main_parsing(ex_id)
+
 
 
 

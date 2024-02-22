@@ -163,11 +163,9 @@ def clear_fix_message(main_message,execution_id,path):
     check_exist = True
     file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif)
     if file_path != None:
-        print(path)
-        print(file_path)
         check_exist = check_file_exists(path=path, file_path=file_path)
         # absent = check_file_exists(path=path, file_path=file_path)
-        print(check_exist)
+
 
 
 

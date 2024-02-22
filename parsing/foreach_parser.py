@@ -18,9 +18,9 @@ def parsing_foreach(path,execution_id,channel_name,current_html=None):
         fname_list = fname_list[start_index:]
     change_status_execution(id=execution_id, parsing_process=True)
     for folder in natsort.os_sorted(fname_list):
-        parsing = Pars(folder, execution_id, channel_name)
-        ready_information = parsing.main_msg()[1]
-        channel_content = parsing.main_msg()[0]
-        channel_content_list.append(channel_content)
-        group_content_list.append(ready_information)
+        print(folder)
+        parsing = Pars(file_path=folder, execution_id=execution_id, channel_name=channel_name)
+        parsing_data =parsing.main_msg()
+        channel_content_list.append(parsing_data[0])
+        group_content_list.append(parsing_data[1])
     return [channel_content_list, group_content_list]

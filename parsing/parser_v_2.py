@@ -1,4 +1,5 @@
 import json
+import time
 from pprint import pprint
 
 from bs4 import BeautifulSoup
@@ -55,8 +56,11 @@ class Pars:
         for main_message in main_messages:
             c_msg = clear_fix_message(main_message=main_message,execution_id=self.execution_id,path=path)
             print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']} (parsed)')
-            if c_msg['from_name'] == self.channel_name:
-                data.append(
+
+            match c_msg["from_name"]:
+                case self.channel_name:
+
+                    data.append(
                 {c_msg['message_id']:{
                     "message_id": c_msg['message_id'],
                     "message_details": c_msg['message_details'],
@@ -72,9 +76,8 @@ class Pars:
                     'path' : path,
 
                 }})
-
-            else:
-                data_g.append(
+                case _:
+                    data_g.append(
                     {c_msg['message_id']:{
                         "message_id": c_msg['message_id'],
                         "message_details": c_msg['message_details'],
@@ -93,6 +96,46 @@ class Pars:
                         'absent': c_msg['absent']
                     }}
                 )
+
+
+            # if c_msg['from_name'] == self.channel_name:
+            #     data.append(
+            #     {c_msg['message_id']:{
+            #         "message_id": c_msg['message_id'],
+            #         "message_details": c_msg['message_details'],
+            #         "text": c_msg['text'],
+            #         "file_path": c_msg['file_path'],
+            #         "duration": c_msg['duration'],
+            #         "size": c_msg['size'],
+            #         'reply_to_msg_id': c_msg['reply_to_msg_id'],
+            #         "replied_message_details": c_msg['replied_message_details'],
+            #         'date':c_msg['date'],
+            #         'from_name': c_msg['from_name'],
+            #         'execution_id': self.execution_id,
+            #         'path' : path,
+            #
+            #     }})
+            #
+            # else:
+            #     data_g.append(
+            #         {c_msg['message_id']:{
+            #             "message_id": c_msg['message_id'],
+            #             "message_details": c_msg['message_details'],
+            #             "content": c_msg['text'],
+            #             "file_path": c_msg['file_path'],
+            #             "duration": c_msg['duration'],
+            #             "size": c_msg['size'],
+            #             "replied_message_details": c_msg['replied_message_details'],
+            #             'replied_message_id': c_msg['reply_to_msg_id'],
+            #             'date': c_msg['date'],
+            #             'tg_channel_id': tg_channel_id,
+            #             'execution_id': self.execution_id,
+            #             'path': path,
+            #             'channel_name': self.channel_name,
+            #             'html' : current_html,
+            #             'absent': c_msg['absent']
+            #         }}
+            #     )
 
 
         for joined_message in joined_messages:
@@ -218,3 +261,6 @@ class Pars:
     #
     #
     #     return data
+#
+# a = Pars(file_path='d:\\test\\2024-02-21\\messages.html',execution_id=123,channel_name='rss testing')
+# print(a.main_msg())
