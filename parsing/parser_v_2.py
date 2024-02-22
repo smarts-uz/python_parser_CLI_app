@@ -56,7 +56,6 @@ class Pars:
         for main_message in main_messages:
             c_msg = clear_fix_message(main_message=main_message,execution_id=self.execution_id,path=path)
             print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']} (parsed)')
-
             match c_msg["from_name"]:
                 case self.channel_name:
 
@@ -140,8 +139,30 @@ class Pars:
 
         for joined_message in joined_messages:
             j_data = joined_msg(joined_message,self.execution_id,path)
-            print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
+            if j_data['replied_message_id'] == None:
+                filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
+                channel_data = filtered_message_numbers[-1]
+                filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
+                id = filtered_message_ids[-1]
+                print(f'This message send by channel: {j_data['content']} \n added to channel_list instead of group_list')
+                if j_data['date'] == channel_data[id]['date']:
+                    data.append({j_data['message_id']:{
+                        "message_id": j_data['message_id'],
+                        "message_details": j_data['message_details'],
+                        "text": j_data['content'],
+                        "file_path": j_data['file_path'],
+                        "duration": j_data['duration'],
+                        "size": j_data['size'],
+                        'reply_to_msg_id': j_data['replied_message_id'],
+                        "replied_message_details": j_data['replied_message_details'],
+                        'date': j_data['date'],
+                        'from_name': channel_data[id]['from_name'],
+                        'execution_id': self.execution_id,
+                        'path': path,
 
+                    }})
+                    print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
+                    
             data_g.append(
                 {j_data['message_id']:{
                     'message_id': j_data['message_id'],
@@ -162,10 +183,9 @@ class Pars:
                 }}
             )
 
+        # message_numbers = list(map(lambda msg: list(msg.keys())[0], data))
 
-
-
-
+        # pprint(filtered_message_numbers[-1])
         return [data,data_g]
     # def joined_messages(self):
     #     global ogg_url, photo_url, video_url, duration_ogg, duration_video
@@ -262,5 +282,9 @@ class Pars:
     #
     #     return data
 #
-# a = Pars(file_path='d:\\test\\2024-02-21\\messages.html',execution_id=123,channel_name='rss testing')
-# print(a.main_msg())
+a = Pars(file_path='h:\\Exports\\SmartTech Learning Group\\2023\\9-30\\messages.html',execution_id=123,channel_name='SmartTech Learning')
+
+msg = a.main_msg()
+# pprint(msg[0][1].values())
+# # if msg[0][1] >= 98052:
+#     pprint(msg)

@@ -1,15 +1,14 @@
 import os
-
-from django_orm.db.db_functions import get_status_execution
-from main_functions.main_channel_empty import main_empty_channel
-from main_functions.main_parsing_new import main_parsing
-from main_functions.parsing_process import main_parsing_process
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 
+
+from django_orm.db.db_functions import get_status_execution
+from main_functions.main_channel_empty import main_empty_channel
+from main_functions.main_parsing_new import main_parsing
+from main_functions.parsing_process import main_parsing_process
 from main_functions.main_func import main_execute
 from main_functions.copy_file_main import copy_file
 from django_orm.db.db_save import insert_or_get_execution
