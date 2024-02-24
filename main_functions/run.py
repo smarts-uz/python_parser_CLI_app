@@ -9,6 +9,8 @@ def run_parsing(ex_id):
     code = pros.wait()
     match code:
         case 0:
+            print(f'Parsing running process completed successfully execution_id={ex_id}')
+            print(f'Copy file process starting execution_id={ex_id}')
             run_copy(ex_id)
         case _:
             print(f'Warning parsing problem code is :{code}')
@@ -26,7 +28,7 @@ def run_copy(ex_id):
     code = execute.wait()
     match code:
         case 0:
-            change_status_execution(id=ex_id,completed=True)
+            print('File copy process completed successfully')
         case _:
-            print(f'Warning move problem code is: {code}')
+            print(f'Warning copy problem code is: {code}')
     return code

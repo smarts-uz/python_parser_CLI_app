@@ -1,14 +1,11 @@
 import os
-
-from main_functions.file_copy_process import file_copy_pr
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 
-
-from django_orm.db.db_functions import get_status_execution
+from main_functions.file_copy_process import file_copy_pr
+from django_orm.db.db_functions import get_status_execution, change_status_execution
 from main_functions.main_channel_empty import main_empty_channel
 from main_functions.main_parsing_new import main_parsing
 from main_functions.parsing_process import main_parsing_process
@@ -69,7 +66,7 @@ def collector(path,name):
 
     print(f'[cyan]Collecting end!!!!')
 
-@parser.command()
+@parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
     status = get_status_execution(ex_id)
@@ -87,20 +84,21 @@ def parsing(ex_id):
 
 
 
-@parser.command()
+@parser.command(help='Run parsing and copy command step by step')
 @click.option('--ex_id',help='Execution id')
 def execute(ex_id):
     main_execute(ex_id=ex_id)
 
 
 
-@parser.command()
-def channel_empty():
-    main_empty_channel()
-    print('Checking channel_id end!')
+
+# @parser.command()
+# def channel_empty():
+#     main_empty_channel()
+#     print('Checking channel_id end!')
 
 
-@parser.command()
+@parser.command(help='Copy files to folder which given in .env "Base dir = "')
 @click.option('--ex_id',help='Execution id')
 def file_copy(ex_id):
     status = get_status_execution(ex_id)
@@ -113,6 +111,11 @@ def file_copy(ex_id):
             print('This execution already copied!')
         case _:
             print('This execution not ready to copy. You need to run parse command')
+    change_status_execution(id=ex_id, completed=True)
+
+
+
+
 
 
 

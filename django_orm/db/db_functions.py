@@ -104,8 +104,7 @@ def insert_or_get_group(data_g):
                 print('ups Channel id not found:',data['message_details'], data['replied_message_details'])
                 print(data)
                 data['tg_channel_id'] = None
-        if data['tg_channel_id'] == None and data['replied_message_id'] !=None:
-            change_status_execution(data['execution_id'],empty_channel=True)
+
         try:
             tg_group = TgGroup.objects.get(**data)
             exist += 1
@@ -172,13 +171,11 @@ def update_target_group(pk,target):
     group = TgGroup.objects.get(pk=pk)
     group.target = target
     group.save()
-    print(f'[+++]{pk}\'s target updated to {target}')
 
 def update_last_copy_file_pk(ex_id,id):
     execute = Execution.objects.get(pk=ex_id)
     execute.last_copied_file_pk = id
     execute.save()
-    print(f'[+++]{ex_id}\'s last_copied_file_pk updated to {id}')
 
 def get_last_copied_pk(ex_id):
     execute = Execution.objects.get(pk=ex_id)
@@ -191,3 +188,8 @@ def get_data_from_group(ex_id,last_id):
 def get_name_from_channel(channel_id):
     channel = TgChannel.objects.get(pk=channel_id)
     return channel.text
+
+def get_execute_name_for_nonparentmessage(ex_id):
+    execute = Execution.objects.get(pk=ex_id)
+    name = f'{execute.path.split("\\")[-1]} | {execute.name}'
+    return name

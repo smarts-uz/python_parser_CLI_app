@@ -35,9 +35,7 @@ def insert_data_to_db(info_list):
             group_count[1]+=new_g
 
     if ex_id !=None:
-        status = get_status_execution(ex_id=ex_id)
-        if status != 'tg_channel_empty':
-            change_status_execution(id=ex_id,parsing_ok=True)
+        change_status_execution(id=ex_id,parsing_ok=True)
     return channel_count,group_count
 
 
