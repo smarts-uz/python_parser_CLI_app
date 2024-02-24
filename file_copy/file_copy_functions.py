@@ -16,11 +16,17 @@ def remove_hashtag(text):
 
     return text
 
+
+def remove_http(http):
+    import re
+    pattern = 'https?://w?w?w?[.]?'
+    word = re.sub(pattern,'',http.lower())
+    return word
+
 def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
-    urls = ['http://www.','HTTP://www.','https://www.','HTTPS://www.']
-    for url in urls:
-        text = text.replace(url,' ')
+    text = remove_hashtag(text)
+    text = remove_http(text)
     for char in unsupchar:
         text = text.replace(char,' ')
     for char in text.split(' '):
@@ -48,9 +54,9 @@ def create_txt_file_content(path,content=None,txt_name=None):
 
 def slice_long_words(text):
     for word in text:
-        if len(word) > 15:
+        if len(word) > 20:
             index = text.index(word)
-            text[index] = word[:15]
+            text[index] = word[:20]
         else:
             text = text
     return text

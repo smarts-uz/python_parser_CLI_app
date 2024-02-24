@@ -3,6 +3,7 @@ import os
 
 from django_orm.db.db_functions import get_file_paths
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
+from file_copy.find_https_link import find_https, create_url_file
 
 
 def copy_file(path,file):
@@ -11,7 +12,6 @@ def copy_file(path,file):
 
 
 def copy_all_files(group,path):
-
     match group.absent:
         case False:
             file = get_file_paths(pk=group.pk)
@@ -24,7 +24,6 @@ def copy_all_files(group,path):
                     print(f'{group.pk}\'s file {group.file_path} copied')
                     shutil.copy(file_path, path)
                 case _:
-                    print(f'{group.pk}\'s file {group.file_path} copied with name {group.content}')
                     content = remove_unsupported_chars(text=group.content)
                     destination_file_path = os.path.join(path, f'{content}.{type}')
                     if os.path.isfile(destination_file_path):
@@ -40,6 +39,14 @@ def copy_all_files(group,path):
                            pass
         case True:
             content = remove_unsupported_chars(text=group.content)
-            create_txt_file_content(content=group.content, path=path, txt_name=f'{content}')
-            print(f'{group.pk}\'s data message copied with name {content}')
+            http = find_https(group.content)
+
+            match http:
+                case []:
+                    create_txt_file_content(content=group.content, path=path, txt_name=f'{content}')
+                    print(f'{group.pk}\'s data message copied with name {content}')
+                case _:
+                    print(http)
+                    create_url_file(url=http[0],name=content,path=path)
+                    print(f'{group.pk}\'s created url file {http}')
 
