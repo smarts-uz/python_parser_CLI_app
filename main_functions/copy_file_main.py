@@ -20,13 +20,14 @@ def copy_file(ex_id):
             path = file_creator(actual_path1=channel.text)
 
             groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
-            print(f'Tg_channels not None\'s count: {len(groups)}')
+
             change_status_execution(id=ex_id, filemove_process=True)
             for group in groups:
                 update_target_group(pk=group.pk, target=path)
                 update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                 k += 1
                 copy_all_files(group=group, path=path)
+
         nonparent_data = get_data_channel_id_none(ex_id=ex_id)
         for group in nonparent_data:
             n+=1
@@ -35,6 +36,7 @@ def copy_file(ex_id):
             update_target_group(pk=group.pk, target=path)
             update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
             copy_all_files(group=group, path=path)
+
         print('Total count of Nonparent data:', n)
         print('Total count of Channel id\'s not null data:',k)
 

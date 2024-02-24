@@ -15,7 +15,6 @@ from main_functions.run import run_parsing, run_copy
 
 
 def main_execute(ex_id):
-
     execution = get_execution_data_from_id(ex_id=ex_id)
     print(f'id: {ex_id} name:{execution.name}')
     match execution.status:

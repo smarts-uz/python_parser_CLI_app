@@ -9,7 +9,7 @@ load_dotenv()
 
 root=os.getenv('PATH_TO_SAVE')
 
-from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag
+from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag, slice_long_words
 
 
 # Testing value
@@ -37,6 +37,7 @@ def correct_filename(text):
             my_list = line.split('|')
             my_list = strip_space_list_element(text=my_list)
             my_list.reverse()
+            my_list = slice_long_words(my_list)
             my_list1 = '\\'.join(my_list)
             path = f"{root}{my_list1}"
             return path

@@ -65,25 +65,25 @@ def collector(path,name):
     for execution in executions_list:
         run_execute(ex_id=execution['id'])
 
-
     print(f'[cyan]Collecting end!!!!')
 
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
-    status = get_status_execution(ex_id)
-    match status:
-        case 'new':
-            main_parsing(ex_id)
-        case 'parsing_process':
-            main_parsing_process(ex_id=ex_id)
-        case _:
-            print(f'Status is: {status}. Already parsed')
-    i = 0
-    while True:
-        i+=1
-        print(i)
-        time.sleep(i)
+    try:
+        status = get_status_execution(ex_id)
+        match status:
+            case 'new':
+                main_parsing(ex_id)
+            case 'parsing_process':
+                main_parsing_process(ex_id=ex_id)
+            case _:
+                print(f'Status is: {status}. Already parsed')
+        change_status_execution(id=ex_id, parsing_ok=True)
+    except Exception as e:
+        print(e)
+
+
 
 
 
@@ -109,22 +109,20 @@ def execute(ex_id):
 @parser.command(help='Copy files to folder which given in .env "Base dir = "')
 @click.option('--ex_id',help='Execution id')
 def file_copy(ex_id):
-    status = get_status_execution(ex_id)
-    match status:
-        case 'parsing_ok':
-            copy_file(ex_id)
-        case 'filemove_process':
-            file_copy_pr(ex_id=ex_id)
-        case 'completed':
-            print('This execution already completed!')
-        case _:
-            print('This execution is not ready to copy. You need to run parse command')
-    # change_status_execution(id=ex_id, completed=True)
-    i = 0
-    while True:
-        i+=1
-        print(i)
-        time.sleep(i)
+    try:
+        status = get_status_execution(ex_id)
+        match status:
+            case 'parsing_ok':
+                copy_file(ex_id)
+            case 'filemove_process':
+                file_copy_pr(ex_id=ex_id)
+            case 'completed':
+                print('This execution already completed!')
+            case _:
+                print('This execution is not ready to copy. You need to run parse command')
+        change_status_execution(id=ex_id, completed=True)
+    except Exception as e:
+        print(e)
 
 
 
