@@ -139,7 +139,8 @@ class Pars:
 
         for joined_message in joined_messages:
             j_data = joined_msg(joined_message,self.execution_id,path)
-            if j_data['replied_message_id'] == None:
+
+            if j_data['replied_message_id'] == None and data != []:
                 filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
                 channel_data = filtered_message_numbers[-1]
                 filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
@@ -282,3 +283,5 @@ class Pars:
     #
     #     return data
 #
+
+# --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"

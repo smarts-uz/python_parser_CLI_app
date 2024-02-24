@@ -33,4 +33,3 @@ channel id none: {i}
 channel id not none: {l}""")
 
 
-file_copy_pr(ex_id=263)

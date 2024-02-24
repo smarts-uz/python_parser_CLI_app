@@ -15,12 +15,14 @@ from main_functions.run import run_parsing, run_copy
 def main_execute(ex_id):
     cmd_parsing_process()
     execution = get_execution_data_from_id(ex_id=ex_id)
-    print(f'id: {ex_id} name:{execution.name} current status:{execution.status}')
+    print(f'id: {ex_id} name:{execution.name}')
     match execution.status:
         case 'completed':
-            pass
-        case 'new':
-            print(cmd_parsing_process())
+            print(f'status: {execution.status}, already done!')
+        case 'new' | 'parsing_process':
+            print(f'current status: {execution.status}')
+            if cmd_parsing_process() !=None:
+                print(cmd_parsing_process())
             match cmd_parsing_process():
                 case None:
                     run_parsing(ex_id)
@@ -29,11 +31,9 @@ def main_execute(ex_id):
                         print('This parsing already running. Please wait until end!!')
                     else:
                         run_parsing(ex_id)
-        case 'parsing_process':
-            pass
 
-
-        case 'parsing_ok':
+        case 'parsing_ok' | 'filemove_process':
+            print(f'current status: {execution.status}')
             cmd_copy_process()
             match cmd_copy_process():
                 case None:
@@ -43,10 +43,8 @@ def main_execute(ex_id):
                         print('This move process already running. Please wait until end')
                     else:
                         run_copy(ex_id)
-        case 'filemove_process':
-            file_copy_pr(ex_id=ex_id)
-        case 'parsing_ok':
-            print(f'Ready to copy to folder {execution.pk}')
+
+        
 
 
 

@@ -1,4 +1,7 @@
 import os
+
+from main_functions.file_copy_process import file_copy_pr
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -89,6 +92,8 @@ def parsing(ex_id):
 def execute(ex_id):
     main_execute(ex_id=ex_id)
 
+
+
 @parser.command()
 def channel_empty():
     main_empty_channel()
@@ -98,7 +103,16 @@ def channel_empty():
 @parser.command()
 @click.option('--ex_id',help='Execution id')
 def file_copy(ex_id):
-    copy_file(ex_id)
+    status = get_status_execution(ex_id)
+    match status:
+        case 'parsing_ok':
+            copy_file(ex_id)
+        case 'filemove_process':
+            file_copy_pr(ex_id=ex_id)
+        case 'completed':
+            print('This execution already copied!')
+        case _:
+            print('This execution not ready to copy. You need to run parse command')
 
 
 
