@@ -14,6 +14,7 @@ from django_orm.db.models import *
 
 
 def insert_data_to_db(info_list):
+    global  ex_id
     channel_count = [0,0]
     group_count = [0,0]
     for data_ch in info_list[0]:
@@ -33,6 +34,7 @@ def insert_data_to_db(info_list):
             ex_id= group[2]
             group_count[0]+=exist_g
             group_count[1]+=new_g
+    change_status_execution(id=ex_id, parsing_ok=True)
     return channel_count,group_count
 
 

@@ -17,20 +17,20 @@ def change_status_execution(id,parsing_process=False,parsing_ok=False,filemove_p
     execution = Execution.objects.get(pk=id)
     if parsing_ok == True:
         execution.status = 'parsing_ok'
-        print(f'[Execution]\'s id:{execution.pk} status changed to [green]parsing_ok')
+        print(f'Execution\'s id:{execution.pk} status changed to parsing_ok')
         execution.save()
     elif parsing_process == True:
         execution.status = 'parsing_process'
         execution.save()
-        print(f'[Execution]\'s id:{execution.pk} status changed to [green]parsing_process')
+        print(f'Execution\'s id:{execution.pk} status changed to parsing_process')
     elif filemove_process == True:
         execution.status = 'filemove_process'
         execution.save()
-        print(f'[Execution]\'s id:{execution.pk} status changed to [green]filemove_process')
+        print(f'Execution\'s id:{execution.pk} status changed to filemove_process')
     elif completed == True:
         execution.status = 'completed'
         execution.save()
-        print(f'[Execution]\'s id:{execution.pk} status changed to [green]completed')
+        print(f'Execution\'s id:{execution.pk} status changed to completed')
     elif empty_channel==True:
         execution.status = 'tg_channel_empty'
         execution.save()

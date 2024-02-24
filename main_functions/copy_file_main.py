@@ -36,7 +36,7 @@ def copy_file(ex_id):
             update_target_group(pk=group.pk, target=path)
             update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
             copy_all_files(group=group, path=path)
-
+        change_status_execution(id=ex_id, completed=True)
         print('Total count of Nonparent data:', n)
         print('Total count of Channel id\'s not null data:',k)
 

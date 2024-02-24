@@ -79,7 +79,7 @@ def parsing(ex_id):
                 main_parsing_process(ex_id=ex_id)
             case _:
                 print(f'Status is: {status}. Already parsed')
-        change_status_execution(id=ex_id, parsing_ok=True)
+
     except Exception as e:
         print(e)
 
@@ -120,7 +120,6 @@ def file_copy(ex_id):
                 print('This execution already completed!')
             case _:
                 print('This execution is not ready to copy. You need to run parse command')
-        change_status_execution(id=ex_id, completed=True)
     except Exception as e:
         print(e)
 
