@@ -1,4 +1,6 @@
 import os
+import time
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -77,6 +79,11 @@ def parsing(ex_id):
             main_parsing_process(ex_id=ex_id)
         case _:
             print(f'Status is: {status}. Already parsed')
+    i = 0
+    while True:
+        i+=1
+        print(i)
+        time.sleep(i)
 
 
 
@@ -84,7 +91,8 @@ def parsing(ex_id):
 
 
 
-@parser.command(help='Run parsing and copy command step by step')
+
+@parser.command(help='Run parsing and copy commands step by step')
 @click.option('--ex_id',help='Execution id')
 def execute(ex_id):
     main_execute(ex_id=ex_id)
@@ -108,10 +116,15 @@ def file_copy(ex_id):
         case 'filemove_process':
             file_copy_pr(ex_id=ex_id)
         case 'completed':
-            print('This execution already copied!')
+            print('This execution already completed!')
         case _:
-            print('This execution not ready to copy. You need to run parse command')
-    change_status_execution(id=ex_id, completed=True)
+            print('This execution is not ready to copy. You need to run parse command')
+    # change_status_execution(id=ex_id, completed=True)
+    i = 0
+    while True:
+        i+=1
+        print(i)
+        time.sleep(i)
 
 
 

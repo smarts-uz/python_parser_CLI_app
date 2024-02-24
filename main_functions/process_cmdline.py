@@ -14,7 +14,12 @@ def cmd_parsing_process():
             if process_info['cmdline']:
                 if process_info['name'] == "python.exe":
                     if 'main.py' and 'parsing' in process_info['cmdline']:
-                        cmd_list.append(process_info['cmdline'])
+                        execution_id = process_info['cmdline'][-1].split('=')[1]
+                        cmd_list.append({execution_id:{
+                            'PID': process_info['pid'],
+                            'CMD Line' : process_info['cmdline'],
+                            'Status' : process_info['status']
+                        }})
 
                 # if process_info['name'] == "python.exe":  # print only python's proccess list
                 #     for cmd in process_info['cmdline']:
@@ -43,7 +48,12 @@ def cmd_copy_process():
             if process_info['cmdline']:
                 if process_info['name'] == "python.exe":
                     if 'main.py' and 'file-copy' in process_info['cmdline']:
-                        cmd_list.append(process_info['cmdline'][-1])
+                        execution_id = process_info['cmdline'][-1].split('=')[1]
+                        cmd_list.append({execution_id: {
+                            'PID': process_info['pid'],
+                            'CMD Line': process_info['cmdline'],
+                            'Status': process_info['status']
+                        }})
 
                 # if process_info['name'] == "python.exe":  # print only python's proccess list
                 #     for cmd in process_info['cmdline']:
