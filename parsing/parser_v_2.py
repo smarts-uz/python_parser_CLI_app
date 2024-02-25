@@ -96,73 +96,34 @@ class Pars:
                     }}
                 )
 
-
-            # if c_msg['from_name'] == self.channel_name:
-            #     data.append(
-            #     {c_msg['message_id']:{
-            #         "message_id": c_msg['message_id'],
-            #         "message_details": c_msg['message_details'],
-            #         "text": c_msg['text'],
-            #         "file_path": c_msg['file_path'],
-            #         "duration": c_msg['duration'],
-            #         "size": c_msg['size'],
-            #         'reply_to_msg_id': c_msg['reply_to_msg_id'],
-            #         "replied_message_details": c_msg['replied_message_details'],
-            #         'date':c_msg['date'],
-            #         'from_name': c_msg['from_name'],
-            #         'execution_id': self.execution_id,
-            #         'path' : path,
-            #
-            #     }})
-            #
-            # else:
-            #     data_g.append(
-            #         {c_msg['message_id']:{
-            #             "message_id": c_msg['message_id'],
-            #             "message_details": c_msg['message_details'],
-            #             "content": c_msg['text'],
-            #             "file_path": c_msg['file_path'],
-            #             "duration": c_msg['duration'],
-            #             "size": c_msg['size'],
-            #             "replied_message_details": c_msg['replied_message_details'],
-            #             'replied_message_id': c_msg['reply_to_msg_id'],
-            #             'date': c_msg['date'],
-            #             'tg_channel_id': tg_channel_id,
-            #             'execution_id': self.execution_id,
-            #             'path': path,
-            #             'channel_name': self.channel_name,
-            #             'html' : current_html,
-            #             'absent': c_msg['absent']
-            #         }}
-            #     )
-
-
         for joined_message in joined_messages:
             j_data = joined_msg(joined_message,self.execution_id,path)
-
-            if j_data['replied_message_id'] == None and data != []:
+            if j_data['replied_message_id'] == None and data != [] and j_data['content'] != None:
                 filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
-                channel_data = filtered_message_numbers[-1]
-                filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
-                id = filtered_message_ids[-1]
-                print(f'This message send by channel:{j_data['message_details']} {j_data['content']} \n added to channel_list instead of group_list')
-                if j_data['date'] == channel_data[id]['date']:
-                    data.append({j_data['message_id']:{
-                        "message_id": j_data['message_id'],
-                        "message_details": j_data['message_details'],
-                        "text": j_data['content'],
-                        "file_path": j_data['file_path'],
-                        "duration": j_data['duration'],
-                        "size": j_data['size'],
-                        'reply_to_msg_id': j_data['replied_message_id'],
-                        "replied_message_details": j_data['replied_message_details'],
-                        'date': j_data['date'],
-                        'from_name': channel_data[id]['from_name'],
-                        'execution_id': self.execution_id,
-                        'path': path,
+                if filtered_message_numbers != []:
+                    channel_data = filtered_message_numbers[-1]
+                    filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
+                    channel_data_id = filtered_message_ids[-1]
+                    print(
+                        f'This message send by channel:{j_data['message_details']} {j_data['content']} \n added to channel_list instead of group_list')
+                    if j_data['date'] == channel_data[channel_data_id]['date'] and self.channel_name == channel_data[channel_data_id]['from_name']:
+                        data.append({j_data['message_id']: {
+                            "message_id": j_data['message_id'],
+                            "message_details": j_data['message_details'],
+                            "text": j_data['content'],
+                            "file_path": j_data['file_path'],
+                            "duration": j_data['duration'],
+                            "size": j_data['size'],
+                            'reply_to_msg_id': j_data['replied_message_id'],
+                            "replied_message_details": j_data['replied_message_details'],
+                            'date': j_data['date'],
+                            'from_name': channel_data[id]['from_name'],
+                            'execution_id': self.execution_id,
+                            'path': path,
 
-                    }})
-                    print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
+                        }})
+
+
 
             data_g.append(
                 {j_data['message_id']:{
@@ -183,6 +144,8 @@ class Pars:
                     'absent': j_data['absent']
                 }}
             )
+            print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
+
 
         # message_numbers = list(map(lambda msg: list(msg.keys())[0], data))
 
@@ -285,3 +248,7 @@ class Pars:
 #
 
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
+
+
+a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
+a.main_msg()

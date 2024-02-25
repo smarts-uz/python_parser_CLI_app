@@ -49,7 +49,6 @@ def create_txt_file_content(path,custom_date,txt_name,content=None,):
     else:
         with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
             print(f'{path}\\{txt_name}.txt')
-            print(custom_date)
             file.write(text)
         os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
 

@@ -103,6 +103,13 @@ def clear_fix_message(main_message,execution_id,path):
     try:
         media = message_body.find('div', class_='media_wrap clearfix')
         try:
+            contact = media.find('div',class_='media clearfix pull_left media_contact')
+            title_bold = contact.find('div',class_='title bold').get_text(strip=True)
+            number_contact = contact.find('div',class_='status details').get_text(strip=True)
+            text = f'{title_bold} \nnumber:{number_contact} {text}'
+        except:
+            contact = None
+        try:
             photo_url = media.find('a', class_='photo_wrap clearfix pull_left')['href']
         except:
             photo_url = None
@@ -225,6 +232,13 @@ def joined_msg(joined_message,execution_id,path):
         text = message_body.find('div', class_='text')
     try:
         media = message_body.find('div', class_='media_wrap clearfix')
+        try:
+            contact = media.find('div',class_='media clearfix pull_left media_contact')
+            title_bold = contact.find('div',class_='title bold').get_text(strip=True)
+            number_contact = contact.find('div',class_='status details').get_text(strip=True)
+            text = f'{title_bold} \nnumber:{number_contact} {text}'
+        except:
+            contact = None
         try:
             photo_url = media.find('a', class_='photo_wrap clearfix pull_left')['href']
         except:
