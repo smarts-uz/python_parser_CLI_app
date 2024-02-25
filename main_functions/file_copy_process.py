@@ -17,17 +17,19 @@ def file_copy_pr(ex_id):
             k += 1
             match group.tg_channel_id:
                 case None:
+                    update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
+                    update_target_group(pk=group.pk, target=path)
                     i += 1
                     path = file_creator(actual_path1='All')
-                    update_target_group(pk=group.pk, target=path)
-                    update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                     copy_all_files(group=group, path=path)
                 case _:
                     l += 1
-                    name = get_name_from_channel(channel_id=group.tg_channel_id)
-                    path = file_creator(actual_path1=name)
-                    update_target_group(pk=group.pk, target=path)
                     update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
+                    update_target_group(pk=group.pk, target=path)
+                    channel = get_name_from_channel(channel_id=group.tg_channel_id)
+                    name = channel[0]
+                    custom_date = channel[1]
+                    path = file_creator(actual_path1=name,custom_date=custom_date)
                     copy_all_files(group=group, path=path)
         print(f"""Copied files count: {k}
         channel id none: {i}

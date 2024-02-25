@@ -187,9 +187,9 @@ def get_data_from_group(ex_id,last_id):
 
 def get_name_from_channel(channel_id):
     channel = TgChannel.objects.get(pk=channel_id)
-    return channel.text
+    return channel.text ,channel.date
 
 def get_execute_name_for_nonparentmessage(ex_id):
     execute = Execution.objects.get(pk=ex_id)
-    name = f'{execute.path.split("\\")[-1]} | {execute.name}'
-    return name
+    return execute.name
+

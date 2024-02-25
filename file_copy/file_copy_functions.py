@@ -25,8 +25,8 @@ def remove_http(http):
 
 def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
-    text = remove_hashtag(text)
     text = remove_http(text)
+    text = remove_hashtag(text)
     for char in unsupchar:
         text = text.replace(char,' ')
     for char in text.split(' '):
@@ -40,16 +40,19 @@ def remove_unsupported_chars(text):
     return six_word
 
 
-def create_txt_file_content(path,content=None,txt_name=None):
-
+def create_txt_file_content(path,custom_date,txt_name,content=None,):
 
     text = f""""{content}"
 """
     if os.path.isfile(f'{path}\\{txt_name}.txt'):
-        print('This txt file is already created!')
+        print(f'This txt {path}\\{txt_name}.txt file is already created!')
     else:
         with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
+            print(f'{path}\\{txt_name}.txt')
+            print(custom_date)
             file.write(text)
+        os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+
 
 
 def slice_long_words(text):

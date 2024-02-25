@@ -145,7 +145,7 @@ class Pars:
                 channel_data = filtered_message_numbers[-1]
                 filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
                 id = filtered_message_ids[-1]
-                print(f'This message send by channel: {j_data['content']} \n added to channel_list instead of group_list')
+                print(f'This message send by channel:{j_data['message_details']} {j_data['content']} \n added to channel_list instead of group_list')
                 if j_data['date'] == channel_data[id]['date']:
                     data.append({j_data['message_id']:{
                         "message_id": j_data['message_id'],

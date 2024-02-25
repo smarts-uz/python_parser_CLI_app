@@ -42,15 +42,23 @@ def correct_filename(text):
             path = f"{root}{my_list1}"
             return path
         else:
+            mylist = text.split(' ')
+            if len(mylist) >6:
+                my_list=mylist[0:6]
+            else:
+                my_list= mylist
+            text = ' '.join(my_list)
             new_text = remove_special_characters(text)
             path = f"{root}{new_text}"
             return path
 
-def file_creator(actual_path1):
+def file_creator(actual_path1,custom_date=None):
     actual_path=correct_filename(actual_path1)
     if not os.path.exists(actual_path):
         os.makedirs(actual_path)
-        print(f"Directory created sucsesfuly: {actual_path}")
+        if custom_date!=None:
+            os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
+        print(f"Directory created successfully: {actual_path}")
         return actual_path
     else:
         print(f"Directory already exists: {actual_path}")
