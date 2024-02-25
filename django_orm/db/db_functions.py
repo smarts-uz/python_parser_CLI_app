@@ -193,3 +193,7 @@ def get_execute_name_for_nonparentmessage(ex_id):
     execute = Execution.objects.get(pk=ex_id)
     return execute.name
 
+def null_data():
+    data = TgGroup.objects.filter(content__isnull=True,file_path__isnull=True)
+    return data
+

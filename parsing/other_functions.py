@@ -29,7 +29,7 @@ def check_file_exists(path,file_path):
         return True
 
 
-def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif,animation):
+def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif,animation,contact_csv):
     if photo_url != None:
         file_path = photo_url
     elif ogg_url != None:
@@ -46,6 +46,8 @@ def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif,animati
         file_path = gif
     elif animation!=None:
         file_path=animation
+    elif contact_csv!=None:
+        file_path=contact_csv
     else:
         file_path = None
 
@@ -88,7 +90,7 @@ def current_html_name(html_name):
 
 
 def clear_fix_message(main_message,execution_id,path):
-    global absent,duration_audio,animation
+    global absent,duration_audio,animation,contact_csv
     msg_details = main_message['id']
     msg_id = main_message['id'][7:]
     message_body = main_message.find('div', class_='body')
@@ -102,6 +104,23 @@ def clear_fix_message(main_message,execution_id,path):
         text = message_body.find('div', class_='text')
     try:
         media = message_body.find('div', class_='media_wrap clearfix')
+        try:
+            location = media.find('a',class_='media clearfix pull_left block_link media_location')
+            text = location['href']
+        except:
+            location = None
+        try:
+            nondownload = media.find('div',class_='media clearfix pull_left media_file')
+
+            bold = nondownload.find('div',class_='title bold').get_text(strip=True)
+            text = bold
+        except:
+            nondownload = None
+        try:
+            sticker = media.find('a', class_='sticker_wrap clearfix pull_left')
+            text = sticker['href']
+        except:
+            sticker = None
         try:
             contact = media.find('div',class_='media clearfix pull_left media_contact')
             title_bold = contact.find('div',class_='title bold').get_text(strip=True)
@@ -157,6 +176,10 @@ def clear_fix_message(main_message,execution_id,path):
         except:
             gif = None
         try:
+            contact_csv = media.find('a',class_='media clearfix pull_left block_link media_contact')['href']
+        except:
+            contact_csv = None
+        try:
             animation = media.find('a',class_='media clearfix pull_left media_video')['href']
         except:
             animation = None
@@ -175,7 +198,7 @@ def clear_fix_message(main_message,execution_id,path):
 
         size = None
     check_exist = True
-    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation)
+    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation,contact_csv)
     if file_path != None:
         check_exist = check_file_exists(path=path, file_path=file_path)
         # absent = check_file_exists(path=path, file_path=file_path)
@@ -211,7 +234,7 @@ def clear_fix_message(main_message,execution_id,path):
 
 
 def joined_msg(joined_message,execution_id,path):
-    global absent,duration_audio,animation
+    global absent,duration_audio,animation,contact_csv
     msg_details = joined_message['id']
     msg_id = joined_message['id'][7:]
     message_body = joined_message.find('div', class_='body')
@@ -233,12 +256,37 @@ def joined_msg(joined_message,execution_id,path):
     try:
         media = message_body.find('div', class_='media_wrap clearfix')
         try:
+            location = media.find('a',class_='media clearfix pull_left block_link media_location')
+            text = location['href']
+        except:
+            location = None
+        try:
+            contact_csv = media.find('a',class_='media clearfix pull_left block_link media_contact')['href']
+        except:
+            contact_csv = None
+        try:
+            nondownload = media.find('div',class_='media clearfix pull_left media_file')
+
+            bold = nondownload.find('div',class_='title bold').get_text(strip=True)
+            text = bold
+        except:
+            nondownload = None
+        try:
+            sticker = media.find('a',class_='sticker_wrap clearfix pull_left')
+            text = sticker['href']
+        except:
+            sticker = None
+        try:
             contact = media.find('div',class_='media clearfix pull_left media_contact')
             title_bold = contact.find('div',class_='title bold').get_text(strip=True)
             number_contact = contact.find('div',class_='status details').get_text(strip=True)
             text = f'{title_bold} \nnumber:{number_contact} {text}'
         except:
             contact = None
+        try:
+            contact_csv = media.find('a',class_='media clearfix pull_left block_link media_contact')['href']
+        except:
+            contact_csv = None
         try:
             photo_url = media.find('a', class_='photo_wrap clearfix pull_left')['href']
         except:
@@ -303,7 +351,7 @@ def joined_msg(joined_message,execution_id,path):
         duration = None
         size = None
 
-    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation)
+    file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation,contact_csv)
     absent = True
     if file_path != None:
         absent = check_file_exists(path=path, file_path=file_path)

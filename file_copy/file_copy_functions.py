@@ -19,6 +19,7 @@ def remove_hashtag(text):
 
 def remove_http(http):
     import re
+    print(http)
     pattern = 'https?://w?w?w?[.]?'
     word = re.sub(pattern,'',http.lower())
     return word
