@@ -6,8 +6,7 @@ from bs4 import BeautifulSoup
 
 from django_orm.db.db_functions import change_status_execution, update_execution_current
 from parsing.functions import correct_time_data, search_html
-from parsing.other_functions import file_choose, choose_duration, folder_path, clear_fix_message, joined_msg, \
-    current_html_name
+from parsing.other_functions import file_choose, choose_duration, folder_path,current_html_name, filtered_message
 
 
 class Pars:
@@ -54,8 +53,8 @@ class Pars:
         main_messages = self.parsing()[0]
         joined_messages = self.parsing()[1]
         for main_message in main_messages:
-            c_msg = clear_fix_message(main_message=main_message,execution_id=self.execution_id,path=path)
-            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['text']} (parsed)')
+            c_msg = filtered_message(main_message=main_message,execution_id=self.execution_id,path=path)
+            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['content']} (parsed)')
             match c_msg["from_name"]:
                 case self.channel_name:
 
@@ -63,11 +62,11 @@ class Pars:
                 {c_msg['message_id']:{
                     "message_id": c_msg['message_id'],
                     "message_details": c_msg['message_details'],
-                    "text": c_msg['text'],
+                    "text": c_msg['content'],
                     "file_path": c_msg['file_path'],
                     "duration": c_msg['duration'],
                     "size": c_msg['size'],
-                    'reply_to_msg_id': c_msg['reply_to_msg_id'],
+                    'reply_to_msg_id': c_msg['replied_message_id'],
                     "replied_message_details": c_msg['replied_message_details'],
                     'date':c_msg['date'],
                     'from_name': c_msg['from_name'],
@@ -80,12 +79,12 @@ class Pars:
                     {c_msg['message_id']:{
                         "message_id": c_msg['message_id'],
                         "message_details": c_msg['message_details'],
-                        "content": c_msg['text'],
+                        "content": c_msg['content'],
                         "file_path": c_msg['file_path'],
                         "duration": c_msg['duration'],
                         "size": c_msg['size'],
                         "replied_message_details": c_msg['replied_message_details'],
-                        'replied_message_id': c_msg['reply_to_msg_id'],
+                        'replied_message_id': c_msg['replied_message_id'],
                         'date': c_msg['date'],
                         'tg_channel_id': tg_channel_id,
                         'execution_id': self.execution_id,
@@ -97,7 +96,7 @@ class Pars:
                 )
 
         for joined_message in joined_messages:
-            j_data = joined_msg(joined_message,self.execution_id,path)
+            j_data = filtered_message(joined_message,self.execution_id,path)
             if j_data['replied_message_id'] == None and data != [] and j_data['content'] != None:
                 filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
                 if filtered_message_numbers != []:
@@ -156,6 +155,6 @@ class Pars:
 
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 
-#
-# a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
-# a.main_msg()
+
+a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
+a.main_msg()
