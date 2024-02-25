@@ -70,18 +70,16 @@ def collector(path,name):
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
-    try:
-        status = get_status_execution(ex_id)
-        match status:
-            case 'new':
-                main_parsing(ex_id)
-            case 'parsing_process':
-                main_parsing_process(ex_id=ex_id)
-            case _:
-                print(f'Status is: {status}. Already parsed')
+    status = get_status_execution(ex_id)
+    match status:
+        case 'new':
+            main_parsing(ex_id)
+        case 'parsing_process':
+            main_parsing_process(ex_id=ex_id)
+        case _:
+            print(f'Status is: {status}. Already parsed')
 
-    except Exception as e:
-        print(e)
+
 
 
 
@@ -109,19 +107,18 @@ def execute(ex_id):
 @parser.command(help='Copy files to folder which given in .env "Base dir = "')
 @click.option('--ex_id',help='Execution id')
 def file_copy(ex_id):
-    try:
-        status = get_status_execution(ex_id)
-        match status:
-            case 'parsing_ok':
-                copy_file(ex_id)
-            case 'filemove_process':
-                file_copy_pr(ex_id=ex_id)
-            case 'completed':
-                print('This execution already completed!')
-            case _:
-                print('This execution is not ready to copy. You need to run parse command')
-    except Exception as e:
-        print(e)
+    status = get_status_execution(ex_id)
+    match status:
+        case 'parsing_ok':
+            copy_file(ex_id)
+        case 'filemove_process':
+            file_copy_pr(ex_id=ex_id)
+        case 'completed':
+            print('This execution already completed!')
+        case _:
+            print('This execution is not ready to copy. You need to run parse command')
+
+
 
 
 

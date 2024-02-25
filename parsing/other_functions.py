@@ -128,7 +128,7 @@ def filtered_message(main_message,execution_id,path):
             contact = media.find('div',class_='media clearfix pull_left media_contact')
             title_bold = contact.find('div',class_='title bold').get_text(strip=True)
             number_contact = contact.find('div',class_='status details').get_text(strip=True)
-            text = f'{title_bold} \nnumber:{number_contact} {text}'
+            text = f'{title_bold} number:{number_contact} {text}'
         except:
             contact = None
         try:
