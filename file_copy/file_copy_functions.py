@@ -12,7 +12,7 @@ def remove_hashtag(text):
     import re
     result = re.findall(r'#\w+', text)
     for res in result:
-        text = text.replace(res, '')
+        text = text.replace(res,'')
 
     return text
 
@@ -24,20 +24,24 @@ def remove_http(http):
     word = re.sub(pattern,'',http.lower())
     return word
 
-def remove_unsupported_chars(text):
+def remove_unsupported_chars(text,hashtag=True):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
     text = remove_http(text)
-    text = remove_hashtag(text)
+    if hashtag == True:
+        text = remove_hashtag(text)
+    else:
+        pass
     for char in unsupchar:
-        text = text.replace(char,' ')
+        text = text.replace(char,'')
     for char in text.split(' '):
-        if len(char) > 15:
-            text  = text.replace(char,char[:15])
-    if len(list(text)) > 6:
-        six_word = text.split(' ')[:6]
+        if len(char) > 20:
+            text  = text.replace(char,char[:20])
+    if len(list(text)) > 10:
+        six_word = text.split(' ')[:10]
         six_word =' '.join(six_word)
     else:
         six_word=text
+
     return six_word
 
 

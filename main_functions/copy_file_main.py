@@ -16,7 +16,7 @@ def copy_file(ex_id):
     for channel in channels:
         i += 1
         print(f'channel:{i}: pk:{channel.pk} ex_id:{channel.execution_id} content:{channel.text}')
-        path = file_creator(actual_path1=channel.text, custom_date=channel.date)
+        path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=channel.file_path)
         path = f'{path.strip()}\\'
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
         change_status_execution(id=ex_id, filemove_process=True)
@@ -31,7 +31,7 @@ def copy_file(ex_id):
         n += 1
         update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
         group_name = get_execute_name_for_nonparentmessage(ex_id=ex_id)
-        path = file_creator(actual_path1=group_name)
+        path = file_creator(actual_path1=group_name,custom_date=group.date)
 
         copy_all_files(group=group, path=path)
         update_target_group(pk=group.pk, target=path)
