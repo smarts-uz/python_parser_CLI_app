@@ -14,13 +14,16 @@ def create_readme_file(dst_path, content, date, file_path=None):
             file_name = file_name.replace('  ',' ')
             match http:
                 case []:
-                    for hashtag in hashtag_list:
-                        if len(hashtag) > 100:
-                            hashtag_name = hashtag[:100]
-                        else:
-                            hashtag_name= hashtag
-                        with open(f'{dst_path}/#{hashtag_name}.txt', 'w', encoding='utf=8') as file:
-                            file.write(f'#{hashtag}')
+                    if hashtag_list != []:
+                        for hashtag in hashtag_list:
+                            if len(hashtag) > 100:
+                                hashtag_name = hashtag[:100]
+                            else:
+                                hashtag_name = hashtag
+                            with open(f'{dst_path}/#{hashtag_name}.txt', 'w', encoding='utf=8') as file:
+                                file.write(f'#{hashtag}')
+                    else:
+                        print('Hashtag not found')
                 case _:
                     create_url_file(url=http, name=file_name, path=dst_path, custom_date=date)
         case _:
