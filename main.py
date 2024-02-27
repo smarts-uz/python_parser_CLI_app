@@ -81,15 +81,6 @@ def parsing(ex_id):
 
 
 
-
-
-
-
-
-
-
-
-
 @parser.command(help='Run parsing and copy commands step by step')
 @click.option('--ex_id',help='Execution id')
 def execute(ex_id):
@@ -117,13 +108,6 @@ def file_copy(ex_id):
             print('This execution already completed!')
         case _:
             print('This execution is not ready to copy. You need to run parse command')
-
-
-
-
-
-
-
 
 
 

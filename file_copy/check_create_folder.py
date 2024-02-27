@@ -28,7 +28,7 @@ def remove_special_characters(text):
 
 #
 def correct_filename(text):
-    text = remove_hashtag(text=text)
+    text = remove_hashtag(text=text)[0]
     text1 = text.split('\n')
     for line in text1:
         line = line.strip()

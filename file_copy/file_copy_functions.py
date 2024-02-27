@@ -10,39 +10,39 @@ def strip_space_list_element(text):
 
 def remove_hashtag(text):
     import re
-    result = re.findall(r'#\w+', text)
-    for res in result:
-        text = text.replace(res,'')
+    # result = re.findall(r'#\w+?', text)
+    result = re.findall(r'\#.*', text)
+    text = re.sub(r'\#.*','',text)
+    hashtag_text = ''.join(result)
+    hashtag_list = hashtag_text.split('#')
 
-    return text
+    return text, hashtag_list[1:]
 
 
 def remove_http(http):
     import re
-    print(http)
     pattern = 'https?://w?w?w?[.]?'
     word = re.sub(pattern,'',http.lower())
     return word
 
-def remove_unsupported_chars(text,hashtag=True):
+def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
     text = remove_http(text)
-    if hashtag == True:
-        text = remove_hashtag(text)
-    else:
-        pass
+
+    text_1 = remove_hashtag(text)
+    text = text_1[0]
+    hashtag_list = text_1[1]
+
     for char in unsupchar:
         text = text.replace(char,'')
-    for char in text.split(' '):
-        if len(char) > 20:
-            text  = text.replace(char,char[:20])
+
     if len(list(text)) > 10:
         six_word = text.split(' ')[:10]
         six_word =' '.join(six_word)
     else:
         six_word=text
 
-    return six_word
+    return six_word,hashtag_list
 
 
 def create_txt_file_content(path,custom_date,txt_name,content=None,):

@@ -116,7 +116,7 @@ class Pars:
                             'reply_to_msg_id': j_data['replied_message_id'],
                             "replied_message_details": j_data['replied_message_details'],
                             'date': j_data['date'],
-                            'from_name': channel_data[id]['from_name'],
+                            'from_name': channel_data[channel_data_id]['from_name'],
                             'execution_id': self.execution_id,
                             'path': path,
 
@@ -155,6 +155,6 @@ class Pars:
 
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 
-
-a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
-a.main_msg()
+#
+# a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
+# a.main_msg()

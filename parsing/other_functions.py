@@ -79,7 +79,6 @@ def search_message_html(path):
                 html_files.append(os.path.join(root, file))
                 print(f'{os.path.join(root, file)} : directory found!!')
                 for d in dirs:dirs.remove(d)
-
     return os_sorted(html_files)
 
 
