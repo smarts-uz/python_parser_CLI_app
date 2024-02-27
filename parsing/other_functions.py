@@ -101,7 +101,10 @@ def filtered_message(main_message,execution_id,path):
         from_name = None
 
     try:
-        text = message_body.find('div', class_='text').get_text(strip=True)
+        # text = message_body.find('div', class_='text').get_text(strip=True)
+        text = message_body.find('div', class_='text').get_text(strip=True,separator=' ')
+
+
     except:
         text = message_body.find('div', class_='text')
     try:
@@ -204,10 +207,6 @@ def filtered_message(main_message,execution_id,path):
     if file_path != None:
         check_exist = check_file_exists(path=path, file_path=file_path)
         # absent = check_file_exists(path=path, file_path=file_path)
-
-
-
-
 
     duration = choose_duration(duration_ogg, duration_video,duration_audio)
 

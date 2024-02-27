@@ -2,6 +2,7 @@ import json
 import time
 from pprint import pprint
 
+import natsort
 from bs4 import BeautifulSoup
 
 from django_orm.db.db_functions import change_status_execution, update_execution_current
@@ -54,6 +55,7 @@ class Pars:
         joined_messages = self.parsing()[1]
         for main_message in main_messages:
             c_msg = filtered_message(main_message=main_message,execution_id=self.execution_id,path=path)
+
             print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['content']} (parsed)')
             match c_msg["from_name"]:
                 case self.channel_name:
@@ -146,15 +148,13 @@ class Pars:
             print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
 
 
-        # message_numbers = list(map(lambda msg: list(msg.keys())[0], data))
 
-        # pprint(filtered_message_numbers[-1])
-        return [data,data_g]
+        return [natsort.os_sorted(data),natsort.os_sorted(data_g)]
 
 #
 
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 
-#
-# a = Pars(file_path="h:\\Exports\\SmartTech Cars Group\\2022-04-04\\messages.html",channel_name="SmartTech Cars",execution_id=123)
-# a.main_msg()
+# #
+# a = Pars(file_path="h:\\Exports\\Envato Learning Group\\2022-10-10\\messages.html",channel_name="SmartTech Envato",execution_id=123)
+# a.main_msg()[0]
