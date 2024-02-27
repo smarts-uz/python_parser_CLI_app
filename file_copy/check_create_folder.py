@@ -1,6 +1,7 @@
 import os
 
 from file_copy.create_txt_file_for_folders import create_readme_file
+from file_copy.remove_http_for_folders import check_http
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -14,7 +15,8 @@ load_dotenv()
 
 root = os.getenv('PATH_TO_SAVE')
 
-from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag, slice_long_words
+from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag, slice_long_words, \
+    remove_unsupported_chars
 
 
 # Testing value
@@ -22,6 +24,7 @@ from file_copy.file_copy_functions import strip_space_list_element, remove_hasht
 
 
 def remove_special_characters(text):
+    # filtered_text = (''.join(char for char in text if char.isalpha() or char.isspace()))
     filtered_text = (''.join(char for char in text if char.isalpha() or char.isspace()))
     return filtered_text
 
@@ -43,15 +46,25 @@ def correct_filename(text):
             path = f"{root}{my_list1}"
             return path
         else:
-            mylist = text.split(' ')
-            if len(mylist) > 7:
-                my_list = mylist[0:7]
-            else:
-                my_list = mylist
-            text = ' '.join(my_list)
-            new_text = remove_special_characters(text)
-            path = f"{root}{new_text}"
-            return path
+            http = check_http(text=text)
+
+            match http:
+                case '':
+                    mylist = text.split(' ')
+
+                    if len(mylist) > 7:
+                        my_list = mylist[0:7]
+                    else:
+                        my_list = mylist
+                    text = ' '.join(my_list)
+                    # new_text = remove_special_characters(text)
+                    new_text = remove_unsupported_chars(text)[0]
+                    path = f"{root}{new_text}"
+
+                    return path
+                case _:
+                    path = f'{root}{http}'
+                    return path
 
 
 def file_creator(actual_path1, file_path=None, custom_date=None):

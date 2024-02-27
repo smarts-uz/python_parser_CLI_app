@@ -15,6 +15,7 @@ def copy_file_with_custom_date(src, dst, custom_date):
     file_dst = shutil.copy(src=src, dst=dst)
     # Set the custom date
     os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
+    return file_dst
 
 
 
@@ -34,7 +35,7 @@ def copy_all_files(group,path):
 
 
                 case _:
-                    content = remove_unsupported_chars(text=group.content)
+                    content = remove_unsupported_chars(text=group.content)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')
                     if os.path.isfile(destination_file_path):
                         print(f'This {group.pk}\'s data is  already copied')
@@ -50,7 +51,7 @@ def copy_all_files(group,path):
                         except:
                            pass
         case True:
-            content = remove_unsupported_chars(text=group.content)
+            content = remove_unsupported_chars(text=group.content)[0]
             http = find_https(group.content)
 
             match http:

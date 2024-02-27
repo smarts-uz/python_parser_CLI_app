@@ -14,18 +14,20 @@ def file_copy_pr(ex_id):
         i = 0
         l = 0
         for group in groups:
+            print(group.pk)
             k += 1
+            channel = get_name_from_channel(channel_id=group.tg_channel_id)
             match group.tg_channel_id:
                 case None:
                     update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                     i += 1
-                    path = file_creator(actual_path1='All')
+                    path = file_creator(actual_path1=channel.name)
                     copy_all_files(group=group, path=path)
                     update_target_group(pk=group.pk, target=path)
                 case _:
                     l += 1
                     update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
-                    channel = get_name_from_channel(channel_id=group.tg_channel_id)
+
                     name = channel[0]
                     custom_date = channel[1]
                     path = file_creator(actual_path1=name,custom_date=custom_date)
