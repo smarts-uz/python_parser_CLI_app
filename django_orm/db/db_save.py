@@ -31,10 +31,13 @@ def insert_data_to_db(info_list):
             group = insert_or_get_group(data_g)
             exist_g = group[0]
             new_g = group[1]
-            ex_id= group[2]
+            ex_id = group[2]
             group_count[0]+=exist_g
             group_count[1]+=new_g
-    change_status_execution(id=ex_id, parsing_ok=True)
+    try:
+        change_status_execution(id=ex_id, parsing_ok=True)
+    except:
+        print('Nothing to parser')
     return channel_count,group_count
 
 

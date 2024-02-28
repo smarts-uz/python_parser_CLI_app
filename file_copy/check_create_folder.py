@@ -31,7 +31,6 @@ def remove_special_characters(text):
 
 #
 def correct_filename(text):
-    text = remove_hashtag(text=text)[0]
     text1 = text.split('\n')
     for line in text1:
         line = line.strip()
@@ -41,11 +40,20 @@ def correct_filename(text):
             my_list = line.split('|')
             my_list = strip_space_list_element(text=my_list)
             my_list.reverse()
+            for i,word in enumerate(my_list):
+                update_text = remove_hashtag(text=word)[0]
+                if 'http' in update_text.lower():
+                    update_text = check_http(text=update_text)
+                my_list[i] = update_text
+
             my_list = slice_long_words(my_list)
             my_list1 = '\\'.join(my_list)
+
             path = f"{root}{my_list1}"
             return path
+
         else:
+            text = remove_hashtag(text=text)[0]
             http = check_http(text=text)
 
             match http:
@@ -68,6 +76,7 @@ def correct_filename(text):
 
 
 def file_creator(actual_path1,file_path=None, custom_date=None,main_path=None):
+    hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1)
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):

@@ -68,9 +68,9 @@ def create_txt_file_content(path,custom_date,txt_name,content=None,):
 
 def slice_long_words(text):
     for word in text:
-        if len(word) > 20:
+        if len(word) > 100:
             index = text.index(word)
-            text[index] = word[:20]
+            text[index] = word[:100]
         else:
             text = text
     return text

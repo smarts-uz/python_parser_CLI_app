@@ -20,8 +20,6 @@ def file_copy_pr(ex_id):
                 i += 1
                 name = get_execute_name_for_nonparentmessage(ex_id=ex_id)
                 path = file_creator(actual_path1=name)
-                print(path,'path')
-                path(path.strip(),'path stip')
                 copy_all_files(group=group, path=path)
                 update_target_group(pk=group.pk, target=path)
             case _:
