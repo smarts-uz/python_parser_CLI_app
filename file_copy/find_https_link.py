@@ -1,7 +1,8 @@
 import os.path
 import re
+import time
 
-from file_copy.file_copy_functions import remove_unsupported_chars
+from file_copy.file_copy_functions import remove_unsupported_chars, slice_long_words, slice_words
 
 
 def find_https(content):
@@ -15,8 +16,7 @@ def find_https(content):
 def create_url_file(url,name,path,custom_date):
     name_1 = url.split('/')[-1].split('.')[0]
     name_1 = remove_unsupported_chars(name_1)[0]
-    print(name_1)
-
+    name_1 = slice_words(text=name_1)
     file_url = os.path.isfile(f'{path}\\{name_1}.url')
     match file_url:
         case True:

@@ -23,7 +23,10 @@ DATABASES = {
         'PASSWORD': password,
         'HOST': host,
         'PORT': port,
-    }
+    },
+    'OPTIONS': {
+        'options': '-c statement_timeout=5000' # Here
+     }
 }
 
 

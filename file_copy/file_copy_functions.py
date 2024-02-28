@@ -75,4 +75,11 @@ def slice_long_words(text):
             text = text
     return text
 
+
+def slice_words(text):
+    if len(text) > 100:
+        text = text[:100]
+    else:
+        text = text
+    return text
 # d:\testingparsing\PHP\HTML Parser\Paquettg.Php-Html-Parser\

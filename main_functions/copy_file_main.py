@@ -17,7 +17,11 @@ def copy_file(ex_id):
     for channel in channels:
         i += 1
         print(f'channel:{i}: pk:{channel.pk} ex_id:{channel.execution_id} content:{channel.text}')
-        path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
+        if channel.text != None:
+            path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
+        else:
+            channel_text = channel.file_path.split('/')[1]
+            path = file_creator(actual_path1=channel_text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
 
         for group in groups:
