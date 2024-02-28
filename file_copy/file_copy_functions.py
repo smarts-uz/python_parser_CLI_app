@@ -26,6 +26,10 @@ def remove_http(http):
     import re
     pattern = 'https?://w?w?w?[.]?'
     word = re.sub(pattern,' ',http.lower())
+    replace_char = ['exchanges/','search?q=']
+    for char in replace_char:
+        word = word.replace(char,' ')
+        word = word.replace('  ',' ')
     return word
 
 def remove_unsupported_chars(text):

@@ -6,15 +6,15 @@ from file_copy.file_copy_functions import remove_unsupported_chars ,remove_hasht
 from file_copy.find_https_link import find_https, create_url_file
 
 
-def create_readme_file(dst_path, content, date, file_path=None):
+def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
     match file_path:
         case None:
-            http = find_https(content=content)
+            https = find_https(content=content)
             chars = remove_unsupported_chars(content)
             file_name = chars[0]
             hashtag_list = chars[1]
             file_name = file_name.replace('  ',' ')
-            match http:
+            match https:
                 case []:
                     if hashtag_list != []:
                         for hashtag in hashtag_list:
@@ -27,10 +27,15 @@ def create_readme_file(dst_path, content, date, file_path=None):
                     else:
                         print('Hashtag not found')
                 case _:
-                    create_url_file(url=http, name=file_name, path=dst_path, custom_date=date)
+                    i=0
+                    for http in https:
+                        i+=1
+                        create_url_file(url=http, name=f'{file_name}{i}', path=dst_path, custom_date=date)
         case _:
-            new_dst = copy_file_with_custom_date(src=file_path,dst=dst_path,custom_date=date)
+            src_file_path = f'{main_path}/{file_path}'
+            new_dst = copy_file_with_custom_date(src=src_file_path,dst=dst_path,custom_date=date)
             file_type = file_path.split('.')[-1]
-            new_name = remove_unsupported_chars(content)[0]
-            os.rename(new_dst,f'{dst_path}/{new_name}.{file_type}')
+            if content !=None:
+                new_name = remove_unsupported_chars(content)[0]
+                os.rename(new_dst,f'{dst_path}/{new_name}.{file_type}')
 

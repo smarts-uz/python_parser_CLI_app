@@ -13,14 +13,14 @@ def copy_file(ex_id):
     k = 0
     n = 0
     channels = get_content_from_tg_channel_by_ex_id(ex_id=ex_id)
+    change_status_execution(id=ex_id, filemove_process=True)
     for channel in channels:
         i += 1
         print(f'channel:{i}: pk:{channel.pk} ex_id:{channel.execution_id} content:{channel.text}')
-        file_path = f'{channel.path}/{channel.file_path}'
-        path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=file_path)
+        path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
         path = f'{path.strip()}\\'
         groups = get_data_tg_channel_nonempty(ex_id=ex_id, channel_id=channel.pk)
-        change_status_execution(id=ex_id, filemove_process=True)
+
         for group in groups:
             update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
             update_target_group(pk=group.pk, target=path)

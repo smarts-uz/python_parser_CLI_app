@@ -52,13 +52,16 @@ def copy_all_files(group,path):
                            pass
         case True:
             content = remove_unsupported_chars(text=group.content)[0]
-            http = find_https(group.content)
+            https = find_https(group.content)
 
-            match http:
+            match https:
                 case []:
                     create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',custom_date=group.date)
                     print(f'{group.pk}\'s data message copied with name {content}')
                 case _:
-                    create_url_file(url=http[0],name=content,path=path,custom_date=group.date)
-                    print(f'{group.pk}\'s created url file {http[0]}')
+                    i=0
+                    for http in https:
+                        i+=1
+                        create_url_file(url=http,name=f'{content}{i}',path=path,custom_date=group.date)
+                        print(f'{group.pk}\'s created url file {http}')
 

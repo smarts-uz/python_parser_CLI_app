@@ -87,7 +87,7 @@ def insert_or_get_channel(data_c):
         except TgChannel.DoesNotExist:
             channel = TgChannel.objects.create(**data)
             new +=1
-            print(f'[+]{data["text"]} saved to db with channel_id:{channel.pk} ex_id:{channel.execution_id}')
+            print(f'[+]{data["text"]} saved to db with channel_id:{channel.pk} ex_id:{channel.execution_id} message_id:{data['message_id']}')
     return exist,new
 
 def insert_or_get_group(data_g):
@@ -112,7 +112,7 @@ def insert_or_get_group(data_g):
         except TgGroup.DoesNotExist:
             tg_group = TgGroup.objects.create(**data)
             new += 1
-            print(f'[++]{data["content"]} saved to db with group_id:{tg_group.pk} ex_id:{tg_group.execution_id}')
+            print(f'[++]{data["content"]} saved to db with group_id:{tg_group.pk} ex_id:{tg_group.execution_id} message_id:{data['message_id']}')
     return exist, new,ex_id
 
 def get_all_execution_status_pk():
@@ -186,8 +186,15 @@ def get_data_from_group(ex_id,last_id):
     return group
 
 def get_name_from_channel(channel_id):
-    channel = TgChannel.objects.get(pk=channel_id)
-    return channel.text ,channel.date
+    try:
+        channel = TgChannel.objects.get(pk=channel_id)
+        text = channel.text
+        date = channel.date
+    except:
+        text= None
+        date= None
+
+    return text ,date
 
 def get_execute_name_for_nonparentmessage(ex_id):
     execute = Execution.objects.get(pk=ex_id)
