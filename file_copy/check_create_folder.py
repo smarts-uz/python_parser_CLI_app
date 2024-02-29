@@ -38,7 +38,7 @@ def correct_filename(text):
         if '|' in line:
             # my_list = line.split(' | ')
             my_list = line.split('|')
-            my_list = strip_space_list_element(text=my_list)
+
             my_list.reverse()
             for i,word in enumerate(my_list):
                 update_text = remove_hashtag(text=word)[0]
@@ -47,8 +47,8 @@ def correct_filename(text):
                 my_list[i] = update_text
 
             my_list = slice_long_words(my_list)
+            my_list = strip_space_list_element(text=my_list)
             my_list1 = '\\'.join(my_list)
-
             path = f"{root}{my_list1}"
             return path
 
@@ -79,6 +79,7 @@ def file_creator(actual_path1,file_path=None, custom_date=None,main_path=None):
     hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1)
     actual_path = actual_path.strip()
+
     if not os.path.exists(actual_path):
         os.makedirs(actual_path)
         create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,main_path=main_path)
