@@ -29,7 +29,7 @@ def copy_all_files(group,path):
             type = file[3]
             match group.content:
                 case None:
-                    print(f'{group.pk}\'s file {group.file_path} copy process starting size: {group.size} duration: {group.duration}')
+                    print(f'{group.pk}\'s file {group.file_path.split('/')[1]} copy process starting size: {group.size} duration: {group.duration}')
                     if os.path.isfile(os.path.join(path,file_name_ex)):
                         print(f'This {group.pk}\'s file is  already copied')
                     else:
@@ -44,7 +44,7 @@ def copy_all_files(group,path):
                     else:
                         try:
                             print(
-                                f'{group.pk}\'s file {group.file_path} copy process starting size: {group.size} duration: {group.duration} content: {group.content}')
+                                f'{group.pk}\'s file {group.file_path.split('/')[1]} copy process starting size: {group.size} duration: {group.duration} content: {group.content}')
                             copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date)
                             os.rename(os.path.join(path, file_name_ex), destination_file_path)
                             create_txt_file_content(content=group.content, path=path,

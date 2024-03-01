@@ -1,3 +1,5 @@
+import natsort
+
 from django_orm.db.db_functions import get_last_copied_pk, get_data_from_group, update_target_group, \
     update_last_copy_file_pk, get_name_from_channel, change_status_execution, get_execute_name_for_nonparentmessage
 from file_copy.check_create_folder import file_creator
@@ -12,7 +14,7 @@ def file_copy_pr(ex_id):
     k = 0
     i = 0
     l = 0
-    for group in groups:
+    for group in natsort.os_sorted(groups):
         k += 1
         match group.tg_channel_id:
             case None:
