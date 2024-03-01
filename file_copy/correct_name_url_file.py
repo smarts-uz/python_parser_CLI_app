@@ -3,7 +3,7 @@
 def correct_url_name(url):
     if url[-1] == '/':
         url = url[:-1] + ''
-    if 'http' in url.lower():
+    if 'http' or 'HTTP' in url:
         host_name = url.split("//")
         if 1 < len(host_name) <3:
             host_name = host_name[1]

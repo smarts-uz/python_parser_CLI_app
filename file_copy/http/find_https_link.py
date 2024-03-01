@@ -7,8 +7,8 @@ from file_copy.file_copy_functions import remove_unsupported_chars, slice_long_w
 
 
 def find_https(content):
-    pattern = r'http\S+'
-    reg = re.findall(pattern,content.lower())
+    pattern = r'[hH][tT]{2}[pP]\S+'
+    reg = re.findall(pattern,content)
     return reg
 
 

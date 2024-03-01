@@ -24,8 +24,8 @@ def remove_hashtag(text):
 
 def remove_http(http):
     import re
-    pattern = 'https?://w?w?w?[.]?'
-    word = re.sub(pattern,' ',http.lower())
+    pattern = '[hH][tT]{2}[pP][sS]?://[wW]{3}?[.]?'
+    word = re.sub(pattern,' ',http)
     replace_char = ['exchanges/','search?q=']
     for char in replace_char:
         word = word.replace(char,' ')

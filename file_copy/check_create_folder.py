@@ -42,7 +42,7 @@ def correct_filename(text):
             my_list.reverse()
             for i,word in enumerate(my_list):
                 update_text = remove_hashtag(text=word)[0]
-                if 'http' in update_text.lower():
+                if 'http' or 'HTTP' in update_text:
                     update_text = correct_http_for_create_folder(text=update_text)
                 my_list[i] = update_text
 
