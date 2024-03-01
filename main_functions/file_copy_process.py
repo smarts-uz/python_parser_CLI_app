@@ -19,7 +19,7 @@ def file_copy_pr(ex_id):
                 update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                 i += 1
                 name = get_execute_name_for_nonparentmessage(ex_id=ex_id)
-                path = file_creator(actual_path1=name)
+                path = file_creator(actual_path1='____',channel_name=name)
                 copy_all_files(group=group, path=path)
                 update_target_group(pk=group.pk, target=path)
             case _:
@@ -28,7 +28,7 @@ def file_copy_pr(ex_id):
                 update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                 name = channel[0]
                 custom_date = channel[1]
-                path = file_creator(actual_path1=name.strip(), custom_date=custom_date)
+                path = file_creator(actual_path1=name.strip(), custom_date=custom_date,channel_name=channel[2])
                 copy_all_files(group=group, path=path)
                 update_target_group(pk=group.pk, target=path)
     print(f"""Copied files count: {k}

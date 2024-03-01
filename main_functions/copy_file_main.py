@@ -18,7 +18,7 @@ def copy_file(ex_id):
         i += 1
         print(f'channel:{i}: pk:{channel.pk} ex_id:{channel.execution_id} content:{channel.text}')
         if channel.text != None:
-            path = file_creator(actual_path1=channel.text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
+            path = file_creator(actual_path1=channel.text,channel_name=channel.from_name, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
         else:
             channel_text = channel.file_path.split('/')[1]
             path = file_creator(actual_path1=channel_text, custom_date=channel.date,file_path=channel.file_path,main_path=channel.path)
@@ -35,7 +35,7 @@ def copy_file(ex_id):
         n += 1
         update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
         group_name = get_execute_name_for_nonparentmessage(ex_id=ex_id)
-        path = file_creator(actual_path1=group_name,custom_date=group.date)
+        path = file_creator(actual_path1='____',custom_date=group.date,channel_name=group_name)
         copy_all_files(group=group, path=path)
         update_target_group(pk=group.pk, target=path)
     change_status_execution(id=ex_id, completed=True)

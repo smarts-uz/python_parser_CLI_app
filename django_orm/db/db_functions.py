@@ -190,11 +190,13 @@ def get_name_from_channel(channel_id):
         channel = TgChannel.objects.get(pk=channel_id)
         text = channel.text
         date = channel.date
+        from_name = channel.from_name
     except:
         text= None
         date= None
+        from_name = None
 
-    return text ,date
+    return text ,date,from_name
 
 def get_execute_name_for_nonparentmessage(ex_id):
     execute = Execution.objects.get(pk=ex_id)

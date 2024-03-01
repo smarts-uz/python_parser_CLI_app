@@ -13,7 +13,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-root = os.getenv('PATH_TO_SAVE')
 
 from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag, slice_long_words, \
     remove_unsupported_chars
@@ -30,7 +29,8 @@ def remove_special_characters(text):
 
 
 #
-def correct_filename(text):
+def correct_filename(text,channel_name):
+    root = f'{os.getenv('PATH_TO_SAVE')}{channel_name.strip()}/'
     text1 = text.split('\n')
     for line in text1:
         line = line.strip()
@@ -76,9 +76,9 @@ def correct_filename(text):
                     return path
 
 
-def file_creator(actual_path1,file_path=None, custom_date=None,main_path=None):
+def file_creator(actual_path1,channel_name,file_path=None, custom_date=None,main_path=None):
     hashtag_list = remove_hashtag(text=actual_path1)[1]
-    actual_path = correct_filename(actual_path1)
+    actual_path = correct_filename(actual_path1,channel_name)
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
         os.makedirs(actual_path)

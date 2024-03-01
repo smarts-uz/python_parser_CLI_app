@@ -35,14 +35,14 @@ def remove_http(http):
 def remove_unsupported_chars(text):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
     text = remove_http(text)
-
     text_1 = remove_hashtag(text)
     text = text_1[0]
     hashtag_list = text_1[1]
 
     for char in unsupchar:
         text = text.replace(char,' ')
-
+    text = text.replace('  ',' ')
+    text = text.replace('  ',' ')
     if len(list(text)) > 10:
         six_word = text.split(' ')[:10]
         six_word =' '.join(six_word)
