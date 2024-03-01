@@ -10,9 +10,7 @@ def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
         case None:
             https = find_https(content=content)
             chars = remove_unsupported_chars(content)
-            file_name = chars[0]
             hashtag_list = chars[1]
-            file_name = file_name.replace('  ',' ')
             match https:
                 case []:
                     if hashtag_list != []:
@@ -26,10 +24,8 @@ def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
                     else:
                         print('Hashtag not found')
                 case _:
-                    i=0
                     for http in https:
-                        i+=1
-                        create_url_file(url=http, name=f'{file_name}{i}', path=dst_path, custom_date=date)
+                        create_url_file(url=http,path=dst_path, custom_date=date)
         case _:
             src_file_path = f'{main_path}/{file_path}'
             new_dst = copy_file_with_custom_date(src=src_file_path,dst=dst_path,custom_date=date)

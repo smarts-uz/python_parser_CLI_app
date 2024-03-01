@@ -14,7 +14,7 @@ def find_https(content):
 
 
 
-def create_url_file(url,name,path,custom_date):
+def create_url_file(url,path,custom_date):
 
     name_1 = correct_url_name(url=url)
     name_1 = remove_unsupported_chars(name_1)[0]

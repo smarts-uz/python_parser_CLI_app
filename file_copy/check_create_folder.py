@@ -80,7 +80,6 @@ def file_creator(actual_path1,file_path=None, custom_date=None,main_path=None):
     hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1)
     actual_path = actual_path.strip()
-
     if not os.path.exists(actual_path):
         os.makedirs(actual_path)
         create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,main_path=main_path)

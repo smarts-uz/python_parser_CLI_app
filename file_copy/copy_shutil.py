@@ -62,7 +62,7 @@ def copy_all_files(group,path):
                     i=0
                     for http in https:
                         i+=1
-                        create_url_file(url=http,name=f'{content}{i}',path=path,custom_date=group.date)
+                        create_url_file(url=http,path=path,custom_date=group.date)
                         print(f'{group.pk}\'s created url file {http}')
                     create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
                                             custom_date=group.date)
