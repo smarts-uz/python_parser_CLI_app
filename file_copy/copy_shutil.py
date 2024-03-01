@@ -1,10 +1,9 @@
 import shutil
 import os
-import time
 
 from django_orm.db.db_functions import get_file_paths
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
-from file_copy.find_https_link import find_https, create_url_file
+from file_copy.http.find_https_link import find_https, create_url_file
 
 
 # def copy_file(path,file):
@@ -31,7 +30,10 @@ def copy_all_files(group,path):
             match group.content:
                 case None:
                     print(f'{group.pk}\'s file {group.file_path} copy process starting size: {group.size} duration: {group.duration}')
-                    copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date)
+                    if os.path.isfile(os.path.join(path,file_name_ex)):
+                        print(f'This {group.pk}\'s file is  already copied')
+                    else:
+                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date)
 
 
                 case _:
@@ -43,7 +45,6 @@ def copy_all_files(group,path):
                         try:
                             print(
                                 f'{group.pk}\'s file {group.file_path} copy process starting size: {group.size} duration: {group.duration} content: {group.content}')
-                            # shutil.copy2(file_path, path)
                             copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date)
                             os.rename(os.path.join(path, file_name_ex), destination_file_path)
                             create_txt_file_content(content=group.content, path=path,
@@ -53,7 +54,6 @@ def copy_all_files(group,path):
         case True:
             content = remove_unsupported_chars(text=group.content)[0]
             https = find_https(group.content)
-
             match https:
                 case []:
                     create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',custom_date=group.date)
@@ -64,4 +64,6 @@ def copy_all_files(group,path):
                         i+=1
                         create_url_file(url=http,name=f'{content}{i}',path=path,custom_date=group.date)
                         print(f'{group.pk}\'s created url file {http}')
+                    create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
+                                            custom_date=group.date)
 

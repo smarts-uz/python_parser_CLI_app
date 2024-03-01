@@ -1,9 +1,8 @@
 import os
-import shutil
 
 from file_copy.copy_shutil import copy_file_with_custom_date
-from file_copy.file_copy_functions import remove_unsupported_chars ,remove_hashtag
-from file_copy.find_https_link import find_https, create_url_file
+from file_copy.file_copy_functions import remove_unsupported_chars
+from file_copy.http.find_https_link import find_https, create_url_file
 
 
 def create_readme_file(dst_path, content, date, main_path=None,file_path=None):

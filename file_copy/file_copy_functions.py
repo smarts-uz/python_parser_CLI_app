@@ -52,19 +52,6 @@ def remove_unsupported_chars(text):
     return six_word.strip(),hashtag_list
 
 
-def create_txt_file_content(path,custom_date,txt_name,content=None,):
-
-    text = f""""{content}"
-"""
-    if os.path.isfile(f'{path}\\{txt_name}.txt'):
-        print(f'This txt {path}\\{txt_name}.txt file is already created!')
-    else:
-        with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
-            print(f'{path}\\{txt_name}.txt')
-            file.write(text)
-        os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
-
-
 
 def slice_long_words(text):
     for word in text:
@@ -82,4 +69,19 @@ def slice_words(text):
     else:
         text = text
     return text
+
+def create_txt_file_content(path,custom_date,txt_name,content=None,):
+    txt_name = slice_words(text=txt_name)
+    text = f""""{content}"
+"""
+    if os.path.isfile(f'{path}\\{txt_name}.txt'):
+        print(f'This txt {path}\\{txt_name}.txt file is already created!')
+    else:
+        with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
+            print(f'{path}\\{txt_name}.txt')
+            file.write(text)
+        os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+
+
+
 # d:\testingparsing\PHP\HTML Parser\Paquettg.Php-Html-Parser\

@@ -7,7 +7,7 @@ from file_copy.copy_shutil import copy_all_files
 def file_copy_pr(ex_id):
     last_pk = get_last_copied_pk(ex_id=ex_id)
     print(f'Last copied file is :{last_pk}')
-    groups = get_data_from_group(ex_id=ex_id, last_id=last_pk)
+    groups = get_data_from_group(ex_id=ex_id, last_id=last_pk-1)
     print(f'File copy process count: {len(groups)}')
     k = 0
     i = 0

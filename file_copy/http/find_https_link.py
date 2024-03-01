@@ -17,11 +17,8 @@ def find_https(content):
 def create_url_file(url,name,path,custom_date):
 
     name_1 = correct_url_name(url=url)
-    print(name_1,'crt')
     name_1 = remove_unsupported_chars(name_1)[0]
-    print(name_1,'rmv')
     name_1 = slice_words(text=name_1)
-    print(name,'slice')
 
     file_url = os.path.isfile(f'{path}\\{name_1}.url')
     match file_url:

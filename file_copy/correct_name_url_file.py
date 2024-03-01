@@ -5,8 +5,9 @@ def correct_url_name(url):
         url = url[:-1] + ''
     if 'http' in url.lower():
         host_name = url.split("//")
-        if len(host_name) <=2:
+        if 1 < len(host_name) <3:
             host_name = host_name[1]
+
         else:
             host_name = host_name[1:]
             host_name = '/'.join(host_name)
@@ -18,7 +19,6 @@ def correct_url_name(url):
             return name
         else:
             slicing = host_name.split('/')
-            print(slicing)
             if len(slicing) >=3:
                 name = slicing[-1]
                 return name
@@ -29,6 +29,8 @@ def correct_url_name(url):
                     return name
                 else:
                     return host_name
+    else:
+        return url
 
 
 

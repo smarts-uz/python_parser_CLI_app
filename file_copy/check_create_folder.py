@@ -1,13 +1,13 @@
 import os
 
 from file_copy.create_txt_file_for_folders import create_readme_file
-from file_copy.remove_http_for_folders import check_http
+from file_copy.remove_unsupported_chars.remove_http_for_folders import correct_http_for_create_folder
+from file_copy.remove_unsupported_chars.remove_list_unsupported_chars import remove_list_unsupported_chars
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 
 django.setup()
-from django_orm.db.models import *
 # ---Testing Structure Folsers function---
 from dotenv import load_dotenv
 
@@ -43,18 +43,19 @@ def correct_filename(text):
             for i,word in enumerate(my_list):
                 update_text = remove_hashtag(text=word)[0]
                 if 'http' in update_text.lower():
-                    update_text = check_http(text=update_text)
+                    update_text = correct_http_for_create_folder(text=update_text)
                 my_list[i] = update_text
 
             my_list = slice_long_words(my_list)
             my_list = strip_space_list_element(text=my_list)
+            my_list = remove_list_unsupported_chars(my_list)
             my_list1 = '\\'.join(my_list)
             path = f"{root}{my_list1}"
             return path
 
         else:
             text = remove_hashtag(text=text)[0]
-            http = check_http(text=text)
+            http = correct_http_for_create_folder(text=text)
 
             match http:
                 case '':
