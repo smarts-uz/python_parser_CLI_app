@@ -1,17 +1,23 @@
 import shutil
 import os
+import time
+
 from rich import print
 from django_orm.db.db_functions import get_file_paths
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
-
+from rich.progress import track
 
 # def copy_file(path,file):
 #     shutil.copy2(file, path)
 
 def copy_file_with_custom_date(src, dst, custom_date):
+    global file_dst
     # Copy the file
+    # for prg in track(range(100),description='File copying.....',):
+    #     time.sleep(0.0001)
     file_dst = shutil.copy(src=src, dst=dst)
+
     # Set the custom date
     os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
     return file_dst

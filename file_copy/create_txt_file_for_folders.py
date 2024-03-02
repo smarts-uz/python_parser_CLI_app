@@ -6,11 +6,13 @@ from file_copy.http.find_https_link import find_https, create_url_file
 
 
 def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
+
     match file_path:
         case None:
             https = find_https(content=content)
             chars = remove_unsupported_chars(content)
             hashtag_list = chars[1]
+
             match https:
                 case []:
                     if hashtag_list != []:
@@ -22,7 +24,7 @@ def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
                             with open(f'{dst_path}/#{hashtag_name}.txt', 'w', encoding='utf=8') as file:
                                 file.write(f'#{hashtag}')
                     else:
-                        print('Hashtag not found')
+                        pass
                 case _:
                     for http in https:
                         create_url_file(url=http,path=dst_path, custom_date=date)
