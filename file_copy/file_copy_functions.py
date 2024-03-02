@@ -1,5 +1,5 @@
 import os.path
-
+from rich import print
 
 def strip_space_list_element(text):
     new_list = []
@@ -24,8 +24,11 @@ def remove_hashtag(text):
 
 def remove_http(http):
     import re
-    pattern = '[hH][tT]{2}[pP][sS]?://[wW]{3}?[.]?'
-    word = re.sub(pattern,' ',http)
+    if 'http' in http or 'HTTP' in http:
+        pattern = '[hH][tT]{2}[pP][sS]?://[wW]{3}?[.]?'
+        word = re.sub(pattern,' ',http)
+    else:
+        word = http
     replace_char = ['exchanges/','search?q=']
     for char in replace_char:
         word = word.replace(char,' ')
@@ -75,10 +78,10 @@ def create_txt_file_content(path,custom_date,txt_name,content=None,):
     text = f""""{content}"
 """
     if os.path.isfile(f'{path}\\{txt_name}.txt'):
-        print(f'This txt {path}\\{txt_name}.txt file is already created!')
+        print(f'This txt [green_yellow bold]{path}\\{txt_name}.txt file is already created!')
     else:
         with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
-            print(f'{path}\\{txt_name}.txt')
+            print(f'Created txt file [green_yellow bold]{path}\\{txt_name}.txt')
             file.write(text)
         os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
 

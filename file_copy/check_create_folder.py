@@ -1,16 +1,15 @@
 import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
+import django
+django.setup()
+
 
 from file_copy.create_txt_file_for_folders import create_readme_file
 from file_copy.remove_unsupported_chars.remove_http_for_folders import correct_http_for_create_folder
 from file_copy.remove_unsupported_chars.remove_list_unsupported_chars import remove_list_unsupported_chars
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
-import django
-
-django.setup()
+from rich import print
 # ---Testing Structure Folsers function---
 from dotenv import load_dotenv
-
 load_dotenv()
 
 
@@ -42,14 +41,13 @@ def correct_filename(text,channel_name):
             my_list.reverse()
             for i,word in enumerate(my_list):
                 update_text = remove_hashtag(text=word)[0]
-                if 'http' or 'HTTP' in update_text:
+                if 'http' in update_text or 'HTTP' in update_text:
                     update_text = correct_http_for_create_folder(text=update_text)
                 my_list[i] = update_text
-
             my_list = slice_long_words(my_list)
             my_list = strip_space_list_element(text=my_list)
             my_list = remove_list_unsupported_chars(my_list)
-            my_list1 = '\\'.join(my_list)
+            my_list1 = '/'.join(my_list)
             path = f"{root}{my_list1}"
             return path
 
@@ -77,7 +75,7 @@ def correct_filename(text,channel_name):
 
 
 def file_creator(actual_path1,channel_name,file_path=None, custom_date=None,main_path=None):
-    hashtag_list = remove_hashtag(text=actual_path1)[1]
+    # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
@@ -85,10 +83,10 @@ def file_creator(actual_path1,channel_name,file_path=None, custom_date=None,main
         create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,main_path=main_path)
         if custom_date != None:
             os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
-        print(f"Directory created successfully: {actual_path}")
+        print(f"Directory created successfully: [pink4 bold]{actual_path}")
         return actual_path
     else:
-        print(f"Directory already exists: {actual_path}")
+        print(f"Directory already exists: [deep_pink4 bold]{actual_path}")
         return actual_path
 
 

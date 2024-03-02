@@ -1,11 +1,9 @@
 import os
-import time
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
-
+import time
 from main_functions.file_copy_process import file_copy_pr
 from django_orm.db.db_functions import get_status_execution, change_status_execution
 from main_functions.main_channel_empty import main_empty_channel
@@ -71,6 +69,7 @@ def collector(path,name):
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
     status = get_status_execution(ex_id)
+
     match status:
         case 'new':
             main_parsing(ex_id)
