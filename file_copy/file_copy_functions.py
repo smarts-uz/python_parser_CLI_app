@@ -11,14 +11,20 @@ def strip_space_list_element(text):
 def remove_hashtag(text):
     import re
     main_text = text
+    hashtag_list = []
     # result = re.findall(r'#.*?', text) old
-    result = re.findall(r'#\w*', text)
-    text = re.sub(r'\#.*','',text)
-    if 'Hashtag' in text:
-        text = re.sub(r'[hH]ashtag','',text)
 
-    hashtag_text = ''.join(result)
-    hashtag_list = hashtag_text.split('#')
+    if '#' in text and '|' in text and text.index('#') > text.index('|'):
+        result = re.findall(r'\#.*', text)
+        text = re.sub(r'\#.*', '', text)
+        hashtag_text = ''.join(result)
+        hashtag_list = hashtag_text.split('#')
+
+    else:
+        text = text
+
+
+
     return text, hashtag_list[1:]
 
 
