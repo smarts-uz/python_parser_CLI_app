@@ -23,54 +23,41 @@ pip install -r requirements.txt
 ```
 be sure you have .env file with it credentials
 
-First step
-
+## Collector
+Collector command collects all html files folders and runs execute command
 ```python
-py main.py parsing
-```
-
-Second step
-
-```python
-py main.py update-db-content
+py main.py collector --path=file_path --name=channel_name
 ```
 
 
-Third step
+Example:  "py main.py collector --path="h:\Exports\SmartTech Learning Group" --name="SmartTech Learning"
 
+
+
+
+## Execute
+Execute command checks execution's status and runs parsing or file copy commands 
 ```python
-py main.py create-folders
+py main.py execute --ex_id=execution_id
 ```
-## [Documentation](https://github.com/smarts-uz/python_parser_CLI_app/tree/main/docs)
-* [Parsing](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/parsing/parsing.md)
-* [Parsing functions](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/parsing/functions.md)
-* [Folder  structuring](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/folders/structuring_folder.md)
-* [Functions of folder  structuring ](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/folders/functions.md)
-* [Database in parser](https://github.com/smarts-uz/python_parser_CLI_app/blob/main/docs/database/saving2db.md)  
-## How to change db
-change .env credentials
-then move to django_orm/settings.py file
-Comment line 54
+Example: "py main.py execute --ex_id=475"
+
+
+## Parsing
+
+The parsing command parses all html files that starts with messages
 ```python
-#INSTALLED_APPS = ("django_orm.db",)
-```
-and uncomment line 55
-```python
-INSTALLED_APPS = ("db",)
+py main.py parsing --ex_id=execution_id
 ```
 
-then delete this file django_orm/db/migrations/0001_initial.py
-after this do this
+Example: "py main.py parsing --ex_id=475"
+
+## File-Copy
+
+The file-copy command copies files from base dir to path_to_save which given from .env  
 ```python
-python manage.py makemigrations
-python manage.py migrate
-```
-After this return everything back in setting.py
-it makes parser working.
-It should be look like that
-```python
-#INSTALLED_APPS = ("django_orm.db",)
-INSTALLED_APPS = ("db",)
+py main.py file-copy --ex_id=execution_id
 ```
 
-Congrats you have change the db
+
+
