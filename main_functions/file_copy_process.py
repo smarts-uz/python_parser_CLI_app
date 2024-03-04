@@ -15,7 +15,7 @@ def file_copy_pr(ex_id):
             copy_file(ex_id)
         case _:
             print(f'Last copied file is :{last_pk}')
-            groups = get_data_from_group(ex_id=ex_id, last_id=last_pk - 1)
+            groups = get_data_from_group(ex_id=ex_id, last_id=last_pk)
             print(f'File copy process count: {len(groups)}')
             k = 0
             i = 0

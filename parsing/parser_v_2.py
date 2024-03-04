@@ -101,12 +101,13 @@ class Pars:
             j_data = filtered_message(joined_message,self.execution_id,path)
             if j_data['replied_message_id'] == None and data != [] and j_data['content'] != None:
                 filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
+                filtered_message_numbers = natsort.os_sorted(filtered_message_numbers)
                 if filtered_message_numbers != []:
                     channel_data = filtered_message_numbers[-1]
                     filtered_message_ids = [list(msg.keys())[0] for msg in filtered_message_numbers]
+                    filtered_message_ids = natsort.os_sorted(filtered_message_ids)
+                    # channel_data_id = natsort.os_sorted(filtered_message_ids)[-1]
                     channel_data_id = filtered_message_ids[-1]
-                    print(
-                        f'This message send by channel:{j_data['message_details']} {j_data['content']} \n added to channel_list instead of group_list')
                     if j_data['date'] == channel_data[channel_data_id]['date'] and self.channel_name == channel_data[channel_data_id]['from_name']:
                         data.append({j_data['message_id']: {
                             "message_id": j_data['message_id'],
@@ -123,6 +124,8 @@ class Pars:
                             'path': path,
 
                         }})
+                        print(
+                            f'This message send by channel:{j_data['message_details']} {j_data['content']} added to channel_list instead of group_list')
 
 
 
@@ -156,5 +159,5 @@ class Pars:
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 
 # #
-# a = Pars(file_path="h:\\Exports\\Envato Learning Group\\2022-10-10\\messages.html",channel_name="SmartTech Envato",execution_id=123)
-# a.main_msg()[0]
+# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/8-29/messages.html",channel_name="SmartTech Learning",execution_id=123)
+# a.main_msg()

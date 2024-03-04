@@ -13,13 +13,17 @@ def remove_hashtag(text):
     main_text = text
     hashtag_list = []
     # result = re.findall(r'#.*?', text) old
-
     if '#' in text and '|' in text and text.index('#') < text.index('|'):
         text = text
     else:
-        result = re.findall(r'\#.*', text)
-        text = re.sub(r'\#.*', '', text)
+        result = re.findall(r'\#\w.*', text)
+        text = re.sub(r'\#\w.*', '', text)
         hashtag_text = ''.join(result)
+        unsupchar = ["\\", "/", '"', ":", "<", ">", "|", "*", "?"]
+        for char in unsupchar:
+            hashtag_text = hashtag_text.replace(char,' ')
+        hashtag_text = hashtag_text.replace('  ',' ')
+
         hashtag_list = hashtag_text.split('#')
 
 
@@ -40,12 +44,15 @@ def remove_http(http):
         word = word.replace('  ',' ')
     return word
 
-def remove_unsupported_chars(text):
+def remove_unsupported_chars(text,hashtag=False):
     unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
     text = remove_http(text)
-    text_1 = remove_hashtag(text)
-    text = text_1[0]
-    hashtag_list = text_1[1]
+    hashtag_list = []
+    if hashtag == False:
+        text_1 = remove_hashtag(text)
+        text = text_1[0]
+        hashtag_list = text_1[1]
+
     for char in unsupchar:
         text = text.replace(char,' ')
     text = text.replace('  ',' ')

@@ -43,7 +43,7 @@ def copy_all_files(group,path):
 
 
                 case _:
-                    content = remove_unsupported_chars(text=group.content)[0]
+                    content = remove_unsupported_chars(text=group.content,hashtag=True)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')
                     if os.path.isfile(destination_file_path):
                         print(f'This [purple4]{group.pk}\'s data is  already copied')

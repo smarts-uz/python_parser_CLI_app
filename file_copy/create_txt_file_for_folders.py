@@ -6,7 +6,6 @@ from file_copy.http.find_https_link import find_https, create_url_file
 
 
 def create_readme_file(dst_path, content, date, main_path=None,file_path=None):
-
     match file_path:
         case None:
             https = find_https(content=content)
