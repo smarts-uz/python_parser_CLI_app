@@ -71,23 +71,27 @@ def slice_long_words(text):
 
 
 def slice_words(text):
-    if len(text) > 100:
-        text = text[:100]
+    if len(text) > 36:
+        text = text[:36]
     else:
-        text = text
+        text = ''
     return text
 
 def create_txt_file_content(path,custom_date,txt_name,content=None,):
     txt_name = slice_words(text=txt_name)
-    text = f""""{content}"
-"""
-    if os.path.isfile(f'{path}\\{txt_name}.txt'):
-        print(f'This txt [purple4 bold]{path}\\{txt_name}.txt file is already created!')
+    if txt_name != '':
+        text = f""""{content}"
+        """
+        if os.path.isfile(f'{path}/{txt_name}.txt'):
+            print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
+        else:
+            with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
+                print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
+                file.write(text)
+            os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
     else:
-        with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
-            print(f'Created txt file [green_yellow bold]{path}\\{txt_name}.txt')
-            file.write(text)
-        os.utime(f'{path}\\{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+        pass
+
 
 
 
