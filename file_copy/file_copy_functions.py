@@ -14,14 +14,13 @@ def remove_hashtag(text):
     hashtag_list = []
     # result = re.findall(r'#.*?', text) old
 
-    if '#' in text and '|' in text and text.index('#') > text.index('|'):
+    if '#' in text and '|' in text and text.index('#') < text.index('|'):
+        text = text
+    else:
         result = re.findall(r'\#.*', text)
         text = re.sub(r'\#.*', '', text)
         hashtag_text = ''.join(result)
         hashtag_list = hashtag_text.split('#')
-
-    else:
-        text = text
 
 
 
@@ -83,7 +82,7 @@ def create_txt_file_content(path,custom_date,txt_name,content=None,):
     text = f""""{content}"
 """
     if os.path.isfile(f'{path}\\{txt_name}.txt'):
-        print(f'This txt [green_yellow bold]{path}\\{txt_name}.txt file is already created!')
+        print(f'This txt [purple4 bold]{path}\\{txt_name}.txt file is already created!')
     else:
         with open(f'{path}\\{txt_name}.txt',mode="w", encoding='utf-8') as file:
             print(f'Created txt file [green_yellow bold]{path}\\{txt_name}.txt')

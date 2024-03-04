@@ -37,7 +37,7 @@ def copy_all_files(group,path):
                 case None:
                     print(f'[bright_green]{group.pk}\'s File {group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration}')
                     if os.path.isfile(os.path.join(path,file_name_ex)):
-                        print(f'This [bright_green]{group.pk}\'s file is  already copied')
+                        print(f'This [purple4]{group.pk}\'s File {group.file_path.split('/')[1]} is  already copied')
                     else:
                         copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date)
 
@@ -46,7 +46,7 @@ def copy_all_files(group,path):
                     content = remove_unsupported_chars(text=group.content)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')
                     if os.path.isfile(destination_file_path):
-                        print(f'This [bright_green]{group.pk}\'s data is  [cyan]already copied')
+                        print(f'This [purple4]{group.pk}\'s data is  already copied')
                     else:
                         try:
                             print(

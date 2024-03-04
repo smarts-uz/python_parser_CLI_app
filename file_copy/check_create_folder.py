@@ -86,7 +86,7 @@ def file_creator(actual_path1,channel_name,file_path=None, custom_date=None,main
         print(f"Directory created successfully: [pink4 bold]{actual_path}")
         return actual_path
     else:
-        print(f"Directory already exists: [deep_pink4 bold]{actual_path}")
+        print(f"Directory already exists: [purple4 bold]{actual_path}")
         return actual_path
 
 

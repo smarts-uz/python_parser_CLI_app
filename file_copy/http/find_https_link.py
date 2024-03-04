@@ -23,7 +23,7 @@ def create_url_file(url,path,custom_date):
     file_url = os.path.isfile(f'{path}\\{name_1}.url')
     match file_url:
         case True:
-            print(f'This url [blue bold]{path}\\{name_1}.url already created')
+            print(f'This url [purple4 bold]{path}\\{name_1}.url already created')
         case False:
             with open(f'{path.strip()}\\{name_1}.url', 'w', encoding='UTF-8') as file:
                 a = '{000214A0-0000-0000-C000-000000000046}'
