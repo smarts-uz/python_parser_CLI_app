@@ -1,6 +1,9 @@
 import os.path
 from rich import print
 
+from file_copy.silicing_long_words.slicing_words_file import slice_words
+
+
 def strip_space_list_element(text):
     new_list = []
     for word in text:
@@ -67,22 +70,10 @@ def remove_unsupported_chars(text,hashtag=False):
 
 
 
-def slice_long_words(text):
-    for word in text:
-        if len(word) > 100:
-            index = text.index(word)
-            text[index] = word[:100]
-        else:
-            text = text
-    return text
 
 
-def slice_words(text):
-    if len(text) > 36:
-        text = text[:36]
-    else:
-        text = ''
-    return text
+
+
 
 def create_txt_file_content(path,custom_date,txt_name,content=None,):
     txt_name = slice_words(text=txt_name)

@@ -3,7 +3,8 @@ import re
 import time
 from rich   import print
 from file_copy.correct_name_url_file import correct_url_name
-from file_copy.file_copy_functions import remove_unsupported_chars, slice_long_words, slice_words
+from file_copy.file_copy_functions import remove_unsupported_chars, slice_words
+from file_copy.silicing_long_words.slicing_word_url import slicing_long_word_url
 
 
 def find_https(content):
@@ -18,14 +19,13 @@ def create_url_file(url,path,custom_date):
 
     name_1 = correct_url_name(url=url)
     name_1 = remove_unsupported_chars(name_1)[0]
-    name_1 = slice_words(text=name_1)
-
-    file_url = os.path.isfile(f'{path}\\{name_1}.url')
+    name_1 = slicing_long_word_url(text=name_1)
+    file_url = os.path.isfile(f'{path}/{name_1}.url')
     match file_url:
         case True:
-            print(f'This url [purple4 bold]{path}\\{name_1}.url already created')
+            print(f'This url [purple4 bold]{path}/{name_1}.url already created')
         case False:
-            with open(f'{path.strip()}\\{name_1}.url', 'w', encoding='UTF-8') as file:
+            with open(f'{path.strip()}/{name_1}.url', 'w', encoding='UTF-8') as file:
                 a = '{000214A0-0000-0000-C000-000000000046}'
                 str = f"""[{a}]
 Prop3=19,11

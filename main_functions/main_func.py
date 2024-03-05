@@ -2,7 +2,7 @@ import os
 import time
 from pprint import pprint
 
-from main_functions.file_copy_process import file_copy_pr
+from main_functions.copy_file_process import file_copy_pr
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django

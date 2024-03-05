@@ -12,7 +12,7 @@ def correct_url_name(url):
     if 'exchanges?' in url:
         url = url.replace('exchanges?',' ')
     url = url.replace('/', ' ')
-    url = url.replace(' ',' ')
+    url = url.replace('  ',' ')
 
     return url.title()
 

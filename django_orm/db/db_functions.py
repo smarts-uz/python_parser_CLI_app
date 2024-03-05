@@ -181,12 +181,13 @@ def get_last_copied_pk(ex_id):
     execute = Execution.objects.get(pk=ex_id)
     return execute.last_copied_file_pk
 
-def get_data_from_group(ex_id,last_id):
+def get_data_from_group_copy_file_process(ex_id,last_id):
     group = TgGroup.objects.filter(pk__gte=last_id,execution_id=ex_id)
     return group
 
 def get_name_from_channel(channel_id):
     try:
+
         channel = TgChannel.objects.get(pk=channel_id)
         text = channel.text
         date = channel.date
@@ -206,3 +207,7 @@ def null_data():
     data = TgGroup.objects.filter(content__isnull=True,file_path__isnull=True)
     return data
 
+
+def get_data_from_group_copy_file(ex_id):
+    group = TgGroup.objects.filter(execution_id=ex_id)
+    return group

@@ -4,7 +4,7 @@ import django
 django.setup()
 import click
 import time
-from main_functions.file_copy_process import file_copy_pr
+from main_functions.copy_file_process import file_copy_pr
 from django_orm.db.db_functions import get_status_execution, change_status_execution
 from main_functions.main_channel_empty import main_empty_channel
 from main_functions.main_parsing_new import main_parsing

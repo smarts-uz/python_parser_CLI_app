@@ -155,9 +155,9 @@ class Pars:
         return [natsort.os_sorted(data),natsort.os_sorted(data_g)]
 
 #
-
+#
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
-
+#
 # #
 # a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/8-29/messages.html",channel_name="SmartTech Learning",execution_id=123)
 # a.main_msg()

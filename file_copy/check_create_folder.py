@@ -1,9 +1,12 @@
 import os
+
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 
-
+from file_copy.silicing_long_words.slicing_long_word_list import slice_long_words_list
 from file_copy.create_txt_file_for_folders import create_readme_file
 from file_copy.remove_unsupported_chars.remove_http_for_folders import correct_http_for_create_folder
 from file_copy.remove_unsupported_chars.remove_list_unsupported_chars import remove_list_unsupported_chars
@@ -13,8 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag, slice_long_words, \
-    remove_unsupported_chars
+from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag,remove_unsupported_chars
 
 
 # Testing value
@@ -44,7 +46,7 @@ def correct_filename(text,channel_name):
                 if 'http' in update_text or 'HTTP' in update_text:
                     update_text = correct_http_for_create_folder(text=update_text)
                 my_list[i] = update_text
-            my_list = slice_long_words(my_list)
+            my_list = slice_long_words_list(my_list)
             my_list = strip_space_list_element(text=my_list)
             my_list = remove_list_unsupported_chars(my_list)
             my_list1 = '/'.join(my_list)
