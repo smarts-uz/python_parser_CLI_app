@@ -5,7 +5,7 @@ import time
 from rich import print
 
 from Telegram.tg_bot import send_error_msg
-from django_orm.db.db_functions import get_file_paths
+from django_orm.db.db_functions import get_file_paths, update_target_group
 from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
@@ -18,6 +18,7 @@ def copy_file_with_custom_date(src, dst, custom_date,group_id,file_name):
     global file_dst
     try:
         file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
+        update_target_group(pk=group_id.pk, target=file_dst)
 
     # Set the custom date
         os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
@@ -65,7 +66,6 @@ def copy_all_files(group,path):
                         except:
                            pass
         case True:
-            # print(group.content,group.pk)
             match group.content:
                 case None:
                     if group.file_path != None:
@@ -84,4 +84,5 @@ def copy_all_files(group,path):
                                     print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
                                 create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
                                             custom_date=group.date,group_id=group.pk)
+            update_target_group(pk=group.pk,target=path)
 
