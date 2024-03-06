@@ -40,7 +40,7 @@ HotKey=0
 IconFile=C:\\Windows\\System32\\SHELL32.dll"""
                     file.write(str)
                 if custom_date != None:
-                    os.utime(f'{path}\\{name_1}.url', (custom_date.timestamp(), custom_date.timestamp()))
+                    os.utime(f'{path}/{name_1}.url', (custom_date.timestamp(), custom_date.timestamp()))
             except Exception as e:
                 print(e)
                 send_error_msg(error=e,group_id=group_id)

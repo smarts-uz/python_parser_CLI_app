@@ -6,6 +6,7 @@ from rich import print
 
 from Telegram.tg_bot import send_error_msg
 from django_orm.db.db_functions import get_file_paths
+from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
 from rich.progress import track
@@ -13,10 +14,10 @@ from rich.progress import track
 # def copy_file(path,file):
 #     shutil.copy2(file, path)
 
-def copy_file_with_custom_date(src, dst, custom_date,group_id):
+def copy_file_with_custom_date(src, dst, custom_date,group_id,file_name):
     global file_dst
     try:
-        file_dst = shutil.copy(src=src, dst=dst)
+        file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
 
     # Set the custom date
         os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
@@ -34,16 +35,18 @@ def copy_all_files(group,path):
         case False:
             file = get_file_paths(pk=group.pk)
             file_path = file[0]
-            file_name_ex = file[1]
+            file_name_ex = slice_target_len(src=file_path,dst=path)
+            # file_name_ex = file[1]
             file_name = file[2]
             type = file[3]
             match group.content:
                 case None:
                     print(f'[bright_green]{group.pk}\'s File {group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration}')
+
                     if os.path.isfile(os.path.join(path,file_name_ex)):
                         print(f'This [purple4]{group.pk}\'s File {group.file_path.split('/')[1]} is  already copied')
                     else:
-                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk)
+                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk,file_name=file_name_ex)
 
 
                 case _:
