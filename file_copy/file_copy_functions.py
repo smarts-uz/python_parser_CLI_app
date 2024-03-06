@@ -22,7 +22,11 @@ def remove_hashtag(text):
         text = text
     else:
         result = re.findall(r'\#\w.*', text)
-        text = re.sub(r'\#\w.*', '', text)
+        text1 = re.sub(r'\#\w.*', '', text)
+        if text1 == "":
+            text = text
+        else:
+            text = text1
         hashtag_text = ''.join(result)
         unsupchar = ["\\", "/", '"', ":", "<", ">", "|", "*", "?"]
         for char in unsupchar:
@@ -79,7 +83,7 @@ def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
     if txt_name != '':
         text = f""""{content}"
         """
-        txt_name =slice_target_content_lens(path=path,filename=txt_name)
+        txt_name = slice_target_content_lens(path=path,filename=txt_name)
         if os.path.isfile(f'{path}/{txt_name}.txt'):
             print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
         else:
