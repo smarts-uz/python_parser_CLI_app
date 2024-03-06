@@ -4,6 +4,7 @@ import time
 from rich   import print
 
 from Telegram.tg_bot import send_error_msg
+from file_copy.copy_shutil_func.slice_target_content_len import slice_target_content_lens
 from file_copy.correct_name_url_file import correct_url_name
 from file_copy.file_copy_functions import remove_unsupported_chars, slice_words
 from file_copy.silicing_long_words.slicing_word_url import slicing_long_word_url
@@ -22,6 +23,7 @@ def create_url_file(url,path,custom_date,group_id):
     name_1 = correct_url_name(url=url)
     name_1 = remove_unsupported_chars(name_1)[0]
     name_1 = slicing_long_word_url(text=name_1)
+    name_1 = slice_target_content_lens(path=path,filename=name_1)
     file_url = os.path.isfile(f'{path}/{name_1}.url')
     match file_url:
         case True:
