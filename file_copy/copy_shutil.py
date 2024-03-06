@@ -3,6 +3,8 @@ import os
 import time
 
 from rich import print
+
+from Telegram.tg_bot import send_error_msg
 from django_orm.db.db_functions import get_file_paths
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
@@ -11,16 +13,18 @@ from rich.progress import track
 # def copy_file(path,file):
 #     shutil.copy2(file, path)
 
-def copy_file_with_custom_date(src, dst, custom_date):
+def copy_file_with_custom_date(src, dst, custom_date,group_id):
     global file_dst
-    # Copy the file
-    # for prg in track(range(100),description='File copying.....',):
-    #     time.sleep(0.0001)
-    file_dst = shutil.copy(src=src, dst=dst)
+    try:
+        file_dst = shutil.copy(src=src, dst=dst)
 
     # Set the custom date
-    os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
-    return file_dst
+        os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
+        return file_dst
+    except Exception as e:
+        print(e)
+        send_error_msg(error=e,group_id=group_id)
+
 
 
 
@@ -39,7 +43,7 @@ def copy_all_files(group,path):
                     if os.path.isfile(os.path.join(path,file_name_ex)):
                         print(f'This [purple4]{group.pk}\'s File {group.file_path.split('/')[1]} is  already copied')
                     else:
-                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date)
+                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk)
 
 
                 case _:
@@ -51,7 +55,7 @@ def copy_all_files(group,path):
                         try:
                             print(
                                 f'[bright_green]{group.pk}\'s File [green bold]{group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration} Content: [green bold]{group.content}')
-                            copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date)
+                            copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date,group_id=group.pk)
                             os.rename(os.path.join(path, file_name_ex), destination_file_path)
                             create_txt_file_content(content=group.content, path=path,
                                                                  txt_name=f'{content}.{type}',custom_date=group.date)
@@ -75,6 +79,6 @@ def copy_all_files(group,path):
                                 for http in https:
                                     create_url_file(url=http,path=path,custom_date=group.date)
                                     print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
-                                    create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
+                                create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
                                             custom_date=group.date)
 

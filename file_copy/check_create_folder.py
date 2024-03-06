@@ -1,6 +1,6 @@
 import os
 
-
+from Telegram.tg_bot import send_error_msg
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -76,17 +76,23 @@ def correct_filename(text,channel_name):
                     return path
 
 
-def file_creator(actual_path1,channel_name,file_path=None, custom_date=None,main_path=None):
+def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None,):
     # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
-        os.makedirs(actual_path)
-        create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,main_path=main_path)
-        if custom_date != None:
-            os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
-        print(f"Directory created successfully: [pink4 bold]{actual_path}")
-        return actual_path
+        try:
+            os.makedirs(actual_path)
+            create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
+                               main_path=main_path)
+            if custom_date != None:
+                os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
+            print(f"Directory created successfully: [pink4 bold]{actual_path}")
+            return actual_path
+        except Exception as e:
+            print(e)
+            send_error_msg(error=e,tg_channel_id=tg_channel_id)
+
     else:
         print(f"Directory already exists: [purple4 bold]{actual_path}")
         return actual_path
