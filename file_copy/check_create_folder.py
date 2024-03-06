@@ -84,7 +84,7 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
         try:
             os.makedirs(actual_path)
             create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
-                               main_path=main_path)
+                               main_path=main_path,tg_channel_id=tg_channel_id)
             if custom_date != None:
                 os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
             print(f"Directory created successfully: [pink4 bold]{actual_path}")

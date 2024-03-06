@@ -1,6 +1,7 @@
 import os.path
 from rich import print
 
+from Telegram.tg_bot import send_error_msg
 from file_copy.silicing_long_words.slicing_words_file import slice_words
 
 
@@ -72,10 +73,7 @@ def remove_unsupported_chars(text,hashtag=False):
 
 
 
-
-
-
-def create_txt_file_content(path,custom_date,txt_name,content=None,):
+def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
     txt_name = slice_words(text=txt_name)
     if txt_name != '':
         text = f""""{content}"
@@ -83,10 +81,14 @@ def create_txt_file_content(path,custom_date,txt_name,content=None,):
         if os.path.isfile(f'{path}/{txt_name}.txt'):
             print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
         else:
-            with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
-                print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
-                file.write(text)
-            os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+            try:
+                with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
+                    print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
+                    file.write(text)
+                os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+            except Exception as e:
+                print(e)
+                send_error_msg(error=e,group_id=group_id)
     else:
         pass
 

@@ -72,13 +72,13 @@ def copy_all_files(group,path):
                         https = find_https(group.content)
                         match https:
                             case []:
-                                create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',custom_date=group.date)
+                                create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',custom_date=group.date,group_id=group.pk)
                                 print(f'[bright_green]{group.pk}\'s data message copied with name {content}')
                             case _:
 
                                 for http in https:
-                                    create_url_file(url=http,path=path,custom_date=group.date)
+                                    create_url_file(url=http,path=path,custom_date=group.date,group_id=group.pk)
                                     print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
                                 create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
-                                            custom_date=group.date)
+                                            custom_date=group.date,group_id=group.pk)
 
