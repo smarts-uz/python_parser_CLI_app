@@ -126,10 +126,8 @@ class Pars:
                         }})
                         print(
                             f'This message send by channel:{j_data['message_details']} {j_data['content']} added to channel_list instead of group_list')
-
-
-
-            data_g.append(
+                    else:
+                        data_g.append(
                 {j_data['message_id']:{
                     'message_id': j_data['message_id'],
                     'message_details': j_data['message_details'],
@@ -158,6 +156,6 @@ class Pars:
 #
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 #
-# #
-# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/8-29/messages.html",channel_name="SmartTech Learning",execution_id=123)
-# a.main_msg()
+# # #
+# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/7-31/messages7.html",channel_name="SmartTech Learning",execution_id=123)
+# a.main_msg()[0]

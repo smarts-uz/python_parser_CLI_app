@@ -1,3 +1,4 @@
+from file_copy.file_copy_functions import remove_unsupported_chars
 
 
 def slice_target_len(src,dst):
@@ -12,6 +13,10 @@ def slice_target_len(src,dst):
         return file_name
     else:
         file_name = file_name
+    unsupchar = ["\\", "/", '"', ":", "<", ">", "|", "*", "?"]
+    for char in unsupchar:
+        file_name = file_name.replace(char,'  ')
+        file_name = file_name.replace('  ',' ')
     return file_name
 
 
