@@ -82,7 +82,8 @@ def copy_all_files(group,path):
                                 for http in https:
                                     create_url_file(url=http,path=path,custom_date=group.date,group_id=group.pk)
                                     print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
-                                create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
-                                            custom_date=group.date,group_id=group.pk)
+                                if len(https) > 1:
+                                    create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
+                                                            custom_date=group.date, group_id=group.pk)
             update_target_group(pk=group.pk,target=path)
 
