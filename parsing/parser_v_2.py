@@ -146,6 +146,26 @@ class Pars:
                     'absent': j_data['absent']
                 }}
             )
+            else:
+                data_g.append(
+                    {j_data['message_id']: {
+                        'message_id': j_data['message_id'],
+                        'message_details': j_data['message_details'],
+                        'date': j_data['date'],
+                        "replied_message_id": j_data['replied_message_id'],
+                        'replied_message_details': j_data['replied_message_details'],
+                        "content": j_data['content'],
+                        "file_path": j_data['file_path'],
+                        "duration": j_data['duration'],
+                        "size": j_data['size'],
+                        'execution_id': self.execution_id,
+                        'tg_channel_id': tg_channel_id,
+                        'path': path,
+                        'channel_name': self.channel_name,
+                        'html': current_html,
+                        'absent': j_data['absent']
+                    }})
+
             print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
 
 
