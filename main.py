@@ -64,7 +64,17 @@ def collector(path,name):
         run_execute(ex_id=execution['id'])
 
     print(f'[cyan]Collecting end!!!!')
-
+    try:
+        pass
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        current.log(msg);
+        # current.err(errs);
+        history.log(msg);
+        # history.err(errs);
+        statistic.log(msg);
+        # statistic.err(errs)
+        print(f'[red]{msg}')
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
@@ -77,14 +87,34 @@ def parsing(ex_id):
             main_parsing_process(ex_id=ex_id)
         case _:
             print(f'Status is: {status}. Already parsed')
-
+    try:
+        pass
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        current.log(msg);
+        # current.err(errs);
+        history.log(msg);
+        # history.err(errs);
+        statistic.log(msg);
+        # statistic.err(errs)
+        print(f'[red]{msg}')
 
 
 @parser.command(help='Run parsing and copy commands step by step')
 @click.option('--ex_id',help='Execution id')
 def execute(ex_id):
     main_execute(ex_id=ex_id)
-
+    try:
+        pass
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        current.log(msg);
+        # current.err(errs);
+        history.log(msg);
+        # history.err(errs);
+        statistic.log(msg);
+        # statistic.err(errs)
+        print(f'[red]{msg}')
 
 
 
@@ -107,7 +137,17 @@ def file_copy(ex_id):
             print('This execution already completed!')
         case _:
             print('This execution is not ready to copy. You need to run parse command')
-
+    try:
+        pass
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        current.log(msg);
+        # current.err(errs);
+        history.log(msg);
+        # history.err(errs);
+        statistic.log(msg);
+        # statistic.err(errs)
+        print(f'[red]{msg}')
 
 
 
