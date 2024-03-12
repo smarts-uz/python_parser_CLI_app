@@ -31,15 +31,15 @@ def copy_all_files(group,path):
                     if os.path.isfile(destination_file_path):
                         print(f'This [purple4]{group.pk}\'s data is  already copied')
                     else:
-                        try:
-                            print(
-                                f'[bright_green]{group.pk}\'s File [green bold]{group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration} Content: [green bold]{group.content}')
-                            copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date,group_id=group.pk)
-                            os.rename(os.path.join(path, file_name_ex), destination_file_path)
-                            create_txt_file_content(content=group.content, path=path,
-                                                                 txt_name=f'{content}.{type}',custom_date=group.date)
-                        except:
-                           pass
+                        print(
+                            f'[bright_green]{group.pk}\'s File [green bold]{group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration} Content: [green bold]{group.content}')
+                        dst = copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date,
+                                                         group_id=group.pk, file_name=file_name)
+                        if os.path.join(path, file_name_ex) != destination_file_path:
+                            os.rename(src=dst, dst=destination_file_path)
+                            print(f'[yellow]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
+                        create_txt_file_content(content=group.content, path=path,
+                                                txt_name=f'{content}.{type}', custom_date=group.date, group_id=group.pk)
         case True:
             match group.content:
                 case None:
