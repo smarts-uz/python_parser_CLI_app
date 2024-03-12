@@ -211,3 +211,9 @@ def null_data():
 def get_data_from_group_copy_file(ex_id):
     group = TgGroup.objects.filter(execution_id=ex_id)
     return group
+
+
+
+def dateget(pk):
+    a = TgGroup.objects.get(pk=pk)
+    return a

@@ -82,13 +82,15 @@ class TgGroup(models.Model):
     file_path = models.TextField(blank=True, null=True)
     size = models.CharField(max_length=10, blank=True, null=True)
     tg_channel = models.ForeignKey(TgChannel, models.DO_NOTHING, blank=True, null=True)
-    execution = models.ForeignKey(Execution, models.DO_NOTHING, blank=True, null=True)
+    execution_id = models.IntegerField(blank=True, null=True)
     main_folder_name = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=255, blank=True, null=True)
     target = models.CharField(max_length=255, blank=True, null=True)
     channel_name = models.CharField(max_length=255, blank=True, null=True)
     html = models.CharField(max_length=255, blank=True, null=True)
     absent = models.BooleanField(blank=True, null=True)
+    byte = models.IntegerField(blank=True, null=True)
+    hash = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False

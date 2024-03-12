@@ -133,8 +133,8 @@ def correct_time_data(data):
     timezone = pytz.timezone("Asia/Tashkent")
     parsed_date = datetime.strptime(result, "%Y-%m-%d %H:%M:%S")
     date_with_timezone = timezone.localize(parsed_date)
-    return date_with_timezone
-
+    # return date_with_timezone
+    return parsed_date
 
 def define_type(content):
     if content.startswith('http'):
