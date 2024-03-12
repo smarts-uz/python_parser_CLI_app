@@ -42,5 +42,5 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
 )
 
-# INSTALLED_APPS = ("django_orm.db",)
-INSTALLED_APPS = ("db",)
+INSTALLED_APPS = ("django_orm.db",)
+# INSTALLED_APPS = ("db",)

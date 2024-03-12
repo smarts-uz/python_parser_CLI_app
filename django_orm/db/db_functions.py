@@ -212,7 +212,10 @@ def get_data_from_group_copy_file(ex_id):
     group = TgGroup.objects.filter(execution_id=ex_id)
     return group
 
-
+def update_byte_group(pk,byte):
+    group = TgGroup.objects.get(pk=pk)
+    group.byte = byte
+    group.save()
 
 def dateget(pk):
     a = TgGroup.objects.get(pk=pk)
