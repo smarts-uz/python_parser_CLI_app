@@ -1,33 +1,10 @@
-import shutil
 import os
-import time
-
 from rich import print
-
-from Telegram.tg_bot import send_error_msg
 from django_orm.db.db_functions import get_file_paths, update_target_group
+from file_copy.copy_shutil_func.copy_file_custom_date import copy_file_with_custom_date
 from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
-from rich.progress import track
-
-# def copy_file(path,file):
-#     shutil.copy2(file, path)
-
-def copy_file_with_custom_date(src, dst, custom_date,group_id,file_name):
-    global file_dst
-    try:
-        file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
-        # update_target_group(pk=group_id, target=file_dst)
-
-    # Set the custom date
-        os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
-        return file_dst
-    except Exception as e:
-        print(e)
-        send_error_msg(error=e,group_id=group_id)
-
-
 
 
 
@@ -48,8 +25,6 @@ def copy_all_files(group,path):
                         print(f'This [purple4]{group.pk}\'s File {group.file_path.split('/')[1]} is  already copied')
                     else:
                         copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk,file_name=file_name_ex)
-
-
                 case _:
                     content = remove_unsupported_chars(text=group.content,hashtag=True)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')

@@ -1,20 +1,20 @@
 import os.path
 import re
-import time
-from rich   import print
-
+from rich import print
 from Telegram.tg_bot import send_error_msg
 from file_copy.copy_shutil_func.slice_target_content_len import slice_target_content_lens
 from file_copy.correct_name_url_file import correct_url_name
-from file_copy.file_copy_functions import remove_unsupported_chars, slice_words
+from file_copy.file_copy_functions import remove_unsupported_chars
 from file_copy.silicing_long_words.slicing_word_url import slicing_long_word_url
+from log3 import Logger
+
+current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
 
 def find_https(content):
     pattern = r'[hH][tT]{2}[pP]\S+'
     reg = re.findall(pattern,content)
     return reg
-
 
 
 
@@ -44,8 +44,11 @@ IconFile=C:\\Windows\\System32\\SHELL32.dll"""
                 if custom_date != None:
                     os.utime(f'{path}/{name_1}.url', (custom_date.timestamp(), custom_date.timestamp()))
             except Exception as e:
-                print(e)
+                print(f'[red]Error {e}')
                 send_error_msg(error=e,group_id=group_id)
+                current.err(e)
+                history.err(e)
+                statistic.err(e)
 
 
 

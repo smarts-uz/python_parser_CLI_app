@@ -1,12 +1,10 @@
 import os
-import time
-
-from Telegram.tg_bot import send_error_msg
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
-
+import time
+from Telegram.tg_bot import send_error_msg
+from log3 import Logger
 from file_copy.silicing_long_words.slicing_long_word_list import slice_long_words_list
 from file_copy.create_txt_file_for_folders import create_readme_file
 from file_copy.remove_unsupported_chars.remove_http_for_folders import correct_http_for_create_folder
@@ -19,9 +17,7 @@ load_dotenv()
 
 from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag,remove_unsupported_chars
 
-
-# Testing value
-# text='''No query results for model [Laravel\\Passport\\Client]., Laravel'''
+current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
 
 def remove_special_characters(text):
@@ -91,31 +87,13 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
             print(f"Directory created successfully: [pink4 bold]{actual_path}")
             return actual_path
         except Exception as e:
-            print(e)
+            print(f'[red]Error {e}')
             send_error_msg(error=e,tg_channel_id=tg_channel_id)
+            current.err(e)
+            history.err(e)
+            statistic.err(e)
 
     else:
         print(f"Directory already exists: [purple4 bold]{actual_path}")
         return actual_path
 
-
-# print(file_creator(actual_path1=text))
-# print(remove_special_characters(text))
-# print(correct_filename(text))
-
-
-#
-# my_file = open("text_names_of_db.txt", "r")
-
-# reading the file
-# data = my_file.read()
-
-# replacing end splitting the text
-# when newline ('\n') is seen.
-# data_into_list = data.split("\n")
-# print(data_into_list)
-#
-# # for the testing Structure Folder
-# for a in data_into_list:
-#     print(file_creator(actual_path1=a))
-# my_file.close()

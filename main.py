@@ -3,10 +3,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
-import time
 from main_functions.copy_file_process import file_copy_pr
-from django_orm.db.db_functions import get_status_execution, change_status_execution
-from main_functions.main_channel_empty import main_empty_channel
+from django_orm.db.db_functions import get_status_execution
 from main_functions.main_parsing_new import main_parsing
 from main_functions.parsing_process import main_parsing_process
 from main_functions.main_func import main_execute
@@ -59,13 +57,11 @@ def create_folders():
 @click.option('--path',help='Html files folder path')
 @click.option('--name',help='Channel name')
 def collector(path,name):
-    executions_list = insert_or_get_execution(path=path,name=name)
-    for execution in executions_list:
-        run_execute(ex_id=execution['id'])
-
-    print(f'[cyan]Collecting end!!!!')
     try:
-        pass
+        executions_list = insert_or_get_execution(path=path, name=name)
+        for execution in executions_list:
+            run_execute(ex_id=execution['id'])
+        print(f'[cyan]Collecting end!!!!')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         current.log(msg);
@@ -78,42 +74,40 @@ def collector(path,name):
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
-    status = get_status_execution(ex_id)
-
-    match status:
-        case 'new':
-            main_parsing(ex_id)
-        case 'parsing_process':
-            main_parsing_process(ex_id=ex_id)
-        case _:
-            print(f'Status is: {status}. Already parsed')
     try:
-        pass
+        status = get_status_execution(ex_id)
+
+        match status:
+            case 'new':
+                main_parsing(ex_id)
+            case 'parsing_process':
+                main_parsing_process(ex_id=ex_id)
+            case _:
+                print(f'Status is: {status}. Already parsed')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
-        current.log(msg);
-        # current.err(errs);
-        history.log(msg);
-        # history.err(errs);
-        statistic.log(msg);
-        # statistic.err(errs)
+        # current.log(msg);
+        current.err(errs);
+        # history.log(msg);
+        history.err(errs);
+        # statistic.log(msg);
+        statistic.err(errs)
         print(f'[red]{msg}')
 
 
 @parser.command(help='Run parsing and copy commands step by step')
 @click.option('--ex_id',help='Execution id')
 def execute(ex_id):
-    main_execute(ex_id=ex_id)
     try:
-        pass
+        main_execute(ex_id=ex_id)
     except Exception as errs:
         msg = f"[red]Error: {errs}"
-        current.log(msg);
-        # current.err(errs);
-        history.log(msg);
-        # history.err(errs);
-        statistic.log(msg);
-        # statistic.err(errs)
+        # current.log(msg);
+        current.err(errs);
+        # history.log(msg);
+        history.err(errs);
+        # statistic.log(msg);
+        statistic.err(errs)
         print(f'[red]{msg}')
 
 
@@ -127,26 +121,25 @@ def execute(ex_id):
 @parser.command(help='Copy files to folder which given in .env "Base dir = "')
 @click.option('--ex_id',help='Execution id')
 def file_copy(ex_id):
-    status = get_status_execution(ex_id)
-    match status:
-        case 'parsing_ok':
-            copy_file(ex_id)
-        case 'filemove_process':
-            file_copy_pr(ex_id=ex_id)
-        case 'completed':
-            print('This execution already completed!')
-        case _:
-            print('This execution is not ready to copy. You need to run parse command')
     try:
-        pass
+        status = get_status_execution(ex_id)
+        match status:
+            case 'parsing_ok':
+                copy_file(ex_id)
+            case 'filemove_process':
+                file_copy_pr(ex_id=ex_id)
+            case 'completed':
+                print('This execution already completed!')
+            case _:
+                print('This execution is not ready to copy. You need to run parse command')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
-        current.log(msg);
-        # current.err(errs);
-        history.log(msg);
-        # history.err(errs);
-        statistic.log(msg);
-        # statistic.err(errs)
+        # current.log(msg);
+        current.err(errs);
+        # history.log(msg);
+        history.err(errs);
+        # statistic.log(msg);
+        statistic.err(errs)
         print(f'[red]{msg}')
 
 
