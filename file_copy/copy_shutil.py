@@ -1,4 +1,6 @@
 import os
+import time
+
 from rich import print
 from django_orm.db.db_functions import get_file_paths, update_target_group
 from file_copy.check_file_exists import check_file_exists
@@ -6,7 +8,7 @@ from file_copy.copy_shutil_func.copy_file_custom_date import copy_file_with_cust
 from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
-
+from file_copy.increment_file_name.increment import get_incremented_filename
 
 
 def copy_all_files(group,path):
@@ -28,6 +30,7 @@ def copy_all_files(group,path):
                             case None:
                                 update_target_group(pk=group.pk,target=os.path.join(path,file_name_ex))
                     else:
+                        # destination_file_path = get_incremented_filename(filename=destination_file_path)
                         copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk, file_name=file_name_ex)
                 case _:
                     content = remove_unsupported_chars(text=group.content,hashtag=True)[0]
@@ -41,10 +44,16 @@ def copy_all_files(group,path):
                     else:
                         print(
                             f'[bright_green]{group.pk}\'s File [green bold]{group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration} Content: [green bold]{group.content}')
+                        # print(file_path,'f_path')
+                        # print(file_name_ex,'f_ex')
+                        # print(path,'path')
+                        # time.sleep(10)
+
                         dst = copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date,
                                                          group_id=group.pk, file_name=file_name_ex)
                         if os.path.join(path, file_name_ex) != destination_file_path:
                             try:
+                                destination_file_path = get_incremented_filename(filename=destination_file_path)
                                 os.rename(src=dst, dst=destination_file_path)
                             except Exception as e:
                                 print(e)
