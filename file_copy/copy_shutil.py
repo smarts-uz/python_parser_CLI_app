@@ -9,6 +9,7 @@ from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.file_copy_functions import remove_unsupported_chars, create_txt_file_content
 from file_copy.http.find_https_link import find_https, create_url_file
 from file_copy.increment_file_name.increment import get_incremented_filename
+from file_copy.remove_unsupported_chars.replace_backslash_to_slash import replace_backslash
 
 
 def copy_all_files(group,path):
@@ -30,8 +31,9 @@ def copy_all_files(group,path):
                             case None:
                                 update_target_group(pk=group.pk,target=os.path.join(path,file_name_ex))
                     else:
-                        # destination_file_path = get_incremented_filename(filename=destination_file_path)
-                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk, file_name=file_name_ex)
+                        file_name_ex_1 = get_incremented_filename(filename=os.path.join(path,file_name_ex))
+                        file_name_ex_1 = replace_backslash(text=file_name_ex_1).split('/')[-1]
+                        copy_file_with_custom_date(src=file_path,dst=path,custom_date=group.date,group_id=group.pk, file_name=file_name_ex_1)
                 case _:
                     content = remove_unsupported_chars(text=group.content,hashtag=True)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')

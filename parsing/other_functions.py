@@ -86,6 +86,7 @@ def current_html_name(html_name):
 def filtered_message(main_message,execution_id,path):
     global absent,duration_audio,animation,contact_csv
     global byte
+    byte =None
     msg_details = main_message['id']
     msg_id = main_message['id'][7:]
     message_body = main_message.find('div', class_='body')

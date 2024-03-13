@@ -38,7 +38,6 @@ class Pars:
         current_html = current_html_name(self.file_path)
         print(self.file_path)
         path = folder_path(self.file_path)
-        print(path,'path123123')
         # path = None
         global ogg_url, photo_url, video_url, duration_ogg, duration_video,reply_to_details
         execution_id = None
@@ -182,6 +181,6 @@ class Pars:
 #
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 #
-# # #
-# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/7-31/messages7.html",channel_name="SmartTech Learning",execution_id=123)
+# #
+# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2021/2021-9/messages.html",channel_name="SmartTech Learning",execution_id=123)
 # pprint(a.main_msg()[1])

@@ -16,7 +16,7 @@ def get_incremented_filename(filename):
         filename = f"{name}-{seq}{ext}"
     return filename
 
-
-a = get_incremented_filename("D:/SmartTech Learning/____\\component.mp4")
-# a = get_incremented_filename("'D:/SmartTech Learning/____\\component1.mp4'")
-print(a)
+#
+# a = get_incremented_filename("D:/SmartTech Learning/____\\component.mp4")
+# # a = get_incremented_filename("'D:/SmartTech Learning/____\\component1.mp4'")
+# print(a)

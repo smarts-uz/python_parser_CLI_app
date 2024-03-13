@@ -65,6 +65,7 @@ class TgChannel(models.Model):
     path = models.CharField(max_length=255, blank=True, null=True)
     message_details = models.CharField(max_length=255, blank=True, null=True)
     replied_message_details = models.CharField(max_length=255, blank=True, null=True)
+    byte = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
