@@ -36,8 +36,9 @@ class Pars:
 
     def main_msg(self):
         current_html = current_html_name(self.file_path)
-
+        print(self.file_path)
         path = folder_path(self.file_path)
+        print(path,'path123123')
         # path = None
         global ogg_url, photo_url, video_url, duration_ogg, duration_video,reply_to_details
         execution_id = None
@@ -54,46 +55,48 @@ class Pars:
         main_messages = self.parsing()[0]
         joined_messages = self.parsing()[1]
         for main_message in main_messages:
-            c_msg = filtered_message(main_message=main_message,execution_id=self.execution_id,path=path)
+            clear_msg = filtered_message(main_message=main_message,execution_id=self.execution_id,path=path)
 
-            print(f'[{current_html}] message_id: {c_msg['message_id']} text: {c_msg['content']} (parsed)')
-            match c_msg["from_name"]:
+            print(f'[{current_html}] message_id: {clear_msg['message_id']} text: {clear_msg['content']} (parsed)')
+            match clear_msg["from_name"]:
                 case self.channel_name:
 
                     data.append(
-                {c_msg['message_id']:{
-                    "message_id": c_msg['message_id'],
-                    "message_details": c_msg['message_details'],
-                    "text": c_msg['content'],
-                    "file_path": c_msg['file_path'],
-                    "duration": c_msg['duration'],
-                    "size": c_msg['size'],
-                    'reply_to_msg_id': c_msg['replied_message_id'],
-                    "replied_message_details": c_msg['replied_message_details'],
-                    'date':c_msg['date'],
-                    'from_name': c_msg['from_name'],
+                {clear_msg['message_id']:{
+                    "message_id": clear_msg['message_id'],
+                    "message_details": clear_msg['message_details'],
+                    "text": clear_msg['content'],
+                    "file_path": clear_msg['file_path'],
+                    "duration": clear_msg['duration'],
+                    "size": clear_msg['size'],
+                    'reply_to_msg_id': clear_msg['replied_message_id'],
+                    "replied_message_details": clear_msg['replied_message_details'],
+                    'date':clear_msg['date'],
+                    'from_name': clear_msg['from_name'],
                     'execution_id': self.execution_id,
                     'path' : path,
+                    'byte' : clear_msg['byte']
 
                 }})
                 case _:
                     data_g.append(
-                    {c_msg['message_id']:{
-                        "message_id": c_msg['message_id'],
-                        "message_details": c_msg['message_details'],
-                        "content": c_msg['content'],
-                        "file_path": c_msg['file_path'],
-                        "duration": c_msg['duration'],
-                        "size": c_msg['size'],
-                        "replied_message_details": c_msg['replied_message_details'],
-                        'replied_message_id': c_msg['replied_message_id'],
-                        'date': c_msg['date'],
+                    {clear_msg['message_id']:{
+                        "message_id": clear_msg['message_id'],
+                        "message_details": clear_msg['message_details'],
+                        "content": clear_msg['content'],
+                        "file_path": clear_msg['file_path'],
+                        "duration": clear_msg['duration'],
+                        "size": clear_msg['size'],
+                        "replied_message_details": clear_msg['replied_message_details'],
+                        'replied_message_id': clear_msg['replied_message_id'],
+                        'date': clear_msg['date'],
                         'tg_channel_id': tg_channel_id,
                         'execution_id': self.execution_id,
                         'path': path,
                         'channel_name': self.channel_name,
                         'html' : current_html,
-                        'absent': c_msg['absent']
+                        'absent': clear_msg['absent'],
+                        'byte' : clear_msg['byte']
                     }}
                 )
 
@@ -122,6 +125,7 @@ class Pars:
                             'from_name': channel_data[channel_data_id]['from_name'],
                             'execution_id': self.execution_id,
                             'path': path,
+                            'byte' : j_data['byte']
 
                         }})
                         print(
@@ -143,7 +147,8 @@ class Pars:
                     'path': path,
                     'channel_name': self.channel_name,
                     'html': current_html,
-                    'absent': j_data['absent']
+                    'absent': j_data['absent'],
+                    'byte' : j_data['byte']
                 }}
             )
             else:
@@ -163,7 +168,8 @@ class Pars:
                         'path': path,
                         'channel_name': self.channel_name,
                         'html': current_html,
-                        'absent': j_data['absent']
+                        'absent': j_data['absent'],
+                        'byte' : j_data['byte']
                     }})
 
             print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
@@ -178,4 +184,4 @@ class Pars:
 #
 # # #
 # a = Pars(file_path="h:/Exports/SmartTech Learning Group/2023/7-31/messages7.html",channel_name="SmartTech Learning",execution_id=123)
-# a.main_msg()[0]
+# pprint(a.main_msg()[1])

@@ -5,6 +5,7 @@ import time
 
 from natsort import os_sorted
 
+from parsing.file_func.check_file_absent import check_file_absent
 from parsing.functions import correct_time_data
 
 def html_search(path):
@@ -19,14 +20,7 @@ def html_search(path):
 
     return os_sorted(html_files)
 
-def check_file_exists(path,file_path):
-    file_path = file_path.replace('/','\\')
-    f_path = f'{path}\\{file_path}'
-    isFile = os.path.isfile(f_path)
-    if isFile == True:
-        return False
-    else:
-        return True
+
 
 
 def file_choose(photo_url,ogg_url,video_url,file_url,audio_url,photo,gif,animation,contact_csv):
@@ -65,9 +59,10 @@ def choose_duration(duration_ogg,duration_video,duration_audio):
     return duration
 
 def folder_path(path):
-    f_path = path.split('\\')
+    path = path.replace('\\','/')
+    f_path = path.split('/')
     f_path.pop()
-    return '\\'.join(f_path)
+    return '/'.join(f_path)
 
 
 def search_message_html(path):
@@ -90,6 +85,7 @@ def current_html_name(html_name):
 
 def filtered_message(main_message,execution_id,path):
     global absent,duration_audio,animation,contact_csv
+    global byte
     msg_details = main_message['id']
     msg_id = main_message['id'][7:]
     message_body = main_message.find('div', class_='body')
@@ -205,9 +201,10 @@ def filtered_message(main_message,execution_id,path):
     check_exist = True
     file_path = file_choose(photo_url, ogg_url, video_url, file_url,audio_url,photo,gif,animation,contact_csv)
     if file_path != None:
-        check_exist = check_file_exists(path=path, file_path=file_path)
+        absent = check_file_absent(path=path, file_path=file_path)
+        check_exist = absent[0]
+        byte = absent[1]
         # absent = check_file_exists(path=path, file_path=file_path)
-
     duration = choose_duration(duration_ogg, duration_video,duration_audio)
 
     try:
@@ -230,7 +227,8 @@ def filtered_message(main_message,execution_id,path):
         "replied_message_details": reply_to_details,
         'date': date,
         'from_name': from_name,
-        'absent' : check_exist
+        'absent' : check_exist,
+        'byte' : byte
     }
 
 

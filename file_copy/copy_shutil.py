@@ -44,7 +44,10 @@ def copy_all_files(group,path):
                         dst = copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date,
                                                          group_id=group.pk, file_name=file_name_ex)
                         if os.path.join(path, file_name_ex) != destination_file_path:
-                            os.rename(src=dst, dst=destination_file_path)
+                            try:
+                                os.rename(src=dst, dst=destination_file_path)
+                            except Exception as e:
+                                print(e)
                             print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
                         create_txt_file_content(content=group.content, path=path,
                                                 txt_name=f'{content}.{type}', custom_date=group.date, group_id=group.pk)
