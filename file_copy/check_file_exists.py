@@ -1,14 +1,13 @@
 import os
 from datetime import datetime
-def check_file_exists(src,mtime):
+def check_file_exists(src,byte):
     file = os.path.isfile(src)
     match file:
         case False:
             return False
         case True:
-            time = os.path.getmtime(src)
-            time = datetime.fromtimestamp(time)
-            if time == mtime:
+            byte_f = os.path.getsize(filename=src)
+            if byte_f == byte:
                 return True
             else:
                 return False

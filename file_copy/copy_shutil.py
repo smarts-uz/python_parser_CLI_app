@@ -21,7 +21,7 @@ def copy_all_files(group,path):
             match group.content:
                 case None:
                     print(f'[bright_green]{group.pk}\'s File {group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration}')
-                    check = check_file_exists(src=os.path.join(path,file_name_ex),mtime=group.date)
+                    check = check_file_exists(src=os.path.join(path,file_name_ex),byte=group.byte)
                     if check == True:
                         print(f'This [purple4]{group.pk}\'s File {group.file_path.split('/')[1]} is  already copied')
                         match group.target:
@@ -32,7 +32,7 @@ def copy_all_files(group,path):
                 case _:
                     content = remove_unsupported_chars(text=group.content,hashtag=True)[0]
                     destination_file_path = os.path.join(path, f'{content}.{type}')
-                    check = check_file_exists(src=destination_file_path, mtime=group.date)
+                    check = check_file_exists(src=destination_file_path, byte=group.byte)
                     if check == True:
                         print(f'This [purple4]{group.pk}\'s data is  already copied')
                         match group.target:
