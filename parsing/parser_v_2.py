@@ -36,7 +36,6 @@ class Pars:
 
     def main_msg(self):
         current_html = current_html_name(self.file_path)
-        print(self.file_path)
         path = folder_path(self.file_path)
         # path = None
         global ogg_url, photo_url, video_url, duration_ogg, duration_video,reply_to_details

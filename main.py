@@ -1,4 +1,7 @@
 import os
+
+from Telegram.tg_bot import send_error_msg
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -64,6 +67,7 @@ def collector(path,name):
         print(f'[cyan]Collecting end!!!!')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
+        send_error_msg(error=errs)
         current.log(msg);
         # current.err(errs);
         history.log(msg);
@@ -86,6 +90,7 @@ def parsing(ex_id):
                 print(f'Status is: {status}. Already parsed')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
+        send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
         # current.log(msg);
         current.err(errs);
         # history.log(msg);
@@ -102,6 +107,7 @@ def execute(ex_id):
         main_execute(ex_id=ex_id)
     except Exception as errs:
         msg = f"[red]Error: {errs}"
+        send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
         # current.log(msg);
         current.err(errs);
         # history.log(msg);
@@ -134,6 +140,7 @@ def file_copy(ex_id):
                 print('This execution is not ready to copy. You need to run parse command')
     except Exception as errs:
         msg = f"[red]Error: {errs}"
+        send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
         # current.log(msg);
         current.err(errs);
         # history.log(msg);
@@ -149,5 +156,6 @@ try:
     msg = "Successful parser-cli app run";current.log(msg);history.log(msg);statistic.log(msg);print(f'[green]{msg}')
 except Exception as errs:
     msg = f"[red]Error: {errs}"
+    send_error_msg(error=errs)
     current.log(msg);current.err(errs);history.log(msg);history.err(errs);statistic.log(msg);statistic.err(errs)
     print(f'[red]{msg}')
