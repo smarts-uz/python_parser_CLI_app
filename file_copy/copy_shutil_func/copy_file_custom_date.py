@@ -10,11 +10,12 @@ current = Logger('current', 'w');history = Logger('history', 'a');statistic = Lo
 
 
 
-def copy_file_with_custom_date(src, dst, custom_date,group_id,file_name):
+def copy_file_with_custom_date(src, dst, custom_date,file_name,group_id=None):
     global file_dst
     try:
         file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
-        update_target_group(pk=group_id, target=file_dst)
+        if group_id !=None:
+            update_target_group(pk=group_id, target=file_dst)
 
     # Set the custom date
         os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))

@@ -193,13 +193,15 @@ def get_name_from_channel(channel_id):
         date = channel.date
         from_name = channel.from_name
         file_path = channel.file_path
+        src_path = channel.path
     except:
         text= None
         date= None
         from_name = None
         file_path= None
+        src_path= None
 
-    return text ,date,from_name,file_path
+    return text ,date,from_name,file_path,src_path
 
 def get_execute_name_for_nonparentmessage(ex_id):
     execute = Execution.objects.get(pk=ex_id)

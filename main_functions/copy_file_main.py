@@ -1,14 +1,7 @@
-import os.path
-import time
-
-from django_orm.db.db_functions import get_content_from_tg_channel_by_ex_id, get_data_tg_channel_nonempty, \
-    change_status_execution, get_data_channel_id_none, update_target_group, update_last_copy_file_pk, \
-    get_execute_name_for_nonparentmessage, get_data_from_group_copy_file, get_name_from_channel
-from file_copy.check_create_folder import file_creator
-from file_copy.copy_shutil import copy_all_files
+from django_orm.db.db_functions import change_status_execution, get_data_from_group_copy_file
 import natsort
 
-from main_functions.copy_file_foreach import copy_file_for_each
+from file_copy.copy_file_foreach import copy_file_for_each
 
 
 def copy_file(ex_id):

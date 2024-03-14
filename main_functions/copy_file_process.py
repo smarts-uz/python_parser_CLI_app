@@ -1,10 +1,5 @@
-import natsort
-
-from django_orm.db.db_functions import get_last_copied_pk, get_data_from_group_copy_file_process, update_target_group, \
-    update_last_copy_file_pk, get_name_from_channel, change_status_execution, get_execute_name_for_nonparentmessage
-from file_copy.check_create_folder import file_creator
-from file_copy.copy_shutil import copy_all_files
-from main_functions.copy_file_foreach import copy_file_for_each
+from django_orm.db.db_functions import get_last_copied_pk, get_data_from_group_copy_file_process
+from file_copy.copy_file_foreach import copy_file_for_each
 from main_functions.copy_file_main import copy_file
 
 def file_copy_pr(ex_id):
