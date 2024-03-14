@@ -2,11 +2,10 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
-import time
 from Telegram.tg_bot import send_error_msg
 from log3 import Logger
 from file_copy.silicing_long_words.slicing_long_word_list import slice_long_words_list
-from file_copy.create_txt_file_for_folders import create_readme_file
+from file_copy.create_txt_files.create_txt_file_for_folders import create_readme_file
 from file_copy.remove_unsupported_chars.remove_http_for_folders import correct_http_for_create_folder
 from file_copy.remove_unsupported_chars.remove_list_unsupported_chars import remove_list_unsupported_chars
 from rich import print

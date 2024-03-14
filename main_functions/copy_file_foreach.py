@@ -1,9 +1,12 @@
+from Telegram.tg_bot import send_error_msg
 from django_orm.db.db_functions import update_last_copy_file_pk, get_execute_name_for_nonparentmessage, \
     update_target_group, get_name_from_channel, change_status_execution
 from file_copy.check_create_folder import file_creator
 from file_copy.copy_shutil import copy_all_files
 import natsort
+from log3 import Logger
 
+current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 def copy_file_for_each(groups,ex_id):
     k = 0
     i = 0
@@ -24,7 +27,19 @@ def copy_file_for_each(groups,ex_id):
                 update_last_copy_file_pk(ex_id=ex_id, id=group.pk)
                 name = channel[0]
                 custom_date = channel[1]
-                path = file_creator(actual_path1=name.strip(), custom_date=custom_date, channel_name=channel[2],tg_channel_id=group.tg_channel_id)
+                file_path = channel[3]
+                if name == None and file_path !=None:
+                    name = file_path.split('/')[-1].split('.')[0]
+                else:
+                    name = name
+                try:
+                    path = file_creator(actual_path1=name.strip(), custom_date=custom_date, channel_name=channel[2],tg_channel_id=group.tg_channel_id)
+                except Exception as e:
+                    print(e)
+                    send_error_msg(error=e, group_id=group.pk)
+                    current.err(e)
+                    history.err(e)
+                    statistic.err(e)
                 copy_all_files(group=group, path=path)
                 # update_target_group(pk=group.pk, target=path)
     print(f"""Copied files count: {k}
