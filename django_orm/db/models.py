@@ -57,7 +57,7 @@ class TgChannel(models.Model):
     date = models.DateTimeField(blank=True, null=True)
     message_id = models.IntegerField(blank=True, null=True)
     main_folder_name = models.CharField(max_length=100, blank=True, null=True)
-    execution_id = models.IntegerField(blank=True, null=True)
+    execution = models.ForeignKey(Execution, models.DO_NOTHING, blank=True, null=True)
     size = models.CharField(max_length=50, blank=True, null=True)
     file_path = models.CharField(max_length=255, blank=True, null=True)
     reply_to_msg_id = models.IntegerField(blank=True, null=True)

@@ -19,7 +19,7 @@ def tg_channel_id_not_none(group,ex_id,l):
     custom_date = channel[1]
     file_path = channel[3]
     if name == None and file_path != None:
-        name = file_path.split('/')[-1].split('.')[0]
+        name = ''
     else:
         name = name
     try:

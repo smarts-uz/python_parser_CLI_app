@@ -67,7 +67,7 @@ def folder_path(path):
 
 def search_message_html(path):
     html_files = []
-    if '\\messages.html' in path:path = path[:-len('\\messages.html')]
+    if '/messages.html' in path:path = path[:-len('/messages.html')]
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.startswith('message') and file.endswith('s.html'):
