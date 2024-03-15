@@ -17,12 +17,15 @@ current = Logger('current', 'w');history = Logger('history', 'a');statistic = Lo
 def false_absent(group,path):
     file = get_file_paths(pk=group.pk)
     file_path = file[0]
-    file_name_ex = slice_target_len(src=file_path, dst=path)
-    # file_name_ex = file[1]
+    file_name_ex = file[1]
     file_name = file[2]
     type = file[3]
     match group.content:
         case None:
+            slicing = slice_target_len(file_name=file_name, dst=path)
+            file_name = slicing[0]
+            path = slicing[1]
+            file_name_ex = f'{file_name}.{type}'
             print(
                 f'[bright_green]{group.pk}\'s File {group.file_path.split('/')[1]} copy process starting Size: [green bold]{group.size} Duration: [green bold]{group.duration}')
             check = check_file_exists(src=os.path.join(path, file_name_ex), byte=group.byte)
@@ -38,9 +41,14 @@ def false_absent(group,path):
                                            file_name=file_name_ex_1)
         case _:
             content = remove_unsupported_chars(text=group.content, hashtag=True)[0]
-            if type !='mhtl' and type!='url':
-                destination_file_path = os.path.join(path, f'{content}.{type}')
+            slicing = slice_target_len(file_name=content, dst=path)
+            file_name_new = slicing[0]
+            path = slicing[1]
+            if type !='mhtml' and type !='url':
+                file_name_ex = f'{file_name_new}.{type}'
+                destination_file_path = os.path.join(path, file_name_ex)
             else:
+                file_name_ex = file_name_ex
                 destination_file_path = os.path.join(path, file_name_ex)
             check = check_file_exists(src=destination_file_path, byte=group.byte)
             if check == True:
@@ -58,7 +66,6 @@ def false_absent(group,path):
                         destination_file_path = get_incremented_filename(filename=destination_file_path)
                         if type == 'mhtml' or type == 'url':
                             pass
-
                         else:
                             os.rename(src=dst, dst=destination_file_path)
                             print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
@@ -72,4 +79,4 @@ def false_absent(group,path):
                     pass
                 else:
                     create_txt_file_content(content=group.content, path=path,
-                                            txt_name=f'{content}.{type}', custom_date=group.date, group_id=group.pk)
+                                            txt_name=f'{file_name}.{type}', custom_date=group.date, group_id=group.pk)

@@ -158,9 +158,9 @@ def get_data_tg_channel_nonempty(ex_id,channel_id):
 
 def get_file_paths(pk):
     group = TgGroup.objects.get(pk=pk)
-    file_path = group.file_path.replace('/','\\')
-    f_path = f'{group.path}\\{file_path}'
-    file_name_ex = file_path.split('\\')[1]
+    file_path = group.file_path.replace('\\','/')
+    f_path = f'{group.path}/{file_path}'
+    file_name_ex = file_path.split('/')[1]
     file_name= file_name_ex.split('.')[0]
     type = file_name_ex.split('.')[-1]
     return f_path,file_name_ex,file_name,type
@@ -168,9 +168,12 @@ def get_data_channel_id_none(ex_id):
     group = TgGroup.objects.filter(execution_id=ex_id,tg_channel_id__isnull=True)
     return group
 def update_target_group(pk,target):
-    group = TgGroup.objects.get(pk=pk)
-    group.target = target
-    group.save()
+    try:
+        group = TgGroup.objects.get(pk=pk)
+        group.target = target
+        group.save()
+    except Exception as e:
+        print(e)
 
 def update_last_copy_file_pk(ex_id,id):
     execute = Execution.objects.get(pk=ex_id)

@@ -3,7 +3,7 @@ from django_orm.db.db_save import insert_data_to_db
 from parsing.foreach_parser import parsing_foreach
 from log3 import Logger
 current_l = Logger('current', 'w')
-
+from rich import print
 def main_parsing(ex_id):
     path = get_path_by_execution_id(ex_id)[1]
     channel_name = get_path_by_execution_id(ex_id)[0]

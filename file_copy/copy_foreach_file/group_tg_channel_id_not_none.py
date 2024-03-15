@@ -30,13 +30,12 @@ def tg_channel_id_not_none(group,ex_id,l):
             cp_path = path.replace(name, '')
             dst_path = os.path.isfile(os.path.join(cp_path, file_name))
             src_path = f'{channel[4]}/{file_path}'
-            print(src_path)
             match dst_path:
                 case True:
-                    print('already copied this file')
+                    print(f'c{group.tg_channel_id} already copied this file')
                 case False:
                     copy_file_with_custom_date(src=src_path, dst=cp_path, custom_date=custom_date, file_name=file_name)
-                    print(f'copied file: {file_name}')
+                    print(f'c{group.tg_channel_id} copy file process starting {file_name}')
     except Exception as e:
         print(e)
         send_error_msg(error=e, group_id=group.pk)

@@ -2,6 +2,7 @@ import time
 
 from Telegram.tg_bot import send_error_msg
 from file_copy.copy_shutil_func.slice_target_content_len import slice_target_content_lens
+from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 from file_copy.silicing_long_words.slicing_words_file import slice_content_words
 from rich import print
 import os
@@ -13,7 +14,10 @@ def create_txt_content(content,path,txt_name,custom_date,group_id):
     txt_name = slice_content_words(text=txt_name)
     text = f""""{content}"
             """
-    txt_name = slice_target_content_lens(path=path, filename=txt_name)
+    # txt_name = slice_target_content_lens(path=path, filename=txt_name)
+    slicing  = slice_target_len(file_name=txt_name,dst=path)
+    txt_name = slicing[0]
+    path = slicing[1]
     if os.path.isfile(f'{path}/{txt_name}.txt'):
         print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
     else:
