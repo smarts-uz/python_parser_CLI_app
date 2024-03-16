@@ -6,7 +6,14 @@ from file_copy.create_txt_files.create_hashtag_txt import hashtag_txt
 from file_copy.file_copy_functions import remove_unsupported_chars
 from file_copy.http.find_https_link import find_https, create_url_file
 
-
+from retry import retry
+from dotenv import load_dotenv
+load_dotenv()
+retry_delay = int(os.getenv('retry_delay'))
+retry_tries = int(os.getenv('retry_tries'))
+retry_max_delay = int(os.getenv('retry_max_delay'))
+retry_jitter = int(os.getenv('retry_jitter'))
+@retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
 def create_readme_file(dst_path, content, date, tg_channel_id,main_path=None,file_path=None):
     match file_path:
         case None:

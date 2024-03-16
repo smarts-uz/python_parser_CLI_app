@@ -73,7 +73,14 @@ def correct_filename(text,channel_name):
                     path = f'{root}{http}'
                     return path
 
-
+from retry import retry
+from dotenv import load_dotenv
+load_dotenv()
+retry_delay = int(os.getenv('retry_delay'))
+retry_tries = int(os.getenv('retry_tries'))
+retry_max_delay = int(os.getenv('retry_max_delay'))
+retry_jitter = int(os.getenv('retry_jitter'))
+@retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
 def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None,):
     # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
@@ -92,7 +99,7 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
                 os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
             print(f"Directory created successfully: [pink4 bold]{actual_path}")
             return actual_path
-        except Exception as e:
+        except FileExistsError as e:
             print(f'[red]Error {e}')
             send_error_msg(error=e,tg_channel_id=tg_channel_id)
             current.err(e)

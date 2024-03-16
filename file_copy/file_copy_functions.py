@@ -79,7 +79,14 @@ def remove_unsupported_chars(text,hashtag=False):
 
 current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
-
+from   retry import retry
+from dotenv import load_dotenv
+load_dotenv()
+retry_delay = int(os.getenv('retry_delay'))
+retry_tries = int(os.getenv('retry_tries'))
+retry_max_delay = int(os.getenv('retry_max_delay'))
+retry_jitter = int(os.getenv('retry_jitter'))
+@retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
 def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
     txt_name = slice_words(text=txt_name)
     if txt_name != '':
@@ -94,7 +101,7 @@ def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
                     print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
                     file.write(text)
                 os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
-            except Exception as e:
+            except FileExistsError as e:
                 print(f'[red]Error {e}')
                 send_error_msg(error=e,group_id=group_id)
                 current.err(e)
