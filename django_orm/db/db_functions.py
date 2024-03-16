@@ -190,7 +190,6 @@ def get_data_from_group_copy_file_process(ex_id,last_id):
 
 def get_name_from_channel(channel_id):
     try:
-
         channel = TgChannel.objects.get(pk=channel_id)
         text = channel.text
         date = channel.date

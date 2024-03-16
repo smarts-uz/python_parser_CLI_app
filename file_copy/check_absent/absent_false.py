@@ -49,8 +49,8 @@ def false_absent(group,path):
                 destination_file_path = os.path.join(path, file_name_ex)
             else:
                 slicing = slice_target_len(file_name=file_name_ex, dst=path)
-                file_name_ex = slicing[0]
-                path = slicing[0]
+                file_name_ex = f'{slicing[0]}.{type}'
+                path = slicing[1]
                 destination_file_path = os.path.join(path, file_name_ex)
             check = check_file_exists(src=destination_file_path, byte=group.byte)
             if check == True:

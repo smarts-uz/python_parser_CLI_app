@@ -1,4 +1,6 @@
 import os
+import time
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -75,6 +77,11 @@ def correct_filename(text,channel_name):
 def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None,):
     # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
+    max_folder_len = int(os.getenv('max_folder_len'))
+    if len(actual_path) > max_folder_len:
+        actual_path = actual_path[:max_folder_len]
+    else:
+        actual_path = actual_path
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
         try:
