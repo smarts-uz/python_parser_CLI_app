@@ -16,13 +16,12 @@ def send_error_msg(error,group_id=None,tg_channel_id=None):
         case None:
             match group_id:
                 case None:
-                    text = f"""| 📅{datetime.now()} |
-|⚠️ {error} |"""
+                    text = f"""|⚠️ {error} |"""
                 case _:
-                    text = f"""| 📅{datetime.now()} |🆔 {group_id} |
+                    text = f"""|🆔 {group_id} |
 |⚠️ {error} |"""
         case _:
-            text = f"""| 📅{datetime.now()}|🆔{tg_channel_id} |
+            text = f"""|🆔{tg_channel_id} |
 |⚠️ {error} |"""
 
     try:

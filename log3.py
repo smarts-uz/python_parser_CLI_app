@@ -1,5 +1,7 @@
 import logging
 import os
+
+from Telegram.tg_bot import send_error_msg
 from parsing.functions import logger_path
 
 class Logger():
@@ -17,6 +19,7 @@ class Logger():
 
     def err(self, err):
         self.logger.setLevel(logging.ERROR)
+        # send_error_msg(error=err)
         self.logger.exception(err)
 
 
