@@ -40,15 +40,17 @@ def false_absent(group,path):
                 copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date, group_id=group.pk,
                                            file_name=file_name_ex_1)
         case _:
-            content = remove_unsupported_chars(text=group.content, hashtag=True)[0]
-            slicing = slice_target_len(file_name=content, dst=path)
-            file_name_new = slicing[0]
-            path = slicing[1]
             if type !='mhtml' and type !='url':
+                content = remove_unsupported_chars(text=group.content, hashtag=True)[0]
+                slicing = slice_target_len(file_name=content, dst=path)
+                file_name_new = slicing[0]
+                path = slicing[1]
                 file_name_ex = f'{file_name_new}.{type}'
                 destination_file_path = os.path.join(path, file_name_ex)
             else:
-                file_name_ex = file_name_ex
+                slicing = slice_target_len(file_name=file_name_ex, dst=path)
+                file_name_ex = slicing[0]
+                path = slicing[0]
                 destination_file_path = os.path.join(path, file_name_ex)
             check = check_file_exists(src=destination_file_path, byte=group.byte)
             if check == True:
