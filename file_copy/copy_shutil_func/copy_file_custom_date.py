@@ -18,17 +18,17 @@ retry_jitter = int(os.getenv('retry_jitter'))
 def copy_file_with_custom_date(src, dst, custom_date,file_name,group_id=None):
     global file_dst
     print('Trying to copy file')
-    try:
-        file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
+    # try:
+    file_dst = shutil.copy(src=src, dst=f'{dst}/{file_name}')
         # file_dst = shutil.copy(src=src, dst=f'd:/pytube')
-        if group_id !=None:
-            update_target_group(pk=group_id, target=file_dst)
+    if group_id !=None:
+        update_target_group(pk=group_id, target=file_dst)
     # Set the custom date
         os.utime(file_dst, (custom_date.timestamp(), custom_date.timestamp()))
-        return file_dst
-    except FileExistsError as e:
-        print(e)
-        send_error_msg(error=e,group_id=group_id)
-        current.err(e)
-        history.err(e)
-        statistic.err(e)
+    return file_dst
+    # except FileExistsError as e:
+    #     print(e)
+    #     send_error_msg(error=e,group_id=group_id)
+    #     current.err(e)
+    #     history.err(e)
+    #     statistic.err(e)

@@ -1,4 +1,6 @@
 import os.path
+import time
+
 from rich import print
 
 from Telegram.tg_bot import send_error_msg
@@ -55,7 +57,7 @@ def remove_http(http):
     return word
 
 def remove_unsupported_chars(text,hashtag=False):
-    unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?"  ]
+    unsupchar = ["\\","/",'"',":", "<", ">" , "|" , "*" , "?" ]
     text = remove_http(text)
     hashtag_list = []
     if hashtag == False:
@@ -96,17 +98,17 @@ def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
         if os.path.isfile(f'{path}/{txt_name}.txt'):
             print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
         else:
-            try:
-                with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
-                    print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
-                    file.write(text)
-                os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
-            except FileExistsError as e:
-                print(f'[red]Error {e}')
-                send_error_msg(error=e,group_id=group_id)
-                current.err(e)
-                history.err(e)
-                statistic.err(e)
+            # try:
+            with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
+                print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
+                file.write(text)
+            os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+            # except FileExistsError as e:
+            #     print(f'[red]Error {e}')
+            #     send_error_msg(error=e,group_id=group_id)
+            #     current.err(e)
+            #     history.err(e)
+            #     statistic.err(e)
     else:
         pass
 

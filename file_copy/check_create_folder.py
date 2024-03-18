@@ -81,7 +81,7 @@ retry_tries = int(os.getenv('retry_tries'))
 retry_max_delay = int(os.getenv('retry_max_delay'))
 retry_jitter = int(os.getenv('retry_jitter'))
 @retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
-def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None,):
+def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None):
     # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
     max_folder_len = int(os.getenv('max_folder_len'))
@@ -91,20 +91,21 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
         actual_path = actual_path
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
-        try:
-            os.makedirs(actual_path)
-            create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
+        # try:
+        print('try to create folder')
+        os.makedirs(actual_path)
+        create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
                                main_path=main_path,tg_channel_id=tg_channel_id)
-            if custom_date != None:
-                os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
-            print(f"Directory created successfully: [pink4 bold]{actual_path}")
-            return actual_path
-        except FileExistsError as e:
-            print(f'[red]Error {e}')
-            send_error_msg(error=e,tg_channel_id=tg_channel_id)
-            current.err(e)
-            history.err(e)
-            statistic.err(e)
+        if custom_date != None:
+            os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
+        print(f"Directory created successfully: [pink4 bold]{actual_path}")
+        return actual_path
+        # except FileExistsError as e:
+        #     print(f'[red]Error {e}')
+        #     send_error_msg(error=e,tg_channel_id=tg_channel_id)
+        #     current.err(e)
+        #     history.err(e)
+        #     statistic.err(e)
 
     else:
         print(f"Directory already exists: [purple4 bold]{actual_path}")

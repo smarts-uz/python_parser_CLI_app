@@ -46,6 +46,7 @@ def false_absent(group,path):
                 file_name_new = slicing[0]
                 path = slicing[1]
                 file_name_ex = file_name_ex
+                ########################################
                 file_name_ex_1 = f'{file_name_new}.{type}'
                 destination_file_path = os.path.join(path, file_name_ex_1)
             else:
