@@ -92,7 +92,7 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
     actual_path = actual_path.strip()
     if not os.path.exists(actual_path):
         # try:
-        print('try to create folder')
+        print('[pink4 bold]try to create folder')
         os.makedirs(actual_path)
         create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
                                main_path=main_path,tg_channel_id=tg_channel_id)

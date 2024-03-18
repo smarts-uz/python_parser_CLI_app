@@ -180,6 +180,6 @@ class Pars:
 #
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 #
-# #
-# a = Pars(file_path="h:/Exports/SmartTech Learning Group/2021/2021-9/messages.html",channel_name="SmartTech Learning",execution_id=123)
+# # #
+# a = Pars(file_path="h:\\Envato Learning Group\\2023-08-10\\messages11.html",channel_name="Envato Learning",execution_id=123)
 # pprint(a.main_msg()[1])

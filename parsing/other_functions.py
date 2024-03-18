@@ -211,7 +211,8 @@ def filtered_message(main_message,execution_id,path):
     try:
         reply_to_details = message_body.find('div', class_='reply_to details').find('a')['href']
         # reply_to_message_id = message_body.find('div', class_='reply_to details').find('a')['href'][14:]
-        reply_to_message_id =  re.findall(r'\d+', reply_to_details)[0]
+        reply_to_message =  re.findall(r'#go_to_message\d+', reply_to_details)[-1]
+        reply_to_message_id = re.findall(r'\d+',reply_to_message)[-1]
 
     except:
         reply_to_details = None
