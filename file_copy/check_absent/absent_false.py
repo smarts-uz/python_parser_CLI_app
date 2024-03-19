@@ -71,8 +71,9 @@ def false_absent(group,path):
                         if type == 'mhtml' or type == 'url':
                             pass
                         else:
-                            os.rename(src=dst, dst=destination_file_path)
-                            print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
+                            if dst !=None:
+                                os.rename(src=dst, dst=destination_file_path)
+                                print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
                     except Exception as e:
                         print(e)
                         send_error_msg(error=e, group_id=group.pk)

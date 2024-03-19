@@ -21,6 +21,7 @@ def parsing_foreach(path,execution_id,channel_name,current_html=None):
         fname_list = fname_list[start_index:]
     change_status_execution(id=execution_id, parsing_process=True)
     for folder in natsort.os_sorted(fname_list):
+        check_path_parsing()
         parsing = Pars(file_path=folder, execution_id=execution_id, channel_name=channel_name)
         parsing_data =parsing.main_msg()
         channel_content_list.append(natsort.os_sorted(parsing_data[0]))

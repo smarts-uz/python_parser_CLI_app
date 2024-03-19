@@ -25,10 +25,8 @@ def check_path_Src():
 
 @retry((FileNotFoundError,IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
 def check_path_parsing():
-    print('Checking server!')
     with open(retry_path_src,mode='rb') as f:
         pass
-    print('Server is okay!')
 
 
 

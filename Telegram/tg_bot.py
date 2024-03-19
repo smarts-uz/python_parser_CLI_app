@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 from rich import print
 import os
 from datetime import datetime
+
+from Telegram.retry_after_send_msg import retry_after
+
 load_dotenv()
 TOKEN = os.getenv('token')
 chat_id = os.getenv('channel_id')
@@ -28,7 +31,8 @@ def send_error_msg(error,group_id=None,tg_channel_id=None):
         bot.send_message(chat_id=chat_id,text=text)
         time.sleep(1.2)
         print(f'[orange3]Current Error send to channel successfully')
-    except:
+    except Exception as e:
+        retry_after(e)
         bot.send_message(chat_id=chat_id, text=text)
         time.sleep(1.2)
         print(f'[orange3]Error send to channel')
