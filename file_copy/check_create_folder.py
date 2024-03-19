@@ -84,6 +84,8 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
         actual_path = actual_path[:max_folder_len]
     else:
         actual_path = actual_path
+    if actual_path[-1] == '.':
+        actual_path = actual_path.replace('.',' ')
     actual_path = actual_path.strip()
     if os.path.exists(actual_path):
         print(f"Directory already exists: [purple4 bold]{actual_path}")
