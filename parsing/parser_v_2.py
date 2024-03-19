@@ -1,24 +1,20 @@
 import json
 import time
 from pprint import pprint
-
 import natsort
 from bs4 import BeautifulSoup
-
 from django_orm.db.db_functions import change_status_execution, update_execution_current
 from parsing.functions import correct_time_data, search_html
 from parsing.other_functions import file_choose, choose_duration, folder_path,current_html_name, filtered_message
 
 
 class Pars:
-
     def __init__(self, file_path,execution_id,channel_name):
         self.file_path = file_path
         self.execution_id = execution_id
         self.channel_name = channel_name
 
     def get_html(self):
-
         HtmlFile = open(self.file_path, 'r', encoding='utf-8')
         source_code = HtmlFile.read()
         soup = BeautifulSoup(source_code, 'html.parser')
@@ -27,11 +23,9 @@ class Pars:
     def parsing(self):
         soup = self.get_html()
         main_folder_name = soup.find('div', class_='content').get_text(strip=True)
-
         history = soup.find('div', class_="history")
         main_messages = history.find_all('div', class_='message default clearfix')
         joined_messages = history.find_all('div', class_='message default clearfix joined')
-
         return main_messages, joined_messages
 
     def main_msg(self):

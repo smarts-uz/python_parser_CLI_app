@@ -7,7 +7,7 @@ retry_tries = int(os.getenv('retry_tries'))
 retry_max_delay = int(os.getenv('retry_max_delay'))
 retry_jitter = int(os.getenv('retry_jitter'))
 retry_path_src = os.getenv('retry_path_src')
-retry_path_dst = os.getenv('retry_path_dst')
+retry_path_dst = os.getenv('PATH_TO_SAVE')
 # FileNotFoundError
 @retry((FileNotFoundError,IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
 def check_path_Src():
@@ -20,6 +20,15 @@ def check_path_Src():
         pass
     os.remove(dst_path)
     print('Server is okay')
+
+
+
+@retry((FileNotFoundError,IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
+def check_path_parsing():
+    print('Checking server!')
+    with open(retry_path_src,mode='rb') as f:
+        pass
+    print('Server is okay!')
 
 
 

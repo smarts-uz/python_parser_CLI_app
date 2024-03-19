@@ -1,4 +1,5 @@
 import os
+import time
 
 from Telegram.tg_bot import send_error_msg
 
@@ -22,7 +23,7 @@ from structure_foldering.structuring_folder import create_dirs_all
 from log3 import Logger
 
 #3log
-current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
+current = Logger('current', 'a');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
 
 @click.group('Parser')
 def parser():
@@ -68,19 +69,13 @@ def collector(path,name):
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=errs)
-        current.log(msg);
-        # current.err(errs);
-        history.log(msg);
-        # history.err(errs);
-        statistic.log(msg);
-        # statistic.err(errs)
+        current.log(msg)
         print(f'[red]{msg}')
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
     try:
         status = get_status_execution(ex_id)
-
         match status:
             case 'new':
                 main_parsing(ex_id)
@@ -91,12 +86,7 @@ def parsing(ex_id):
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
-        # current.log(msg);
-        current.err(errs);
-        # history.log(msg);
-        history.err(errs);
-        # statistic.log(msg);
-        statistic.err(errs)
+        current.err(errs)
         print(f'[red]{msg}')
 
 
@@ -108,20 +98,10 @@ def execute(ex_id):
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
-        # current.log(msg);
-        current.err(errs);
-        # history.log(msg);
-        history.err(errs);
-        # statistic.log(msg);
-        statistic.err(errs)
+        current.err(errs)
         print(f'[red]{msg}')
 
 
-
-# @parser.command()
-# def channel_empty():
-#     main_empty_channel()
-#     print('Checking channel_id end!')
 
 
 @parser.command(help='Copy files to folder which given in .env "Base dir = "')
@@ -141,12 +121,7 @@ def file_copy(ex_id):
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
-        # current.log(msg);
-        current.err(errs);
-        # history.log(msg);
-        history.err(errs);
-        # statistic.log(msg);
-        statistic.err(errs)
+        current.err(errs)
         print(f'[red]{msg}')
 
 

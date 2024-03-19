@@ -3,6 +3,7 @@ from pprint import pprint
 
 import natsort
 
+from Check_path.check_src_path import check_path_parsing
 from django_orm.db.db_functions import change_status_execution, update_execution_current
 from parsing.functions import search_html
 from parsing.other_functions import current_html_name, html_search
@@ -10,6 +11,7 @@ from parsing.parser_v_2 import Pars
 from natsort import natsorted
 
 def parsing_foreach(path,execution_id,channel_name,current_html=None):
+    check_path_parsing()
     fname_list = html_search(path)
     channel_content_list = []
     group_content_list = []
