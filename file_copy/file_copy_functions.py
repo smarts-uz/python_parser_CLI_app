@@ -3,6 +3,7 @@ import time
 
 from rich import print
 
+from Check_path.check_src_path import check_path_Src
 from Telegram.tg_bot import send_error_msg
 from file_copy.copy_shutil_func.slice_target_content_len import slice_target_content_lens
 from file_copy.silicing_long_words.slicing_words_file import slice_words
@@ -79,17 +80,13 @@ def remove_unsupported_chars(text,hashtag=False):
 
 
 
-current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
+current = Logger('current', 'a')
 
-from   retry import retry
 from dotenv import load_dotenv
 load_dotenv()
-retry_delay = int(os.getenv('retry_delay'))
-retry_tries = int(os.getenv('retry_tries'))
-retry_max_delay = int(os.getenv('retry_max_delay'))
-retry_jitter = int(os.getenv('retry_jitter'))
-@retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
+
 def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
+    check_path_Src()
     txt_name = slice_words(text=txt_name)
     if txt_name != '':
         text = f""""{content}"
@@ -98,17 +95,16 @@ def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
         if os.path.isfile(f'{path}/{txt_name}.txt'):
             print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
         else:
-            # try:
-            with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
-                print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
-                file.write(text)
-            os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
-            # except FileExistsError as e:
-            #     print(f'[red]Error {e}')
-            #     send_error_msg(error=e,group_id=group_id)
-            #     current.err(e)
-            #     history.err(e)
-            #     statistic.err(e)
+            try:
+                with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
+                    print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
+                    file.write(text)
+                os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+            except FileExistsError as e:
+                print(f'[red]Error {e}')
+                send_error_msg(error=e,group_id=group_id)
+                current.err(e)
+
     else:
         pass
 

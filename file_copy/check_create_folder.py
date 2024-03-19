@@ -1,6 +1,8 @@
 import os
 import time
 
+from Check_path.check_src_path import check_path_Src
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -18,8 +20,7 @@ load_dotenv()
 
 from file_copy.file_copy_functions import strip_space_list_element, remove_hashtag,remove_unsupported_chars
 
-current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
-
+current = Logger('current', 'a')
 
 def remove_special_characters(text):
     # filtered_text = (''.join(char for char in text if char.isalpha() or char.isspace()))
@@ -73,15 +74,9 @@ def correct_filename(text,channel_name):
                     path = f'{root}{http}'
                     return path
 
-from retry import retry
-from dotenv import load_dotenv
-load_dotenv()
-retry_delay = int(os.getenv('retry_delay'))
-retry_tries = int(os.getenv('retry_tries'))
-retry_max_delay = int(os.getenv('retry_max_delay'))
-retry_jitter = int(os.getenv('retry_jitter'))
-@retry((FileNotFoundError, IOError), delay=retry_delay, backoff=2, max_delay=retry_max_delay, tries=retry_tries,jitter=retry_jitter)
+
 def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=None,main_path=None):
+    check_path_Src()
     # hashtag_list = remove_hashtag(text=actual_path1)[1]
     actual_path = correct_filename(actual_path1,channel_name)
     max_folder_len = int(os.getenv('max_folder_len'))
@@ -90,24 +85,21 @@ def file_creator(actual_path1,channel_name,custom_date,tg_channel_id,file_path=N
     else:
         actual_path = actual_path
     actual_path = actual_path.strip()
-    if not os.path.exists(actual_path):
-        # try:
-        print('[pink4 bold]try to create folder')
-        os.makedirs(actual_path)
-        create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
-                               main_path=main_path,tg_channel_id=tg_channel_id)
-        if custom_date != None:
-            os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
-        print(f"Directory created successfully: [pink4 bold]{actual_path}")
-        return actual_path
-        # except FileExistsError as e:
-        #     print(f'[red]Error {e}')
-        #     send_error_msg(error=e,tg_channel_id=tg_channel_id)
-        #     current.err(e)
-        #     history.err(e)
-        #     statistic.err(e)
-
-    else:
+    if os.path.exists(actual_path):
         print(f"Directory already exists: [purple4 bold]{actual_path}")
         return actual_path
+    else:
+        try:
+            os.makedirs(actual_path)
+            create_readme_file(dst_path=actual_path, content=actual_path1, date=custom_date, file_path=file_path,
+                               main_path=main_path,tg_channel_id=tg_channel_id)
+            if custom_date != None:
+                os.utime(actual_path, (custom_date.timestamp(), custom_date.timestamp()))
+            print(f"Directory created successfully: [pink4 bold]{actual_path}")
+            return actual_path
+        except FileExistsError as e:
+            print(f'[red]Error {e}')
+            send_error_msg(error=e,tg_channel_id=tg_channel_id)
+            current.err(e)
+
 
