@@ -26,6 +26,7 @@ def true_absent(group,path):
             file_name = slicing[0]
             path = slicing[1]
             https = find_https(group.content)
+            destination_file_path = os.path.join(path,file_name)
             match https:
                 case []:
                     create_txt_content(content=group.content, path=path, txt_name=file_name,
@@ -40,5 +41,5 @@ def true_absent(group,path):
                         print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
                     if len(https) > 1:
                         create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
-                                                custom_date=group.date, group_id=group.pk,destination_file_path=file_name)
+                                                custom_date=group.date, group_id=group.pk,destination_file_path=destination_file_path)
     update_target_group(pk=group.pk, target=path)
