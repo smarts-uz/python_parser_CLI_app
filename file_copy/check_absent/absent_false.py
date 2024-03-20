@@ -13,7 +13,7 @@ from file_copy.increment_file_name.increment import get_incremented_filename
 from file_copy.remove_unsupported_chars.replace_backslash_to_slash import replace_backslash
 from log3 import Logger
 
-current = Logger('current', 'w');history = Logger('history', 'a');statistic = Logger('statictics', 'a')
+current = Logger('current', 'a')
 def false_absent(group,path):
     file = get_file_paths(pk=group.pk)
     file_path = file[0]
@@ -40,7 +40,7 @@ def false_absent(group,path):
                 copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date, group_id=group.pk,
                                            file_name=file_name_ex_1)
         case _:
-            if type !='mhtml' and type !='url':
+            if type !='mhtml' or type !='url' or type!='html' or type!='htm':
                 content = remove_unsupported_chars(text=group.content, hashtag=True)[0]
                 slicing = slice_target_len(file_name=content, dst=path)
                 file_name_new = slicing[0]
@@ -68,20 +68,20 @@ def false_absent(group,path):
                 if os.path.join(path, file_name_ex) != destination_file_path:
                     try:
                         destination_file_path = get_incremented_filename(filename=destination_file_path)
-                        if type == 'mhtml' or type == 'url':
-                            pass
-                        else:
-                            if dst !=None:
+                        if type !='mhtml' or type !='url' or type!='html' or type!='htm':
+                            if dst != None:
                                 os.rename(src=dst, dst=destination_file_path)
                                 print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
+                        else:
+                            pass
                     except Exception as e:
                         print(e)
                         send_error_msg(error=e, group_id=group.pk)
                         current.err(e)
-                        history.err(e)
-                        statistic.err(e)
-                if type == 'mhtml' or type == 'url':
-                    pass
-                else:
+
+                if type != 'mhtml' or type !='url' or type !='html' or type !='htm':
                     create_txt_file_content(content=group.content, path=path,
                                             txt_name=f'{file_name}.{type}', custom_date=group.date, group_id=group.pk)
+                else:
+                    pass
+
