@@ -40,7 +40,8 @@ def false_absent(group,path):
                 copy_file_with_custom_date(src=file_path, dst=path, custom_date=group.date, group_id=group.pk,
                                            file_name=file_name_ex_1)
         case _:
-            if type !='mhtml' or type !='url' or type!='html' or type!='htm':
+            not_renamed_list = ['mhtml','url','html','htm']
+            if type not in not_renamed_list:
                 content = remove_unsupported_chars(text=group.content, hashtag=True)[0]
                 slicing = slice_target_len(file_name=content, dst=path)
                 file_name_new = slicing[0]
@@ -50,8 +51,9 @@ def false_absent(group,path):
                 file_name_ex_1 = f'{file_name_new}.{type}'
                 destination_file_path = os.path.join(path, file_name_ex_1)
             else:
-                slicing = slice_target_len(file_name=file_name_ex, dst=path)
+                slicing = slice_target_len(file_name=file_name, dst=path)
                 file_name_ex = f'{slicing[0]}.{type}'
+                # file_name_ex = f'{slicing[0]}'
                 path = slicing[1]
                 destination_file_path = os.path.join(path, file_name_ex)
             check = check_file_exists(src=destination_file_path, byte=group.byte)
@@ -68,7 +70,7 @@ def false_absent(group,path):
                 if os.path.join(path, file_name_ex) != destination_file_path:
                     try:
                         destination_file_path = get_incremented_filename(filename=destination_file_path)
-                        if type !='mhtml' or type !='url' or type!='html' or type!='htm':
+                        if type not in not_renamed_list:
                             if dst != None:
                                 os.rename(src=dst, dst=destination_file_path)
                                 print(f'[orchid1]{group.pk} file renamed {destination_file_path.split('\\')[-1]}')
@@ -78,8 +80,7 @@ def false_absent(group,path):
                         print(e)
                         send_error_msg(error=e, group_id=group.pk)
                         current.err(e)
-
-                if type != 'mhtml' or type !='url' or type !='html' or type !='htm':
+                if type not in not_renamed_list:
                     create_txt_file_content(content=group.content, path=path,
                                             txt_name=f'{content}.{type}', custom_date=group.date, group_id=group.pk,destination_file_path=destination_file_path)
                 else:
