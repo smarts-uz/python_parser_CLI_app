@@ -12,7 +12,7 @@ from file_copy.http.find_https_link import find_https, create_url_file
 from file_copy.increment_file_name.increment import get_incremented_filename
 from file_copy.remove_unsupported_chars.replace_backslash_to_slash import replace_backslash
 from log3 import Logger
-
+from file_copy.copy_shutil_func.slice_target_lenth import slice_target_len
 
 
 def true_absent(group,path):
@@ -22,10 +22,13 @@ def true_absent(group,path):
                 print(f'[red]This file not exists [bright_green]tg_group_id:{group.pk}  [red bold]{group.file_path}')
         case _:
             content = remove_unsupported_chars(text=group.content)[0]
+            slicing = slice_target_len(file_name=f'{content}', dst=path)
+            file_name = slicing[0]
+            path = slicing[1]
             https = find_https(group.content)
             match https:
                 case []:
-                    create_txt_content(content=group.content, path=path, txt_name=content,
+                    create_txt_content(content=group.content, path=path, txt_name=file_name,
                                             custom_date=group.date, group_id=group.pk)
                     # create_txt_file_content(content=group.content, path=path, txt_name=content,
                     #                         custom_date=group.date, group_id=group.pk)
@@ -37,5 +40,5 @@ def true_absent(group,path):
                         print(f'[blue]{group.pk}\'s created [dark blue]url file {http}')
                     if len(https) > 1:
                         create_txt_file_content(content=group.content, path=path, txt_name=f'{content}',
-                                                custom_date=group.date, group_id=group.pk)
+                                                custom_date=group.date, group_id=group.pk,destination_file_path=file_name)
     update_target_group(pk=group.pk, target=path)
