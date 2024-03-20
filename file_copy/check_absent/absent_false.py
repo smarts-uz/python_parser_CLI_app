@@ -81,7 +81,7 @@ def false_absent(group,path):
 
                 if type != 'mhtml' or type !='url' or type !='html' or type !='htm':
                     create_txt_file_content(content=group.content, path=path,
-                                            txt_name=f'{file_name}.{type}', custom_date=group.date, group_id=group.pk)
+                                            txt_name=f'{content}.{type}', custom_date=group.date, group_id=group.pk,destination_file_path=destination_file_path)
                 else:
                     pass
 

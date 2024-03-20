@@ -70,13 +70,9 @@ def remove_unsupported_chars(text,hashtag=False):
         text = text.replace(char,' ')
     text = text.replace('  ',' ')
     text = text.replace('  ',' ')
-    if len(list(text)) > 10:
-        six_word = text.split(' ')[:10]
-        six_word =' '.join(six_word)
-    else:
-        six_word=text
 
-    return six_word.strip(),hashtag_list
+
+    return text.strip(),hashtag_list
 
 
 
@@ -85,21 +81,21 @@ current = Logger('current', 'a')
 from dotenv import load_dotenv
 load_dotenv()
 
-def create_txt_file_content(path,custom_date,txt_name,group_id,content=None):
+def create_txt_file_content(path,custom_date,txt_name,group_id,destination_file_path,content=None,):
     check_path_Src()
-    txt_name = slice_words(text=txt_name)
-    if txt_name != '':
+    txt_name = slice_words(text=f'{path}/{txt_name}',destination_file_path = destination_file_path)
+    if txt_name == True:
         text = f""""{content}"
         """
-        txt_name = slice_target_content_lens(path=path,filename=txt_name)
-        if os.path.isfile(f'{path}/{txt_name}.txt'):
-            print(f'This txt [purple4 bold]{path}/{txt_name}.txt file is already created!')
+        # txt_name = slice_target_content_lens(path=path,filename=txt_name)
+        if os.path.isfile(f'{destination_file_path}.txt'):
+            print(f'This txt [purple4 bold]{destination_file_path}.txt file is already created!')
         else:
             try:
-                with open(f'{path}/{txt_name}.txt', mode="w", encoding='utf-8') as file:
-                    print(f'Created txt file [green_yellow bold]{path}/{txt_name}.txt')
+                with open(f'{destination_file_path}.txt', mode="w", encoding='utf-8') as file:
+                    print(f'Created txt file [green_yellow bold]{destination_file_path}.txt')
                     file.write(text)
-                os.utime(f'{path}/{txt_name}.txt', (custom_date.timestamp(), custom_date.timestamp()))
+                os.utime(f'{destination_file_path}.txt', (custom_date.timestamp(), custom_date.timestamp()))
             except FileExistsError as e:
                 print(f'[red]Error {e}')
                 send_error_msg(error=e,group_id=group_id)
