@@ -14,7 +14,6 @@ def html_search(path):
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.startswith('message') and file.endswith('.html'):
-                file_m = os.path.join(root, file)
                 html_files.append(os.path.join(root, file))
                 for d in dirs:dirs.remove(d)
 
