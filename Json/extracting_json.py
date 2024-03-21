@@ -29,4 +29,3 @@ def json_extract(path,channel_name,execution_id):
 
 
 
-json_extract(path='h:/Envato Learning Group/2022-10-31',channel_name='SmartTech Envato',execution_id=2)

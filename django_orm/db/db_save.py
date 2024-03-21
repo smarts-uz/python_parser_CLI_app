@@ -2,6 +2,8 @@ import os
 
 import natsort
 
+from Json.json_search import json_search
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
@@ -87,6 +89,45 @@ def insert_or_get_execution(path:str,name:str):
             path=pth,
             status='new'
         )
+            ex_ids.append({
+                "id": execute.pk,
+                "name": name,
+                "path": pth,
+                "status": "new"
+            })
+            new_count += 1
+            print(f'[green1]{pth} : new added to db with id: {execute.pk}')
+
+    print(f'Exist count: {exist_count}')
+    print(f'New count: {new_count}')
+    return natsort.os_sorted(ex_ids)
+
+
+
+def insert_or_get_execution_json(path,name):
+    paths = json_search(path)
+    exist_count = 0
+    new_count = 0
+    ex_ids = []
+    for path in paths:
+        pth = folder_path(path)
+        try:
+            execute = Execution.objects.get(path=pth)
+            exist_count += 1
+            ex_ids.append({
+                "id": execute.pk,
+                "name": name,
+                "path": pth,
+                "status": execute.status
+            })
+            print(f'[pink]{pth} : this path already exist with id: {execute.pk} and [green]status: {execute.status} ')
+        except Execution.DoesNotExist:
+
+            execute = Execution.objects.create(
+                name=name,
+                path=pth,
+                status='new'
+            )
             ex_ids.append({
                 "id": execute.pk,
                 "name": name,

@@ -26,7 +26,10 @@ def filter_message(datas,path,channel_name,execution_id):
                 absent = None
                 byte = None
             try:
-                text = i['text']['text']
+                text = ""
+                texts = i['text']
+                for t  in texts:
+                    text = f'{text} {t["text"]}'.strip()
             except:
                 text = None
             if from_name == channel_name:
@@ -38,7 +41,8 @@ def filter_message(datas,path,channel_name,execution_id):
                     'file_path': file_path,
                     'reply_to_msg_id': reply_to_message_id,
                     'path': path,
-                    'execution_id': execution_id
+                    'execution_id': execution_id,
+                    'message_details' : 'json_message'
                 }})
             else:
                 group_data.append({message_id: {
@@ -52,7 +56,9 @@ def filter_message(datas,path,channel_name,execution_id):
                     'target': None,
                     'absent': absent,
                     'byte': byte,
-                    'html': 'json'
+                    'html': 'json',
+                    'message_details' : 'json_message',
+                    'replied_message_details' : 'json_message'
                 }})
 
     return channel_data,group_data

@@ -1,19 +1,20 @@
 import os
-import time
 
-from Telegram.tg_bot import send_error_msg
+from Json.extracting_json import json_extract
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
+import time
+from Telegram.tg_bot import send_error_msg
 from main_functions.copy_file_process import file_copy_pr
 from django_orm.db.db_functions import get_status_execution
 from main_functions.main_parsing_new import main_parsing
 from main_functions.parsing_process import main_parsing_process
 from main_functions.main_func import main_execute
 from main_functions.copy_file_main import copy_file
-from django_orm.db.db_save import insert_or_get_execution
+from django_orm.db.db_save import insert_or_get_execution, insert_or_get_execution_json
 from main_functions.run import run_execute
 from parsing.parser import final_result_info
 from rich import print
@@ -71,6 +72,24 @@ def collector(path,name):
         send_error_msg(error=errs)
         current.log(msg)
         print(f'[red]{msg}')
+
+@parser.command(help="Collects all result.json files path")
+@click.option('--path',help='json files folder path')
+@click.option('--name',help='Channel name')
+def collect_json(path,name):
+    try:
+        executions_list = insert_or_get_execution_json(path=path,name=name)
+        for exe in executions_list:
+            json_extract(path=exe['path'],channel_name=exe['name'],execution_id=exe['id'])
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        send_error_msg(error=errs)
+        current.log(msg)
+        print(f'[red]{msg}')
+
+
+
+
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
 def parsing(ex_id):
