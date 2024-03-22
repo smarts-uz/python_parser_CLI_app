@@ -4,7 +4,6 @@ from telebot import TeleBot
 from dotenv import load_dotenv
 from rich import print
 import os
-from datetime import datetime
 
 from Telegram.retry_after_send_msg import retry_after
 
@@ -29,7 +28,6 @@ def send_error_msg(error,group_id=None,tg_channel_id=None):
 
     try:
         bot.send_message(chat_id=chat_id,text=text)
-        time.sleep(1.2)
         print(f'[orange3]Current Error send to channel successfully')
     except Exception as e:
         retry_after(e)

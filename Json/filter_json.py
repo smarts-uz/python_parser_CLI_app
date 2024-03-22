@@ -27,9 +27,13 @@ def filter_message(datas,path,channel_name,execution_id):
                 byte = None
             try:
                 text = ""
-                texts = i['text']
-                for t  in texts:
-                    text = f'{text} {t["text"]}'.strip()
+                content = i['text']
+                for t in content:
+                    try:
+                        text += f'{text} {t["text"]}'.strip()
+                    except :
+                        text = f'{text}'
+
             except:
                 text = None
             if from_name == channel_name:

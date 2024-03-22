@@ -1,8 +1,6 @@
-import datetime
 import json
-import time
-from pprint import pprint
-import os
+
+
 
 from Json.filter_json import filter_message
 from Json.json_search import json_search
@@ -18,12 +16,15 @@ def json_extract(path,channel_name,execution_id):
             data = json.load(f)
             data_data = filter_message(datas=data['messages'], path=path, channel_name=channel_name,
                                        execution_id=execution_id)
-            # save_info = insert_data_to_db(data_data)
             for channel_data in data_data[0]:
                 insert_or_get_channel(channel_data)
             for group_data in data_data[1]:
                 insert_or_get_group(group_data)
 
+
+
+
+# json_extract('D:/envato','SmartTech Envato','861')
 
 
 
