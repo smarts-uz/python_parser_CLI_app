@@ -1,6 +1,7 @@
 import os
 
 from Json.extracting_json import json_extract
+from Json.json_execution import json_execution
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
@@ -15,7 +16,7 @@ from main_functions.parsing_process import main_parsing_process
 from main_functions.main_func import main_execute
 from main_functions.copy_file_main import copy_file
 from django_orm.db.db_save import insert_or_get_execution, insert_or_get_execution_json
-from main_functions.run import run_execute
+from main_functions.run import run_execute, run_json_execute
 from parsing.parser import final_result_info
 from rich import print
 from django_orm.main import save_data_to_db, update_database
@@ -80,7 +81,7 @@ def collect_json(path,name):
     try:
         executions_list = insert_or_get_execution_json(path=path,name=name)
         for exe in executions_list:
-            json_extract(path=exe['path'],channel_name=exe['name'],execution_id=exe['id'])
+            run_json_execute(ex_id=exe['id'])
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=errs)
@@ -89,6 +90,31 @@ def collect_json(path,name):
 
 
 
+@parser.command(help="Parsing json file")
+@click.option('--ex_id',help='Execution id')
+def json_pars(ex_id):
+    try:
+        status = get_status_execution(ex_id)
+        if status in ['new','parsing_process']:
+            json_extract(execution_id=ex_id)
+        else:
+            print(f'Status is: {status}. Already parsed')
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
+        current.err(errs)
+        print(f'[red]{msg}')
+
+@parser.command(help='Run json_pars and copy commands step by step')
+@click.option('--ex_id',help='Execution id')
+def json_execute(ex_id):
+    try:
+        json_execution(ex_id=ex_id)
+    except Exception as errs:
+        msg = f"[red]Error: {errs}"
+        send_error_msg(error=f'[ex_id:{ex_id}] {errs}')
+        current.err(errs)
+        print(f'[red]{msg}')
 
 @parser.command(help="Parsing html file")
 @click.option('--ex_id',help='Execution id')
