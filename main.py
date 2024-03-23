@@ -1,13 +1,13 @@
 import os
-
-from Json.extracting_json import json_extract
-from Json.json_execution import json_execution
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_orm.settings')
 import django
 django.setup()
 import click
 import time
+
+from Json.extracting_json import json_extract
+from Json.json_execution import json_execution
+from main_functions.collector_func import collector_html
 from Telegram.tg_bot import send_error_msg
 from main_functions.copy_file_process import file_copy_pr
 from django_orm.db.db_functions import get_status_execution
@@ -64,10 +64,8 @@ def create_folders():
 @click.option('--name',help='Channel name')
 def collector(path,name):
     try:
-        executions_list = insert_or_get_execution(path=path, name=name)
-        for execution in executions_list:
-            run_execute(ex_id=execution['id'])
-        print(f'[cyan]Collecting end!!!!')
+        collector_html(path=path, name=name)
+
     except Exception as errs:
         msg = f"[red]Error: {errs}"
         send_error_msg(error=errs)

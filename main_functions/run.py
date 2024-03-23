@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 
@@ -48,3 +49,13 @@ def run_json(ex_id):
         case _:
             print(f'Warning parsing problem code is :{code}')
     return code
+
+from  dotenv import load_dotenv
+main_path = os.getenv('main_path')
+def run_collector(path,name):
+    pros = subprocess.Popen([f'{sys.executable}', f'{main_path}', 'collector', f"--path={path}",f"--name={name}"])
+    code = pros.wait()
+    print(code)
+
+
+
