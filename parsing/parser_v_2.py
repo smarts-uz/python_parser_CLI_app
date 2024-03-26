@@ -93,8 +93,9 @@ class Pars:
                 )
 
         for joined_message in joined_messages:
+
             j_data = filtered_message(joined_message,self.execution_id,path)
-            if j_data['replied_message_id'] == None and data != [] and j_data['content'] != None:
+            if j_data['replied_message_id'] == None and data != []:
                 filtered_message_numbers = list(filter(lambda msg: int(list(msg.keys())[0]) < int(j_data['message_id']), data))
                 filtered_message_numbers = natsort.os_sorted(filtered_message_numbers)
                 if filtered_message_numbers != []:
@@ -103,7 +104,14 @@ class Pars:
                     filtered_message_ids = natsort.os_sorted(filtered_message_ids)
                     # channel_data_id = natsort.os_sorted(filtered_message_ids)[-1]
                     channel_data_id = filtered_message_ids[-1]
-                    if j_data['date'] == channel_data[channel_data_id]['date'] and self.channel_name == channel_data[channel_data_id]['from_name']:
+                    # print(channel_data[channel_data_id]['date'])
+                    # print(
+                    #     f'{channel_data[channel_data_id]['date'].hour}:{channel_data[channel_data_id]['date'].minute}')
+                    # print(j_data['date_text'])
+                    # print('stop')
+                    # if j_data['date'] == channel_data[channel_data_id]['date'] and self.channel_name == channel_data[channel_data_id]['from_name']:
+                    if j_data['date_text'] == f'{channel_data[channel_data_id]['date'].hour}:{channel_data[channel_data_id]['date'].minute}' and self.channel_name == channel_data[channel_data_id]['from_name']:
+
                         data.append({j_data['message_id']: {
                             "message_id": j_data['message_id'],
                             "message_details": j_data['message_details'],
@@ -161,7 +169,7 @@ class Pars:
                         'channel_name': self.channel_name,
                         'html': current_html,
                         'absent': j_data['absent'],
-                        'byte' : j_data['byte']
+                        'byte' : j_data['byte'],
                     }})
 
             print(f'[{current_html}] message_id: {j_data['message_id']} content: {j_data['content']} (parsed)')
@@ -175,5 +183,5 @@ class Pars:
 # --path="h:\Exports\SmartTech Learning Group\2021" --name="SmartTech Learning"
 #
 # # #
-# a = Pars(file_path="h:\\Envato Learning Group\\2023-08-10\\messages11.html",channel_name="Envato Learning",execution_id=123)
-# pprint(a.main_msg()[1])
+# a = Pars(file_path="h:/SmartTech Learning Group/2023/7-21/messages3.html",channel_name="SmartTech Learning",execution_id=123)
+# pprint(a.main_msg()[0])

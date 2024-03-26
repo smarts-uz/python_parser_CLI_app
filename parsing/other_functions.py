@@ -91,6 +91,7 @@ def filtered_message(main_message,execution_id,path):
     message_body = main_message.find('div', class_='body')
     original_date = message_body.find('div', class_='pull_right date details')['title']
     date = correct_time_data(original_date)
+    date_text = f"{date.hour}:{date.minute}"
     try:
         from_name = message_body.find('div', class_='from_name').get_text(strip=True)
     except:
@@ -229,7 +230,8 @@ def filtered_message(main_message,execution_id,path):
         'date': date,
         'from_name': from_name,
         'absent' : check_exist,
-        'byte' : byte
+        'byte' : byte,
+        'date_text' : date_text
     }
 
 
